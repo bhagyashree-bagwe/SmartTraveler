@@ -54,11 +54,11 @@ public class Review implements Serializable{
 		this.hotelName = hotelName;
 	}
 
-	public String getcity() {
+	public String getCity() {
 		return city;
 	}
 
-	public void setcity(String city) {
+	public void setCity(String city) {
 		this.city = city;
 	}
 
