@@ -1,29 +1,24 @@
-<html>
-<body>
 <div class="center">
-<div>
-<a class="heading" href="#">Smart Traveller</a><br>
-<p>
-Compare prices and find ideal hotel for your next trip!
-</p>
-</style>
+  <div>
+    <a class="heading" href="#">Smart Traveller</a><br>
+    <p>
+    Compare prices and find ideal hotel for your next trip!
+    </p>
+  </div>
+  <br>
+  <div class="text">
+    <form method='post' action='HotelSearch'>
+    Destination <input type="text" name="destination" value="e.g San Francisco">
+    <br>
+    Check-In &nbsp;&nbsp;&nbsp;<input type="date" name="checkin">
+    Check-Out <input type="date" name="checkout">
+    No of People <select name="roomType">
+      <option value="OnePerson">One-Person Room</option>
+      <option value="TwoPerson">Two-Person Room</option>
+      <option value="Family">Family Room</option>
+    </select>
+    <br>
+    <input type="submit" value="Search">
+    </form>
+  </div>
 </div>
-<br>
-<div class="text">
-<form method='post' action='HotelSearch'>
-Destination <input type="text" name="destination" value="e.g San Francisco">
-<br>
-Check-In &nbsp;&nbsp;&nbsp;<input type="date" name="checkin">
-Check-Out <input type="date" name="checkout">
-No of People <select name="roomType">
-  <option value="OnePerson">One-Person Room</option>
-  <option value="TwoPerson">Two-Person Room</option>
-  <option value="Family">Family Room</option>
-</select>
-<br>
-<input type="submit" value="Search">
-</form> 
-</div>
-</div>
-</body>
-</html>
