@@ -109,6 +109,7 @@ public class Utilities extends HttpServlet{
 		url.append("/");
 		return url.toString();
 	}
+<<<<<<< HEAD
 
 	// It checks whether the user is loggedIn or Not
 	public boolean isUserLoggedin(){
@@ -125,11 +126,54 @@ public class Utilities extends HttpServlet{
 
 
 	// username Function returns the username from the session variable.
+=======
+public String storeReview(String hotelName,String hotelId, String city,String state, String reviewdate, String reviewrating,String  reviewtext,String zipcode,String price){
+	String message=MongoDBDataStoreUtilities.insertReview(hotelName,hotelId,username(),city,state,reviewrating,reviewdate,reviewtext,zipcode,price);
+		if(!message.equals("Successfull"))
+		{ return "UnSuccessfull";
+		}
+		else
+		{
+		HashMap<String, ArrayList<Review>> reviews= new HashMap<String, ArrayList<Review>>();
+		try
+		{
+			reviews=MongoDBDataStoreUtilities.selectReview();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		if(reviews==null)
+		{
+			reviews = new HashMap<String, ArrayList<Review>>();
+		}
+			// if there exist product review already add it into same list for hotelName or create a new record with product name
+			
+		if(!reviews.containsKey(hotelName)){	
+			ArrayList<Review> arr = new ArrayList<Review>();
+			reviews.put(hotelName, arr);
+		}
+		ArrayList<Review> listReview = reviews.get(hotelName);		
+		Review review = new Review(hotelName,username(),hotelId, city,state,reviewrating,reviewdate,reviewtext,zipcode,price);
+		listReview.add(review);	
+			
+			// add Reviews into database
+		
+		return "Successfull";	
+		}
+	}
+	public boolean isLoggedin(){
+		if (session.getAttribute("username")==null)
+			return false;
+		return true;
+	}
+>>>>>>> c73aae960e7bfd978a513e2b90fd0aebd48573f3
 	public String username(){
 		if (session.getAttribute("username")!=null)
 			return session.getAttribute("username").toString();
 		return null;
 	}
+<<<<<<< HEAD
 
 	//  usertype Function returns the usertype from the session variable.
 	public String usertype(){
@@ -154,4 +198,7 @@ public class Utilities extends HttpServlet{
 		return user;
 	}
 
+=======
+	 
+>>>>>>> c73aae960e7bfd978a513e2b90fd0aebd48573f3
 }
