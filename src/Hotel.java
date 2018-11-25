@@ -9,25 +9,14 @@ import java.util.*;
 public class Hotel extends HttpServlet {
 String hotelName;
 String hotelId;
-String address;
-String contactNumber;
-String contactEmail;
-int noOfReservations;
+String street;
+String city;
+String state;
+String zipCode;
+String contactNo;
+String emailId;
+String amenities;
 double rating;
-ArrayList<String> amenities;
-String image;
-
-	 public Hotel(String hotelName, String hotelId, String address, String contactNumber, String contactEmail, int noOfReservations, double rating, ArrayList<String> amenities){
-		this.hotelName=hotelName;
-		this.hotelId=hotelId;
-		this.image=image;
-		this.address=address;
-		this.contactNumber = contactNumber;
-		this.contactEmail = contactEmail;
-		this.noOfReservations = noOfReservations;
-		this.rating = rating;
-		this.amenities = amenities;
-	}
 
 	public Hotel(){}
 
@@ -48,36 +37,59 @@ String image;
 		this.hotelId = hotelId;
 	}
 
-	public String getAddress() {
-		return address;
+	public String getStreet() {
+		return street;
 	}
 
-	public void setAddress(String address) {
-		this.address = address;
+	public void setStreet(String street) {
+		this.street = street;
 	}
 
-	public String getContactNumber() {
-		return contactNumber;
+	public String getCity() {
+		return city;
 	}
 
-	public void setContactNumber(String contactNumber) {
-		this.contactNumber = contactNumber;
+	public void setCity(String city) {
+		this.city = city;
 	}
 
-	public String getContactEmail() {
-		return contactEmail;
+	public String getState() {
+		return state;
 	}
 
-	public void setContactEmail(String contactEmail) {
-		this.contactEmail = contactEmail;
+	public void setState(String state) {
+		this.state = state;
+	}
+	public String getZipCode() {
+		return zipCode;
 	}
 
-	public int getNoOfReservations() {
-		return noOfReservations;
+	public void setZipCode(String zipCode) {
+		this.zipCode = zipCode;
 	}
 
-	public void setNoOfReservations(int noOfReservations) {
-		this.noOfReservations = noOfReservations;
+	public String getContactNo() {
+		return contactNo;
+	}
+
+	public void setContactNo(String contactNo) {
+		this.contactNo = contactNo;
+	}
+
+	public String getEmailId() {
+		return emailId;
+	}
+
+	public void setEmailId(String emailId) {
+		this.emailId = emailId;
+	}
+
+	public String getAmenities() {
+		return amenities;
+	}
+
+	public void setAmenities(String amenities) {
+		this.amenities = amenities;
 	}
 
 	public double getRating() {
@@ -88,19 +100,4 @@ String image;
 		this.rating = rating;
 	}
 
-	public ArrayList<String> getAmenities() {
-		return amenities;
-	}
-
-	public void setAmenities(ArrayList<String> amenities) {
-		this.amenities = amenities;
-	}
-
-	public String getImage() {
-		return image;
-	}
-
-	public void setImage(String image) {
-		this.image = image;
-	}
 }
