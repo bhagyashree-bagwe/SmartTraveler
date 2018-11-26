@@ -1,6 +1,6 @@
 import java.sql.*;
 import java.util.*;
-                	
+
 public class MySQLUtilities
 {
 static Connection conn = null;
@@ -22,13 +22,13 @@ public static void getConnection()
 public static HashMap<String, Hotel> searchHotels(String location, String checkInDate, String checkoutDate, String roomType)
 {
 	HashMap<String, Hotel> availableHotels=new HashMap<String, Hotel>();
-	
+
 	try
-	{					
+	{
 		getConnection();
-		String selectOrderQuery ="select * from Hotel where hotelId IN ( select hotelId from room where roomNumber NOT IN (select roomNumber from bookings where checkIn <='"+checkInDate+"' and checkOut>='"+checkoutDate+"') and hotelid IN (select hotelId from Hotel where city = '"+location+"' and roomTypeId='"+roomType+"'))";			
+		String selectOrderQuery ="select * from Hotel where hotelId IN ( select hotelId from room where roomNumber NOT IN (select roomNumber from bookings where checkIn <='"+checkInDate+"' and checkOut>='"+checkoutDate+"') and hotelid IN (select hotelId from Hotel where city = '"+location+"' and roomTypeId='"+roomType+"'))";
 		PreparedStatement pst = conn.prepareStatement(selectOrderQuery);
-		ResultSet rs = pst.executeQuery();	
+		ResultSet rs = pst.executeQuery();
 
 		while(rs.next())
 		{
@@ -44,10 +44,10 @@ public static HashMap<String, Hotel> searchHotels(String location, String checkI
 			newHotel.setAmenities(rs.getString("amenities"));
 			availableHotels.put(rs.getString(1), newHotel);
 		}
-	System.out.println("No of available hotels : "+availableHotels.size());	
+	System.out.println("No of available hotels : "+availableHotels.size());
 	}
 	catch(Exception e)
-	{		
+	{
 		System.out.println(e);
 	}
 	return availableHotels;
@@ -55,7 +55,7 @@ public static HashMap<String, Hotel> searchHotels(String location, String checkI
 
 public static HashMap<Integer, Room> getAvailableRooms(String hotelId, String roomTypeId){
 System.out.println("getAvailableRooms "+hotelId+" ~~ "+roomTypeId);
-	HashMap<Integer, Room> availableRooms=new HashMap<Integer, Room>();	
+	HashMap<Integer, Room> availableRooms=new HashMap<Integer, Room>();
 	try
 	{
 		getConnection();
@@ -71,10 +71,10 @@ System.out.println("getAvailableRooms "+hotelId+" ~~ "+roomTypeId);
 			newRoom.setHotelId(rs.getString("hotelId"));
 			newRoom.setPrice(rs.getDouble("price"));
 			availableRooms.put(rs.getInt("roomNumber"), newRoom);
-		}	
+		}
 	}
 	catch(Exception e)
-	{		
+	{
 		System.out.println(e);
 	}
 	return availableRooms;
@@ -90,7 +90,7 @@ public static void storeCardPaymentDetails(Payment payment, Room room){
 		pst.execute();
 	}
 	catch(Exception e)
-	{		
+	{
 		System.out.println(e);
 	}
 }
@@ -103,13 +103,14 @@ public static void storeBookingDetails(Payment payment, Booking booking, Room ro
 		java.sql.Date checkInDate = new java.sql.Date(booking.getCheckIn().getTime());
 		java.sql.Date checkOutDate = new java.sql.Date(booking.getCheckOut().getTime());
 
-		String insertPaymentQuery ="INSERT INTO bookings(userId, roomNumber, paymentId, checkIn, checkOut, noOfPeople, noOfNights) VALUES('"+payment.getUserId()+"', '"+room.getRoomNumber()+"', '1', '"+checkInDate+"', '"+checkOutDate+"', '"+booking.getNoOfPeople()+"', '2')";
+  	String insertPaymentQuery ="INSERT INTO bookings(userId, roomNumber, paymentId, checkIn, checkOut, noOfPeople, noOfNights) VALUES("+payment.getUserId()+"', '"+room.getRoomNumber()+"', '1', '"+checkInDate+"', '"+checkOutDate+"', '"+booking.getNoOfPeople()+"', '2')";
+	//	String insertPaymentQuery ="INSERT INTO bookings(confirmationNo, userId, roomNumber, paymentId, checkIn, checkOut, noOfPeople, noOfNights) VALUES('1','"+payment.getUserId()+"', '"+room.getRoomNumber()+"', '1', '"+checkInDate+"', '"+checkOutDate+"', '"+booking.getNoOfPeople()+"', '2')";
 		PreparedStatement pst = conn.prepareStatement(insertPaymentQuery);
 
 		pst.execute();
 	}
 	catch(Exception e)
-	{		
+	{
 		System.out.println(e);
 	}
 }

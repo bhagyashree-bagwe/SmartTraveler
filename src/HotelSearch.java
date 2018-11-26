@@ -8,14 +8,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.text.SimpleDateFormat;  
-import java.util.Date;  
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @WebServlet("/HotelSearch")
 public class HotelSearch extends HttpServlet {
 HashMap<String, Hotel> hotelList = new HashMap<String, Hotel>();
 protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	HttpSession session = request.getSession();	
+	HttpSession session = request.getSession();
 	response.setContentType("text/html");
 	PrintWriter pw = response.getWriter();
 	String destination = request.getParameter("destination");
@@ -40,15 +40,19 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 	newBooking.setNoOfPeople(2);
 	newBooking.setRoomType("double");
 	}
-	else if(roomType.equals("TwoPerson")){
+	else if(roomType.equals("Family")){
 	newBooking.setNoOfPeople(4);
+	newBooking.setRoomType("family");
+	}
+	else if(roomType.equals("Suite")){
+	newBooking.setNoOfPeople(6);
 	newBooking.setRoomType("family");
 	}
 	session.setAttribute("bookingObj", newBooking);
 	}
 	catch(Exception e)
 	{
-		System.out.println(e);	
+		System.out.println(e);
 	}
 
 	Utilities utility = new Utilities(request,pw);
@@ -79,7 +83,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 		pw.print("<form method='post' action='WriteReview'>"+"<input type='hidden' name='name' value='"+entry.getKey()+"'>"+"<input type='submit' value='WriteReview' class='btnreview'></form>");
 		pw.print("<form method='post' action='ViewReview'>"+"<input type='submit' value='ViewReview' class='btnreview'></form></td>");
 		pw.print("</td>");
-		pw.print("</tr>");		
+		pw.print("</tr>");
 	}
 	pw.print("</table>");
 	pw.print("</div>");

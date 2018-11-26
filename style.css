@@ -116,3 +116,8 @@ input[type=submit] {
     padding-bottom: 200px;
     padding-left: 80px;
 }
+
+.popupCell a {
+  text-align:left !important;
+  color:white !important;
+}

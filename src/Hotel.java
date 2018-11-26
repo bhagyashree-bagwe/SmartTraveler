@@ -16,9 +16,24 @@ String zipCode;
 String contactNo;
 String emailId;
 String amenities;
-double rating;
+
 
 	public Hotel(){}
+
+	public Hotel(String hotelId, String hotelName, String street, String city, String state, String zipCode,
+								String contactNo, String emailId, String amenities){
+
+		this.hotelId = hotelId;
+		this.hotelName = hotelName;
+		this.street = street;
+		this.city = city;
+		this.state = state;
+		this.zipCode = zipCode;
+		this.contactNo = contactNo;
+		this.emailId = emailId;
+		this.amenities = amenities;
+
+	}
 
 
 	public String getHotelName() {
@@ -92,12 +107,5 @@ double rating;
 		this.amenities = amenities;
 	}
 
-	public double getRating() {
-		return rating;
-	}
-
-	public void setRating(double rating) {
-		this.rating = rating;
-	}
 
 }
