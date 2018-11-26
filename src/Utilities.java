@@ -51,7 +51,11 @@ public class Utilities extends HttpServlet{
 
 				}
 				else if(usertype().equalsIgnoreCase("admin")){
-
+					result = result + "<li><a href='Logout'><span> Logout</span></a></li>"
+							+ " <li><a href='Account'><span> Account</span></a></li>"
+							+ " <li><a href='ViewHotels'> View Hotels </a></li>"
+							+ "<li><a href='Admin'><span> Modify Hotel Info</span></a></li>"
+							+ " <li><a><i>Hi,"+name+" (Admin)</i></a></li>";
 				}
 			}
 			else{ //when no user has logged in, print following header

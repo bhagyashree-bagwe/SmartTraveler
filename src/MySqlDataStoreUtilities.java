@@ -59,7 +59,7 @@ public class MySqlDataStoreUtilities
       pst.setString(6,user.getCity());
       pst.setString(7,user.getState());
       pst.setInt(8,user.getZipCode());
-      pst.setInt(9,user.getContactNo());
+      pst.setString(9,user.getContactNo());
   		pst.execute();
   	}
   	catch(Exception e)
@@ -93,7 +93,7 @@ public class MySqlDataStoreUtilities
         //get the user details from ResultSet
         User user = new User(rs.getString("emailId"),rs.getString("password"),rs.getString("name"),
                             rs.getString("userType"),rs.getString("street"),rs.getString("city"),
-                            rs.getString("state"),rs.getInt("zipCode"),rs.getInt("contactNo"));
+                            rs.getString("state"),rs.getInt("zipCode"),rs.getString("contactNo"));
 
         //store user details into hashmap
   			hm.put(rs.getString("emailId"), user);
@@ -104,5 +104,156 @@ public class MySqlDataStoreUtilities
   	}
   	return hm;
   }
+
+
+  public static HashMap<String,Hotel> getHotelsInDB()
+  {
+    System.out.println("\n Getting all hotels from db");
+    HashMap<String,Hotel> hotelsFromDB = new HashMap<String,Hotel>();
+    try
+    {
+      getConnection();
+
+      String selectHotel="select * from Hotel";
+      PreparedStatement pst = conn.prepareStatement(selectHotel);
+      ResultSet rs = pst.executeQuery();
+
+      while(rs.next())
+      {
+          Hotel hotel = new Hotel(rs.getString("hotelId"),rs.getString("hotelName"),rs.getString("street"),
+                                  rs.getString("city"),rs.getString("state"),
+                                  rs.getString("zipCode"),rs.getString("emailId"),
+                                  rs.getString("contactNo"),rs.getString("amenities"));
+
+          hotelsFromDB.put(rs.getString("hotelId"), hotel);
+      }
+    }
+    catch(Exception e)
+    {
+    }
+   return hotelsFromDB;
+  }
+
+
+  public static Hotel searchHotel(String hotelId){
+
+    Hotel hotel = null;
+    try
+    {
+      getConnection();
+      String searchQuery ="select * from Hotel where hotelId=?";
+      PreparedStatement pst = conn.prepareStatement(searchQuery);
+      pst.setString(1,hotelId);
+      ResultSet rs = pst.executeQuery();
+
+      if(rs.next())
+      {
+        hotel = new Hotel(rs.getString("hotelId"),rs.getString("hotelName"),rs.getString("street"),
+                                rs.getString("city"),rs.getString("state"),
+                                rs.getString("zipCode"), rs.getString("contactNo"),
+                                rs.getString("emailId"), rs.getString("amenities"));
+      }
+    }
+    catch(Exception e)
+    {
+      System.out.println("Hotel info is not in db");
+    }
+    return hotel;
+
+  }
+
+
+
+    public static String addHotel(Hotel hotel)
+    {
+      String msg = "";
+    	try{
+
+    		getConnection();
+        String addQurey = "INSERT INTO  Hotel(hotelId, hotelName, street, city, state, zipCode, emailId, contactNo, amenities)" +
+        "VALUES (?,?,?,?,?,?,?,?,?);";
+    			PreparedStatement pst = conn.prepareStatement(addQurey);
+    			pst.setString(1,hotel.getHotelId());
+    			pst.setString(2,hotel.getHotelName());
+    			pst.setString(3,hotel.getStreet());
+    			pst.setString(4,hotel.getCity());
+    			pst.setString(5,hotel.getState());
+    			pst.setString(6,hotel.getZipCode());
+    			pst.setString(7,hotel.getEmailId());
+    			pst.setString(8,hotel.getContactNo());
+          pst.setString(9,hotel.getAmenities());
+    			pst.executeUpdate();
+          msg = "Hotel Information is added successfully!";
+    	}
+    	catch(Exception e)
+    	{
+    		msg = "Error while adding hotel info";
+    		e.printStackTrace();
+    	}
+    	return msg;
+    }
+
+
+    public static String updateHotel(Hotel hotel)
+    {
+        String msg = "";
+
+    	try{
+
+    		getConnection();
+    		String updateQurey = "UPDATE Hotel SET hotelName=?,street=?," +
+                                "city=?,state=?, zipCode=?, emailId=?, contactNo=?, amenities=? where hotelId =?;" ;
+
+    		PreparedStatement pst = conn.prepareStatement(updateQurey);
+
+        pst.setString(1,hotel.getHotelName());
+        pst.setString(2,hotel.getStreet());
+        pst.setString(3,hotel.getCity());
+        pst.setString(4,hotel.getState());
+        pst.setString(5,hotel.getZipCode());
+        pst.setString(6,hotel.getEmailId());
+        pst.setString(7,hotel.getContactNo());
+        pst.setString(8,hotel.getAmenities());
+        pst.setString(9,hotel.getHotelId());
+
+    		int rowsAffected = pst.executeUpdate();
+        if(rowsAffected > 0)
+          msg = "Hotel Information is updated successfully.";
+        else
+          msg = "No Hotel Information available!";
+    	}
+    	catch(Exception e)
+    	{
+    		msg = "Hotel info cannot be updated";
+    		e.printStackTrace();
+
+    	}
+     return msg;
+    }
+
+
+    public static String deleteHotel(String hotelId)
+    {
+      String msg = "";
+    	try
+    	{
+    		getConnection();
+    		String deleteQuery ="Delete from Hotel where hotelId=?";
+    		PreparedStatement pst = conn.prepareStatement(deleteQuery);
+    		pst.setString(1,hotelId);
+
+    		int affectedRows = pst.executeUpdate();
+        if(affectedRows > 0){
+           msg = "Hotel Information is deleted successfully.";
+        }
+        else
+           msg = "No Hotel is available.";
+    	}
+    	catch(Exception e)
+    	{
+    			msg = "Hotel info cannot be deleted";
+    	}
+    	return msg;
+    }
 
 }

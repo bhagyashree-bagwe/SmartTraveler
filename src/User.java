@@ -12,11 +12,11 @@ public class User implements Serializable {
   private String city;
   private String state;
   private int zipCode;
-  private int contactNo;
+  private String contactNo;
 
 
   //Constructor for User
-  User( String emailId, String password, String name, String userType, String street, String city, String state, int zipCode, int contactNo){
+  User( String emailId, String password, String name, String userType, String street, String city, String state, int zipCode, String contactNo){
     this.emailId = emailId;
     this.name = name;
     this.password = password;
@@ -92,10 +92,10 @@ public class User implements Serializable {
   }
 
   //user type getters setters
-  public int getContactNo(){
+  public String getContactNo(){
     return contactNo;
   }
-  public void setContactNo(int contactNo){
+  public void setContactNo(String contactNo){
     this.contactNo = contactNo;
   }
 

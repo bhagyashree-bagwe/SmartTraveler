@@ -64,7 +64,7 @@ public class Signup extends HttpServlet {
                                       request.getParameter("city"),
                                       request.getParameter("state"),
                                       Integer.parseInt(request.getParameter("zipcode")),
-                                      Integer.parseInt(request.getParameter("contact")));
+                                      request.getParameter("contact"));
 
             //usersHashMap.put(username, newUser);
             MySqlDataStoreUtilities.insertUser(newUser);
@@ -129,7 +129,7 @@ public class Signup extends HttpServlet {
 			    			"<br><input type='text' name='state' id='state' class='large-width' placeholder='State' required>" +
                 "<br><input type='text' name='city' id='city' class='large-width' placeholder='City' required>" +
 			    			"<br><input type='number' name='zipcode' id='zipcode' class='large-width' placeholder='Zipcode' required>" +
-			    			"<br><input type='number' name='contact' id='contact' class='large-width' placeholder='Contact Number' required>" +
+			    			"<br><input type='text' name='contact' id='contact' maxlength='10' onkeypress='validateNumber(event)' class='large-width' placeholder='Contact Number' required>" +
 
                 "<br><select name='usertype' class='large-width'>" +
                   "<option value='customer' selected>Customer</option>" +
