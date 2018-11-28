@@ -17,8 +17,17 @@ private Date checkIn;
 private Date checkOut;
 private int noOfPeople;
 private String roomType;
+private double totalPrice;
 
 public Booking(){}
+
+	public double getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(double totalPrice) {
+		this.totalPrice = totalPrice;
+	}
 
 	public String getBookingId() {
 		return bookingId;

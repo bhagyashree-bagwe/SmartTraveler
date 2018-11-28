@@ -102,22 +102,26 @@ input[type=submit] {
     text-align: center;
 }
 
-.hotellist {
-    color: #e5e5e5;
-    background-color: #696969;
-    font-family: "Times New Roman", Times, serif;
-    font-size: 20px;
-    overflow: auto;
-    width: 100%;
-    margin: auto;
-    height: 100%;
-    padding-top: 30px;
-    padding-right: 30px;
-    padding-bottom: 200px;
-    padding-left: 80px;
-}
-
 .popupCell a {
   text-align:left !important;
   color:white !important;
+}
+
+#hotellist {
+    background-color: #ffffff;
+    width:70%;
+    margin: auto;
+    border-collapse: separate; 
+    border-spacing: 0 20px; 
+    text-align: left;
+}
+
+
+#selectedhotel {
+    background-color: #ffffff;
+    width:70%;
+    margin: auto;
+    border-collapse: separate; 
+    border-spacing: 0 20px; 
+    text-align: center;
 }

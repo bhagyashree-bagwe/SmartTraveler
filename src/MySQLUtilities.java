@@ -21,6 +21,8 @@ public static void getConnection()
 
 public static HashMap<String, Hotel> searchHotels(String location, String checkInDate, String checkoutDate, String roomType)
 {
+	System.out.println("MySQLUtilities.java - searchHotels");
+	System.out.println("Destination: "+location+" checkInDate: "+checkInDate+" checkoutDate: "+checkoutDate+" roomType: "+roomType);
 	HashMap<String, Hotel> availableHotels=new HashMap<String, Hotel>();
 
 	try
@@ -51,6 +53,32 @@ public static HashMap<String, Hotel> searchHotels(String location, String checkI
 		System.out.println(e);
 	}
 	return availableHotels;
+}
+
+public static HashMap<String, String> getHotelRoomPrice(String location, String checkInDate, String checkoutDate, String roomType)
+{
+	System.out.println("MySQLUtilities.java - getHotelRoomPrice");
+	System.out.println("Destination: "+location+" checkInDate: "+checkInDate+" checkoutDate: "+checkoutDate+" roomType: "+roomType);
+	HashMap<String, String> hotelPriceMap=new HashMap<String, String>();
+
+	try
+	{
+		getConnection();
+		String selectOrderQuery ="select hotelId, price from room where roomNumber NOT IN (select roomNumber from bookings where checkIn <='"+checkInDate+"' and checkOut>='"+checkoutDate+"') and hotelid IN (select hotelId from Hotel where city = '"+location+"' and roomTypeId='"+roomType+"')";
+		PreparedStatement pst = conn.prepareStatement(selectOrderQuery);
+		ResultSet rs = pst.executeQuery();
+
+		while(rs.next())
+		{	
+			hotelPriceMap.put(rs.getString("hotelId"), rs.getString("price"));
+		}
+	System.out.println("Size of hotelPriceMap : "+hotelPriceMap.size());
+	}
+	catch(Exception e)
+	{
+		System.out.println(e);
+	}
+	return hotelPriceMap;
 }
 
 public static HashMap<Integer, Room> getAvailableRooms(String hotelId, String roomTypeId){
@@ -102,17 +130,55 @@ public static void storeBookingDetails(Payment payment, Booking booking, Room ro
 		getConnection();
 		java.sql.Date checkInDate = new java.sql.Date(booking.getCheckIn().getTime());
 		java.sql.Date checkOutDate = new java.sql.Date(booking.getCheckOut().getTime());
+		int noOfNights = (int)((booking.getCheckOut().getTime() - booking.getCheckIn().getTime()) / (1000 * 60 * 60 * 24));
+		int paymentId=0;
+		String getPaymentIdQuery = "select max(paymentId) as 'id' from Payment"; 
+		PreparedStatement pst = conn.prepareStatement(getPaymentIdQuery);
+		ResultSet rs = pst.executeQuery();
+		while(rs.next())
+		{
+			paymentId = rs.getInt("id")	;	
+		}
+		System.out.println("paymentId : "+paymentId);
 
-  	String insertPaymentQuery ="INSERT INTO bookings(userId, roomNumber, paymentId, checkIn, checkOut, noOfPeople, noOfNights) VALUES("+payment.getUserId()+"', '"+room.getRoomNumber()+"', '1', '"+checkInDate+"', '"+checkOutDate+"', '"+booking.getNoOfPeople()+"', '2')";
-	//	String insertPaymentQuery ="INSERT INTO bookings(confirmationNo, userId, roomNumber, paymentId, checkIn, checkOut, noOfPeople, noOfNights) VALUES('1','"+payment.getUserId()+"', '"+room.getRoomNumber()+"', '1', '"+checkInDate+"', '"+checkOutDate+"', '"+booking.getNoOfPeople()+"', '2')";
-		PreparedStatement pst = conn.prepareStatement(insertPaymentQuery);
-
-		pst.execute();
+  		String insertPaymentQuery ="INSERT INTO bookings(confirmationNo, userId, roomNumber, paymentId, checkIn, checkOut, noOfPeople, noOfNights) VALUES('111', '"+payment.getUserId()+"', '"+room.getRoomNumber()+"', '"+paymentId+"', '"+checkInDate+"', '"+checkOutDate+"', '"+booking.getNoOfPeople()+"', '"+noOfNights+"')";
+		PreparedStatement pst2 = conn.prepareStatement(insertPaymentQuery);
+		pst2.execute();
 	}
 	catch(Exception e)
 	{
 		System.out.println(e);
 	}
+}
+
+public static Hotel getSelectedHotel(String hotelId)
+{
+	System.out.println("MySQLUtilities.java - getSelectedHotel");
+	Hotel hotel = new Hotel();
+	try
+	{
+		getConnection();
+		String selectOrderQuery ="select * from Hotel where hotelId='"+hotelId+"'";
+		PreparedStatement pst = conn.prepareStatement(selectOrderQuery);
+		ResultSet rs = pst.executeQuery();
+		while(rs.next())
+		{
+			hotel.setHotelId(rs.getString(1));
+			hotel.setHotelName(rs.getString("hotelName"));
+			hotel.setStreet(rs.getString("street"));
+			hotel.setCity(rs.getString("city"));
+			hotel.setState(rs.getString("state"));
+			hotel.setZipCode(rs.getString("zipCode"));
+			hotel.setContactNo(rs.getString("contactNo"));
+			hotel.setEmailId(rs.getString("emailId"));
+			hotel.setAmenities(rs.getString("amenities"));
+		}
+	}
+	catch(Exception e)
+	{
+		System.out.println(e);
+	}
+	return hotel;
 }
 
 }

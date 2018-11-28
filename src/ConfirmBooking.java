@@ -17,7 +17,9 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 
 	HttpSession session = request.getSession();
 	Booking bookingObj = (Booking) session.getAttribute("bookingObj");
-	Hotel selectedHotel = (Hotel)session.getAttribute("selectedHotel");
+	String selectedHotelId = request.getParameter("selectedHotelId");
+	String totalPrice = request.getParameter("totalPrice");
+	Hotel selectedHotel = MySQLUtilities.getSelectedHotel(selectedHotelId);
 
 	String cardNo = request.getParameter("cardno");
 	String cvv = request.getParameter("cvv");

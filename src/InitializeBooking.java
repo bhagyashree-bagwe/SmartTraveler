@@ -15,8 +15,9 @@ public class InitializeBooking extends HttpServlet {
 protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 	HttpSession session = request.getSession();
-    	Hotel selectedHotel = (Hotel)session.getAttribute("selectedHotel");
-
+    	String selectedHotelId = request.getParameter("selectedHotelId");
+	String totalPrice = request.getParameter("totalPrice");
+	Hotel selectedHotel = MySQLUtilities.getSelectedHotel(selectedHotelId);
 	response.setContentType("text/html");
 	PrintWriter pw = response.getWriter();
 	Utilities utility = new Utilities(request,pw);
@@ -37,7 +38,6 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 	pw.print("}}");
 	pw.print("</script>");
 	pw.print("<div id='content'>");
-	pw.print("<p class='mediumHeading'>"+selectedHotel.getHotelName());
 	pw.print("<table id='bookingDetails' class='bookingDetails'>");
 	pw.print("<tr>");
 	pw.print("<table>");
@@ -59,8 +59,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 	pw.print("<td><input type='text' name='mm' id='mm' maxlength='2' onkeypress='validate(event)' >/<input type='text' name='yy' id='yy' maxlength='2' onkeypress='validate(event)' ></td>");
 	pw.print("</tr>");
 	pw.print("<tr>");
-	pw.print("<td>Check In <br> Check Out </td>");
-	pw.print("<td><input type='submit' class='btnbuy' value='Confirm'></form></td>");
+	pw.print("<td><input type='hidden' name='selectedHotelId' value='"+selectedHotelId+"'><input type='hidden' name='totalPrice' value='"+totalPrice+"'><input type='submit' class='btnbuy' value='Submit'></form></td>");
 	pw.print("</tr>");
 	pw.print("</table>");
 	pw.print("</tr>");

@@ -13,15 +13,25 @@ import java.util.Date;
 
 @WebServlet("/HotelSearch")
 public class HotelSearch extends HttpServlet {
-HashMap<String, Hotel> hotelList = new HashMap<String, Hotel>();
+	String destination="";
+	String checkin="";
+	String checkout ="";
+	String roomTypeParam = "";
+	String roomType;
+	int noOfNights=0;
+	double pricePerNight=0.0;
+	double totalPrice=0.0;
+	HashMap<String, Hotel> hotelList = new HashMap<String, Hotel>();
+	HashMap<String, String> hotelPriceMap=new HashMap<String, String>();
+
 protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	HttpSession session = request.getSession();
 	response.setContentType("text/html");
 	PrintWriter pw = response.getWriter();
-	String destination = request.getParameter("destination");
-	String checkin = request.getParameter("checkin");
-	String checkout = request.getParameter("checkout");
-	String roomType = request.getParameter("roomType");
+	destination = request.getParameter("destination");
+	checkin = request.getParameter("checkin");
+	checkout = request.getParameter("checkout");
+	roomTypeParam = request.getParameter("roomType");
 
 	//set the booking object and store it in a session
 	try{
@@ -29,24 +39,30 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 	Date checkInDate = formatter.parse(checkin);
 	Date checkOutDate = formatter.parse(checkout);
+	noOfNights = (int)( (checkOutDate.getTime() - checkInDate.getTime()) / (1000 * 60 * 60 * 24));
+	System.out.println("No of days: "+noOfNights);
 	newBooking.setCheckIn(checkInDate);
 	newBooking.setCheckOut(checkOutDate);
 	newBooking.setUserId("user1");
-	if(roomType.equals("OnePerson")){
+	if(roomTypeParam.equals("OnePerson")){
 	newBooking.setNoOfPeople(1);
 	newBooking.setRoomType("single");
+	roomType="single";
 	}
-	else if(roomType.equals("TwoPerson")){
+	else if(roomTypeParam.equals("TwoPerson")){
 	newBooking.setNoOfPeople(2);
 	newBooking.setRoomType("double");
+	roomType="double";
 	}
-	else if(roomType.equals("Family")){
+	else if(roomTypeParam.equals("Family")){
 	newBooking.setNoOfPeople(4);
 	newBooking.setRoomType("family");
+	roomType="family";
 	}
-	else if(roomType.equals("Suite")){
+	else if(roomTypeParam.equals("Suite")){
 	newBooking.setNoOfPeople(6);
-	newBooking.setRoomType("family");
+	newBooking.setRoomType("Suite");
+	roomType="suite";
 	}
 	session.setAttribute("bookingObj", newBooking);
 	}
@@ -55,43 +71,37 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 		System.out.println(e);
 	}
 
-	Utilities utility = new Utilities(request,pw);
-	utility.printHtml("Header.html");
 	populateData();
-	pw.print("<div class='hotellist'>");
-	pw.print("<table>");
+
+	Utilities utility = new Utilities(request,pw);
+	utility.printHtml("Header.html");	
+	pw.print("Hotels in "+destination);
+	pw.print("<form method='get' action='ShowHotelDetails'>");
+	pw.print("<table id='hotellist'>");
 	for(Map.Entry<String, Hotel> entry : hotelList.entrySet())
 	{
 		Hotel hotel = entry.getValue();
-		session.setAttribute("selectedHotel", hotel);
+		pricePerNight = Double.parseDouble(hotelPriceMap.get(hotel.getHotelId()));
+		totalPrice = pricePerNight * noOfNights;
 		pw.print("<tr>");
 		//td1- Image
-		pw.print("<td><img src='Images/"+hotel.getHotelId()+"/default.jpg' alt='' height='300' width='350' /></td>");
+		pw.print("<td><a href='ShowHotelDetails?hotel="+hotel.getHotelId()+"&totalPrice="+totalPrice+"'><img src='Images/"+hotel.getHotelId()+"/default.jpg' alt='' height='300' width='450' /></a></td>");
 		//td2- General Info
 		pw.print("<td><table>");
-		pw.print("<tr><td>"+hotel.getHotelName()+"</td></tr>");
-		pw.print("<tr><td>"+hotel.getStreet()+"</td></tr>");
-		pw.print("<tr><td>"+hotel.getCity()+"</td></tr>");
-		pw.print("<tr><td>"+hotel.getState()+"</td></tr>");
-		pw.print("<tr><td>"+hotel.getZipCode()+"</td></tr>");
-		pw.print("<tr><td>"+hotel.getContactNo()+"</td></tr>");
-		pw.print("<tr><td>"+hotel.getEmailId()+"</td></tr>");
-		pw.print("<tr><td>"+hotel.getAmenities()+"</td></tr>");
+		pw.print("<tr><td><a href='ShowHotelDetails?hotel="+hotel.getHotelId()+"&totalPrice="+totalPrice+"'>"+hotel.getHotelName()+"</a></td></tr>");
+		pw.print("<tr><td></td></tr>");
 		pw.print("</table></td>");
 		//td3- Book Button
-		pw.print("<td><form method='post' action='InitializeBooking'>" +"<input type='submit' class='btnbuy' value='Book Now'></form>");
-		pw.print("<form method='post' action='WriteReview'>"+"<input type='hidden' name='name' value='"+entry.getKey()+"'>"+"<input type='submit' value='WriteReview' class='btnreview'></form>");
-		pw.print("<form method='post' action='ViewReview'>"+"<input type='submit' value='ViewReview' class='btnreview'></form></td>");
-		pw.print("</td>");
+		pw.print("<td><table><tr><td><a href='ShowHotelDetails?hotel="+hotel.getHotelId()+"&totalPrice="+totalPrice+"'>Per Night cost: $"+pricePerNight+"</a></td></tr><tr><td><a href='ShowHotelDetails&hotel="+hotel.getHotelId()+"&totalPrice="+totalPrice+"'>No of Nights: "+noOfNights+"</a></td></tr><tr><td><a href='ShowHotelDetails?hotel="+hotel.getHotelId()+"&totalPrice="+totalPrice+"'>Total Cost: $"+totalPrice+"</a></td></tr><tr><td><input type='hidden' name='selectedHotelId' value='"+hotel.getHotelId()+"'><input type='hidden' name='totalPrice' value='"+totalPrice+"'><input type='submit' class='btnbuy' value='Show Details'></td></tr></table></td>");
 		pw.print("</tr>");
 	}
 	pw.print("</table>");
-	pw.print("</div>");
+	pw.print("</form>");
 	utility.printHtml("Footer.html");
 }
 
 public void populateData(){
-	hotelList = MySQLUtilities.searchHotels("Chicago", "2018-11-21", "2018-11-25", "double");
-	System.out.println("Hotel List size : "+hotelList.size());
+	hotelList = MySQLUtilities.searchHotels(destination, checkin, checkout, roomType);
+	hotelPriceMap = MySQLUtilities.getHotelRoomPrice(destination, checkin, checkout, roomType);
 }
 }
