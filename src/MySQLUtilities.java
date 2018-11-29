@@ -181,4 +181,54 @@ public static Hotel getSelectedHotel(String hotelId)
 	return hotel;
 }
 
+//Data Exploration Queries
+//No of hotels per state
+public static ArrayList<DataExplorationPOJO> getHotelsPerState(){
+	System.out.println("MySQLUtilities.java - getHotelsPerState");
+	ArrayList<DataExplorationPOJO> list = new ArrayList<DataExplorationPOJO>();
+	try
+	{
+		getConnection();
+		String hotelsPerStateQuery ="select state, count(hotelId) as count from Hotel group by state";
+		PreparedStatement pst = conn.prepareStatement(hotelsPerStateQuery);
+		ResultSet rs = pst.executeQuery();
+		while(rs.next())
+		{
+			DataExplorationPOJO pojo = new DataExplorationPOJO();
+			pojo.setState(rs.getString("state"));
+			pojo.setCount(String.valueOf(rs.getInt("count")));
+			list.add(pojo);
+		}
+	}
+	catch(Exception e)
+	{
+		System.out.println(e);
+	}
+	return list;	
+}
+//No of bookings per state
+public static ArrayList<DataExplorationPOJO> getBookingsPerState(){
+	System.out.println("MySQLUtilities.java - getHotelsPerState");
+	ArrayList<DataExplorationPOJO> list = new ArrayList<DataExplorationPOJO>();
+	try
+	{
+		getConnection();
+		String bookingsPerStateQuery ="select Hotel.state, count(bookingId) as count from bookings join room on bookings.roomNumber=room.roomNumber join Hotel on room.hotelId = Hotel.hotelId group by Hotel.state;";
+		PreparedStatement pst = conn.prepareStatement(bookingsPerStateQuery);
+		ResultSet rs = pst.executeQuery();
+		while(rs.next())
+		{
+			DataExplorationPOJO pojo = new DataExplorationPOJO();
+			pojo.setState(rs.getString("state"));
+			pojo.setCount(String.valueOf(rs.getInt("count")));
+			list.add(pojo);
+		}
+	}
+	catch(Exception e)
+	{
+		System.out.println(e);
+	}
+	return list;	
+}
+
 }
