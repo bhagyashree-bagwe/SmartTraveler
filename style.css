@@ -68,6 +68,8 @@ body {
     letter-spacing: 2px;
     font-family: "Times New Roman", Times, serif;
     font-size: 25px;
+    height: 100%;
+    width: 100%;
 }
 
 input[type=text], input[type=date], input[type=password], input[type=number], select {
@@ -90,7 +92,7 @@ input[type=number]::-webkit-outer-spin-button {
   margin: 0;
 }
 
-input[type=submit], .button{
+input[type=submit], input[type=button], .button{
     width: 200px;
     background-color: #9370DB;
     color: white;
@@ -107,6 +109,8 @@ input[type=submit], .button{
     font-size: 15px;
     color: white;
     text-align: center;
+    position: fixed; 
+    bottom: 0 
 }
 
 .popupCell a {
@@ -123,6 +127,12 @@ input[type=submit], .button{
     text-align: left;
 }
 
+#hoteldiv {
+    height: 350px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
 
 #selectedhotel {
     background-color: #ffffff;
@@ -132,3 +142,4 @@ input[type=submit], .button{
     border-spacing: 0 20px; 
     text-align: center;
 }
+

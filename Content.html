@@ -1,25 +1,25 @@
 <div class="center">
   <div>
-    <a class="heading" href="#">Smart Traveller</a><br>
+    <a class="heading" href="#">Smart Traveler</a><br>
     <p>
     Compare prices and find ideal hotel for your next trip!
     </p>
   </div>
   <br>
   <div class="text">
-    <form method='post' action='HotelSearch'>
-    Destination <input type="text" name="destination" value="e.g San Francisco">
+    <form method='post' action='HotelSearch'  id='homePageForm'>
+    Destination <input type="text" name="destination" value="Chicago">
     <br>
-    Check-In &nbsp;&nbsp;&nbsp;<input type="date" name="checkin">
-    Check-Out <input type="date" name="checkout">
+    Check-In &nbsp;&nbsp;&nbsp;<input type="date" name="checkin" id="checkin">
+    Check-Out <input type="date" name="checkout" id ="checkout">
     No of People <select name="roomType">
-      <option value="OnePerson">One-Person Room</option>
+      <option value="OnePerson">One-Person Room</	option>
       <option value="TwoPerson">Two-Person Room</option>
       <option value="Family">Family Room</option>
       <option value="Suite">Suite</option>
     </select>
     <br>
-    <input type="submit" value="Search">
+    <input type="button" value="Search" onClick="validateInput()">
     </form>
   </div>
 <!--</div>-->
