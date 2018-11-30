@@ -10,7 +10,7 @@ public static void getConnection()
 	try
 	{
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
-		conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/SmartTraveler?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","root");
+		conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/SmartTraveler?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","samruddhi");
 
 	}
 	catch(Exception e)

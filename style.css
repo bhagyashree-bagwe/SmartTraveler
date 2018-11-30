@@ -135,8 +135,8 @@ input[type=submit], input[type=button], .button{
     font-size: 15px;
     color: white;
     text-align: center;
-    position: fixed; 
-    bottom: 0 
+    position: fixed;
+    bottom: 0
 }
 
 .popupCell a {
@@ -148,8 +148,8 @@ input[type=submit], input[type=button], .button{
     background-color: #ffffff;
     width:70%;
     margin: auto;
-    border-collapse: separate; 
-    border-spacing: 0 20px; 
+    border-collapse: separate;
+    border-spacing: 0 20px;
     text-align: left;
 }
 
@@ -164,8 +164,7 @@ input[type=submit], input[type=button], .button{
     background-color: #ffffff;
     width:70%;
     margin: auto;
-    border-collapse: separate; 
-    border-spacing: 0 20px; 
+    border-collapse: separate;
+    border-spacing: 0 20px;
     text-align: center;
 }
-

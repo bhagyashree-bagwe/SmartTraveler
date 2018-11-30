@@ -92,7 +92,7 @@ public class DataAnalytics extends HttpServlet {
 				pw.print("<td> <input type='checkbox' name='queryCheckBox' value='hotelZipcode'> Select </td>");
         pw.print(" <td> Hotel Zip code: </td>");
         pw.print(" <td>");
-        pw.print("<input type='text' name='hotelZipcode' /> </td>");
+        pw.print("<input type='number' value='0' size='5' name='hotelZipcode' /> </td>");
 			pw.print("</tr>");
 
 			pw.print("<tr><td>");

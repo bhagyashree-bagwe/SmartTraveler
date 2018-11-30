@@ -8,6 +8,13 @@ function init() {
     searchId = document.getElementById("searchField");
     completeTable = document.getElementById("complete-table");
     autoRow = document.getElementById("auto-row");
+
+    var today = new Date();
+    var todayPlus2 = new Date();
+    todayPlus2.setDate(today.getDate()+2);
+
+    document.getElementById('checkin').valueAsDate = today;
+    document.getElementById('checkout').valueAsDate = todayPlus2;
 }
 
 function doAutoCompletion() {

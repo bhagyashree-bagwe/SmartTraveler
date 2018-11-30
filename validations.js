@@ -16,14 +16,6 @@ function validateNumber(evt) {
   }
 }
 
-function init() {
-var today = new Date();
-var todayPlus2 = new Date();
-todayPlus2.setDate(today.getDate()+2);
-
-document.getElementById('checkin').valueAsDate = today;
-document.getElementById('checkout').valueAsDate = todayPlus2;
-}
 
 function validateInput(){
 var checkIn = document.getElementById('checkin').value;
