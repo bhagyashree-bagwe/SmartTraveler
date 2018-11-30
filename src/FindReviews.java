@@ -29,7 +29,7 @@ public class FindReviews extends HttpServlet {
 			return;
 		}
 
-			String hotelName = request.getParameter("hotelName");
+			String hotelName = request.getParameter("hotelName").trim();
 			System.out.println(hotelName);
 			String hotelPrice = request.getParameter("hotelPrice");
 			System.out.println("\t"+hotelPrice);
@@ -39,7 +39,7 @@ public class FindReviews extends HttpServlet {
 			String compareRating = request.getParameter("compareRating");
 			String comparePrice = request.getParameter("comparePrice");
 			String city = request.getParameter("hotelCity");
-			String zipcode = request.getParameter("hotelZipcode");
+			int zipcode = Integer.parseInt(request.getParameter("hotelZipcode"));
 
 			String[] filters = request.getParameterValues("queryCheckBox");
 			String[] extraSettings = request.getParameterValues("extraSettings");
@@ -128,7 +128,7 @@ public class FindReviews extends HttpServlet {
 							query.put("zipcode", zipcode);
 							break;
 
-						case "HotelCity":
+						case "hotelCity":
 							filterByCity = true;
 							if(!city.equals("All") && !groupByCity){
 								query.put("city", city);
@@ -231,12 +231,12 @@ public class FindReviews extends HttpServlet {
 
 		utility.printHtml("Header.html");
 
-		pw.print("<div class='center'> <div class='large-width'>" +
+		pw.print("<div style='background-color: #ebebeb'><div class='center'>" +
 						 "<h1>Data Analytics Result</h1><br><br>");
 		//pw.print("</h2><div class='entry'>");
 		if(groupBy == true){
 
-		  pw.print("<table  class='table table-condensed' style='border: groove; margin:20px;'>");
+		  pw.print("<table  border='1'>");
 			constructGroupByContent(aggregate, pw,dataGroupBy);
 
 	      pw.print("</table>");
@@ -244,9 +244,10 @@ public class FindReviews extends HttpServlet {
 		}
 
 		else if(groupBy != true){
-		constructTableContent(dbCursor, pw);}
-		pw.print("</div></div></div>");
-    pw.print("<div style='height:400px'></div>");
+			constructTableContent(dbCursor, pw);
+		}
+		pw.print("</div></div>");
+
 		utility.printHtml("Footer.html");
 	}
 
@@ -256,13 +257,13 @@ public class FindReviews extends HttpServlet {
 		int count=0;
 		if(dataGroupBy.equals("Count"))
 		{
-				pw.print("<tr><td class='col-md-10'>City Name</td><td class='col-md-2'> Count</td></tr>");
+				pw.print("<tr><td class='col-md-4'>City Name</td><td class='col-md-4'> Count</td></tr>");
 
     		for (DBObject result : aggregate.results()) {
 
     			BasicDBObject bobj = (BasicDBObject) result;
-    		 tableData = "<tr><td class='col-md-10'> "+bobj.getString("value")+"</td>&nbsp"
-    						+	"<td class='col-md-10'>"+bobj.getString("ReviewValue")+"</td></tr>";
+    		 tableData = "<tr><tr><td class='col-md-4'> "+bobj.getString("value")+"</td>&nbsp"
+    						+	"<td class='col-md-4'>"+bobj.getString("ReviewValue")+"</td></tr>";
 
           pw.print(tableData);
     		count++;
@@ -316,20 +317,19 @@ public class FindReviews extends HttpServlet {
 	{
 		String tableData = "";
 
-			pw.print("<table  class='table table-condensed' style='border: groove; margin:20px;'>");
+			pw.print("<table>");
 
 			while (dbCursor.hasNext()) {
 
   			BasicDBObject bobj = (BasicDBObject) dbCursor.next();
         //<tr><td align='center' colspan='2'>Review</td></tr>
-  			tableData =   "<tr><td class='col-md-2'>Name: </td><td class='col-md-10'>" + bobj.getString("hotelName") + "</td></tr>"
+  			tableData =   "<tr><table class='large-width' style='border:ridge; margin:20px;'><tr><td class='col-md-2'>Hotel Name: </td><td class='col-md-10'>" + bobj.getString("hotelName") + "</td></tr>"
   						+ "<tr><td class='col-md-2'>Rating:</td><td class='col-md-10'>" + bobj.getString("reviewRating") + "</td></tr>"
   						+ "<tr><td class='col-md-2'>Price:</td><td class='col-md-10'>" + bobj.getString("price") + "</td></tr>"
   						+ "<tr><td class='col-md-2'>City:</td><td class='col-md-10'>" + bobj.getString("city") + "</td></tr>"
   						+ "<tr><td class='col-md-2'>Date:</td><td class='col-md-10'>" + bobj.getString("reviewDate") + "</td></tr>"
               + "<tr><td class='col-md-2'>Review Text:</td><td class='col-md-10'>" + bobj.getString("reviewText")+"</td><tr>"
-  						+ "<tr><td class='col-md-2'>Review Text:</td><td class='col-md-10'>" + bobj.getString("reviewText")+"</td><tr>"
-  						+ "<tr><td class='col-md-2'>Zipcode:</td><td class='col-md-10'>" + bobj.getString("zipcode")+"</td><tr>";
+  						+ "<tr><td class='col-md-2'>Zipcode:</td><td class='col-md-10'>" + bobj.getString("zipcode")+"</td></tr></table></tr>";
 
 
   				 pw.print(tableData);

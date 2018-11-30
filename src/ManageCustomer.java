@@ -33,9 +33,9 @@ public class ManageCustomer extends HttpServlet {
 		PrintWriter pw = response.getWriter();
 		Utilities utility = new Utilities(request, pw);
 		//if password and repassword does not match show error message
-	if(request.getParameter("mngctmr")!=null && request.getParameter("mngctmr").equals("addCustomer")){
-		System.out.println("Adding Customer: "+request.getParameter("customername"));
-      if (request.getParameter("customername") != null && !request.getParameter("customername").equals(""))
+	if(request.getParameter("mngctmr")!=null && request.getParameter("mngctmr").equals("Add Customer")){
+		System.out.println("Adding Customer: "+request.getParameter("name"));
+      if (request.getParameter("emailId") != null && !request.getParameter("emailId").equals(""))
 			{
         try{
           addCustomer(request, response, pw);
@@ -46,7 +46,7 @@ public class ManageCustomer extends HttpServlet {
       }
     }
 	}
-    if(request.getParameter("mngctmr").equals("deleteCustomer")){
+    if(request.getParameter("mngctmr").equals("Delete Customer")){
 
       try{
         deleteCustomer(request, response, pw);
@@ -57,7 +57,7 @@ public class ManageCustomer extends HttpServlet {
 	  }
 
     }
-    if(request.getParameter("mngctmr").equals("updateCustomer")){
+    if(request.getParameter("mngctmr").equals("Update Customer")){
 
       try{
           updateCustomer(request, response, pw);
@@ -86,17 +86,17 @@ public class ManageCustomer extends HttpServlet {
 				pw.print("<h4 style='color:red'>"+msg+"</h4>");
 		pw.print("<form method='post' action='ManageCustomer'>"
 				+ "<table style='width:100%'><tr><td>"
-				+ "<h3>Customer Email Id</h3></td><td><input type='text' name='emailId' value='' class='input'></input>"
+				+ "<h3>User Email Id</h3></td><td><input type='text' name='emailId' value='' class='input'></input>"
 				+ "</td></tr><tr><td>"
-				+ "<h3>Customer Name</h3></td><td><input type='text' name='customername' value='' class='input'></input>"
+				+ "<h3>User Name</h3></td><td><input type='text' name='name' value='' class='input'></input>"
 				+ "</td></tr><tr><td>"
-				+ "<h3>Password</h3></td><td><input type='password' name='price' value='' class='input'></input>"
+				+ "<h3>Password</h3></td><td><input type='password' name='password' value='' class='input'></input>"
 				+ "</td></tr><tr><td>"
 				+ "<h3>User Type</h3></td><td><select name='userType' class='input'><option value='Customer' selected>Customer</option><option value='Agent'>Agent</option><option value='Admin'>Admin</option>"
 				+ "</td></tr><tr><td>"
 				+ "<h3>Street Name</h3></td><td><input type='text' name='street' value='' class='input'></input>"
 				+ "</td></tr><tr><td>"
-				+ "<h3>City</h3></td><td><input type='text' name='city' value='' class='input'></input>"
+				+ "<h3>City</h3	></td><td><input type='text' name='city' value='' class='input'></input>"
 				+ "</td></tr><tr><td>"
 				+ "<h3>State</h3></td><td><input type='text' name='state' value='' class='input'></input>"
 				+ "</td></tr><tr><td>"
@@ -127,44 +127,38 @@ public class ManageCustomer extends HttpServlet {
 	protected void addCustomer(HttpServletRequest request, HttpServletResponse response, PrintWriter pw)
           throws ServletException, IOException
   { 
-	System.out.println("Before"+request.getParameter("image"));
-    String productName = request.getParameter("productname");
-	String category = request.getParameter("category");
-	double price = Double.parseDouble(request.getParameter("price"));
-	String image = request.getParameter("image");
-	String retailerName = request.getParameter("retailername");
-	String retailerCity = request.getParameter("retailerCity");
-	int retailerZip=Integer.parseInt(request.getParameter("retailerZip"));
-	String retailerState = request.getParameter("retailerstate");
-	String productonsale= request.getParameter("productonsale");
-	String manufacturer= request.getParameter("Manufacturer");
-	String manufacturerRebate= request.getParameter("Manufacturerrebate");
-	String type= request.getParameter("type");
-	System.out.println(productName+category+price+image+retailerName+retailerCity+retailerState+retailerZip+productonsale+manufacturer+manufacturerRebate+type);
+    String emailId = request.getParameter("emailId");
+	String userType = request.getParameter("userType");
+	String password = request.getParameter("password");
+	String city = request.getParameter("city");
+	int zipCode=Integer.parseInt(request.getParameter("zipCode"));
+	String state = request.getParameter("state");
+	String street= request.getParameter("street");
+	String contactNo= request.getParameter("contactNo");
+	String name= request.getParameter("name");
+	
+	//System.out.println(productName+category+price+image+retailerName+retailerCity+retailerState+retailerZip+productonsale+manufacturer+manufacturerRebate+type);
 	try
 	{
 	
 		getConnection();
-		String insertIntoCustomerOrderQuery = "INSERT INTO productdetails(productname, category,price,retailername, retailerzip, retailercity, retailerState, productonsale, Manufacturer, Manufacturerrebate, image, type)"
-		+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?);";	
+		String insertIntoCustomerOrderQuery = "INSERT INTO user(emailId, password,name,userType, street, city, state, zipCode, contactNo)"
+		+ "VALUES (?,?,?,?,?,?,?,?,?);";	
 			
 		PreparedStatement pst = conn.prepareStatement(insertIntoCustomerOrderQuery);
 		//set the parameter for each column and execute the prepared statement
-		pst.setString(1,productName);
-		pst.setString(2,category);
-		pst.setDouble(3,price);
-		pst.setString(4,retailerName);
-		pst.setInt(5,retailerZip);
-		pst.setString(6,retailerCity);
-		pst.setString(7,retailerState);
-		pst.setString(8,productonsale);
-		pst.setString(9,manufacturer);
-		pst.setString(10,manufacturerRebate);
-		pst.setString(11,image);
-		pst.setString(12,type);
+		pst.setString(1,emailId);
+		pst.setString(2,password);
+		pst.setString(3,name);
+		pst.setString(4,userType);
+		pst.setString(5,street);
+		pst.setString(6,city);
+		pst.setString(7,state);
+		pst.setInt(8,zipCode);
+		pst.setString(9,contactNo);
 		pst.executeUpdate();
-		System.out.println("New Product:"+ productName+" has been added.");
-		response.sendRedirect("StoreManagerProductManagement");
+		System.out.println("New Customer:"+ name +" has been added.");
+		response.sendRedirect("ManageCustomer");
 	}
 	catch(Exception e)
 	{
@@ -177,62 +171,56 @@ public class ManageCustomer extends HttpServlet {
   protected void deleteCustomer(HttpServletRequest request, HttpServletResponse response, PrintWriter pw)
           throws ServletException, IOException
   {
-	  String productName = request.getParameter("productname");
+	  String emailId = request.getParameter("emailId");
 
     try
 	{
-			  System.out.println("New Product:"+ productName+" ");
 		getConnection();
-		String deleteOrderQuery ="Delete from productdetails where productname=?";
+		String deleteOrderQuery ="Delete from user where emailId=?";
 		PreparedStatement pst = conn.prepareStatement(deleteOrderQuery);
-		pst.setString(1,productName);
+		pst.setString(1,emailId);
 		pst.executeUpdate();
-			  System.out.println("New Product:"+ productName+" has been deleted.");
+			  System.out.println("Customer with:"+ emailId+" has been deleted.");
 	}
 	catch(Exception e)
 	{
 			e.printStackTrace();
 	}
 
-    response.sendRedirect("StoreManagerProductManagement");
+    response.sendRedirect("ManageCustomer");
   }
 	
   protected void updateCustomer(HttpServletRequest request, HttpServletResponse response, PrintWriter pw)
           throws ServletException, IOException
   {
 	  System.out.println("Before"+request.getParameter("image"));
-    String productName = request.getParameter("productname");
-	String category = request.getParameter("category");
-	double price = Double.parseDouble(request.getParameter("price"));
-	String image = request.getParameter("image");
-	String retailerName = request.getParameter("retailername");
-	String retailerCity = request.getParameter("retailerCity");
-	int retailerZip=Integer.parseInt(request.getParameter("retailerZip"));
-	String retailerState = request.getParameter("retailerstate");
-	String productonsale= request.getParameter("productonsale");
-	String manufacturer= request.getParameter("Manufacturer");
-	String manufacturerRebate= request.getParameter("Manufacturerrebate");
-	String type= request.getParameter("type");
+    String emailId = request.getParameter("emailId");
+	String userType = request.getParameter("userType");
+	String password = request.getParameter("password");
+	String city = request.getParameter("city");
+	int zipCode=Integer.parseInt(request.getParameter("zipCode"));
+	String state = request.getParameter("state");
+	String street= request.getParameter("street");
+	String contactNo= request.getParameter("contactNo");
+	String name= request.getParameter("name");
 	  try{
 		
 		getConnection();
-		String updateProductQurey = "UPDATE productdetails SET productname=?, category=?,price=?,retailername=?, retailerzip=?, retailercity=?, retailerState=?, productonsale=?, Manufacturer=?, Manufacturerrebate=?, image=?, type=? where productname=?;" ;		        			
+		String updateProductQurey = "UPDATE user SET emailId=?, password=?,name=?,userType=?, street=?, city=?, state=?, zipCode=?, contactNo=? where emailId=?;" ;		        			
 		PreparedStatement pst = conn.prepareStatement(updateProductQurey);
-		pst.setString(1,productName);
-		pst.setString(2,category);
-		pst.setDouble(3,price);
-		pst.setString(4,retailerName);
-		pst.setInt(5,retailerZip);
-		pst.setString(6,retailerCity);
-		pst.setString(7,retailerState);
-		pst.setString(8,productonsale);
-		pst.setString(9,manufacturer);
-		pst.setString(10,manufacturerRebate);
-		pst.setString(11,image);
-		pst.setString(12,type);
-		pst.setString(13,productName);
+		pst.setString(1,emailId);
+		pst.setString(2,password);
+		pst.setString(3,name);
+		pst.setString(4,userType);
+		pst.setString(5,street);
+		pst.setString(6,city);
+		pst.setString(7,state);
+		pst.setInt(8,zipCode);
+		pst.setString(9,contactNo);
+		pst.setString(10,emailId);
 		pst.executeUpdate();
-		response.sendRedirect("StoreManagerProductManagement");
+		System.out.println("The Customer:"+ name +" information has been updated.");
+		response.sendRedirect("ManageCustomer");
 		
 	}
 	catch(Exception e)
