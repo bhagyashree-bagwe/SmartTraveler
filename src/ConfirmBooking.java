@@ -33,7 +33,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 	paymentObj.setYY(Integer.parseInt(yy));
 	paymentObj.setUserId("bhagyashree@gmail.com"); //TO-DO: retrieve username from session
 	session.setAttribute("paymentObj",paymentObj);
-	
+
 	//select one room for allocation from the available rooms
 	HashMap<Integer, Room> availableRoomMap = MySQLUtilities.getAvailableRooms(selectedHotel.getHotelId(), bookingObj.getRoomType());
 	Random generator = new Random();
@@ -44,7 +44,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 
 	//store payment details
 	MySQLUtilities.storeCardPaymentDetails(paymentObj, selectedRoom);
-	
+
 	//store booking details
 	MySQLUtilities.storeBookingDetails(paymentObj,bookingObj,selectedRoom);
 
