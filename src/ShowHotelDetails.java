@@ -40,6 +40,6 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 	pw.print("<tr><td>Total cost: "+totalPrice+"</td></tr>");
 	pw.print("<tr><td><form method='post' action='InitializeBooking'><input type='hidden' name='selectedHotelId' value='"+selectedHotelId+"'><input type='hidden' name='totalPrice' value='"+totalPrice+"'><input type='submit' class='btnbuy' value='Confirm Booking'></form</td></tr>");
 	pw.print("</table>");
-	utility.printHtml("Footer.html");	
+	utility.printHtml("Footer.html");
 }
 }

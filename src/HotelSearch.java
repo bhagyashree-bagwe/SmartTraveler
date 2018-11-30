@@ -74,7 +74,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 	populateData();
 
 	Utilities utility = new Utilities(request,pw);
-	utility.printHtml("Header.html");	
+	utility.printHtml("Header.html");
 	pw.print("Hotels in "+destination);
 	pw.print("<form method='get' action='ShowHotelDetails'>");
 	pw.print("<table id='hotellist'>");
@@ -92,6 +92,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 		pw.print("<tr><td></td></tr>");
 		pw.print("</table></td>");
 		//td3- Book Button
+		System.out.println("##### "+hotel.getHotelId());
 		pw.print("<td><table><tr><td><a href='ShowHotelDetails?hotel="+hotel.getHotelId()+"&totalPrice="+totalPrice+"'>Per Night cost: $"+pricePerNight+"</a></td></tr><tr><td><a href='ShowHotelDetails&hotel="+hotel.getHotelId()+"&totalPrice="+totalPrice+"'>No of Nights: "+noOfNights+"</a></td></tr><tr><td><a href='ShowHotelDetails?hotel="+hotel.getHotelId()+"&totalPrice="+totalPrice+"'>Total Cost: $"+totalPrice+"</a></td></tr><tr><td><input type='hidden' name='selectedHotelId' value='"+hotel.getHotelId()+"'><input type='hidden' name='totalPrice' value='"+totalPrice+"'><input type='submit' class='btnbuy' value='Show Details'></td></tr></table></td>");
 		pw.print("</tr>");
 	}
