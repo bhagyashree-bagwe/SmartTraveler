@@ -81,32 +81,6 @@ public static HashMap<String, String> getHotelRoomPrice(String location, String 
 	return hotelPriceMap;
 }
 
-public static HashMap<String, String> getHotelRoomPriceAuto(String data)
-{
-	System.out.println("MySQLUtilities.java - getHotelRoomPriceAuto");
-	
-	HashMap<String, String> hotelPriceMap=new HashMap<String, String>();
-
-	try
-	{
-		getConnection();
-		String selectOrderQuery ="select hotelId, price from room where roomNumber NOT IN (select roomNumber from bookings where checkIn <='"+checkInDate+"' and checkOut>='"+checkoutDate+"') and hotelid IN (select hotelId from Hotel where city = '"+location+"' and roomTypeId='"+roomType+"')";
-		PreparedStatement pst = conn.prepareStatement(selectOrderQuery);
-		ResultSet rs = pst.executeQuery();
-
-		while(rs.next())
-		{
-			hotelPriceMap.put(rs.getString("hotelId"), rs.getString("price"));
-		}
-	System.out.println("Size of hotelPriceMap : "+hotelPriceMap.size());
-	}
-	catch(Exception e)
-	{
-		System.out.println(e);
-	}
-	return hotelPriceMap;
-}
-
 
 public static HashMap<Integer, Room> getAvailableRooms(String hotelId, String roomTypeId){
 	System.out.println("getAvailableRooms "+hotelId+" ~~ "+roomTypeId);

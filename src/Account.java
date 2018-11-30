@@ -119,6 +119,7 @@ public class Account extends HttpServlet {
 
     				if(!(currDate.compareTo(dateBefore7Days) < 0)){
               disableDeleteBtn = true;
+	System.out.print("disable!!!!!!!");
     				}
 
               /*//calculate no of nights
@@ -133,7 +134,11 @@ public class Account extends HttpServlet {
   						  pw.print("<tr><td>Hotel Name: </td><td>"+oi.getHotelName()+"</td></tr>");
                 pw.print("<tr><td>Check In: </td><td>"+ oi.getCheckIn() +"</td> <td>Check out:</td><td>"+ oi.getCheckOut() +"</td></tr>");
                 pw.print("<tr><td>Room Number: </td><td>"+ oi.getRoomNumber() +"</td> <td>No of People:</td><td>"+ oi.getNoOfPeople() +"</td><td>No of Nights:</td><td>"+ oi.getNoOfNights() +"</td></tr>");
-                pw.print("<tr><td> <input type='submit' disabled='"+disableDeleteBtn+"' value='Delete Booking' /> </td></tr>");
+			if(disableDeleteBtn){
+                pw.print("<tr><td> <input type='submit' disabled value='Delete Booking' /> </td></tr>");
+}else{
+pw.print("<tr><td> <input type='submit' value='Delete Booking' /> </td></tr>");
+}
                 pw.print("<input type='hidden' name='bookingId' value='"+oi.getBookingId()+"'>"
                   + "<input type='hidden' name='paymentId' value='"+oi.getPaymentId()+"'>");
                 pw.print("</form></table>");

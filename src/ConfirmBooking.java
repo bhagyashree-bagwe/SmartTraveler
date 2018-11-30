@@ -45,13 +45,8 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 	session.setAttribute("selectedRoom", selectedRoom);
 
 	//store payment details
-<<<<<<< HEAD
 	String msg1 = MySQLUtilities.storeCardPaymentDetails(paymentObj, selectedRoom);
-	
-=======
 	MySQLUtilities.storeCardPaymentDetails(paymentObj, selectedRoom);
-
->>>>>>> 069e0909f050f07b09e3ec3c3f81da2e871e6bd2
 	//store booking details
 	String msg2 = MySQLUtilities.storeBookingDetails(paymentObj,bookingObj,selectedRoom);
 	

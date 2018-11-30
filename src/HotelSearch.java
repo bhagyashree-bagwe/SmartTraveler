@@ -153,7 +153,7 @@ session.setAttribute("bookingObj", newBooking);
 	data = (String)request.getAttribute("data");
 	System.out.println("Data: "+data);
 	populateData();
-	
+
 	utility.printHtml("Header.html");
 	
 pw.print("<p class='subheading'>Hotels in "+destination+"</p>");
@@ -168,6 +168,7 @@ pw.print("<p class='subheading'>Hotels in "+destination+"</p>");
 		pw.print("<tr>");
 		//td1- Image
 		pw.print("<td><a href='ShowHotelDetails?selectedHotelId="+hotel.getHotelId()+"&totalPrice="+totalPrice+"'><img src='Images/"+hotel.getHotelId()+"/default.jpg' alt='' height='300' width='450' /></a></td>");
+		
 		//td2- General Info
 		pw.print("<td><table>");
 		pw.print("<tr><td><a href='ShowHotelDetails?selectedHotelId="+hotel.getHotelId()+"&totalPrice="+totalPrice+"'>"+hotel.getHotelName()+"</a></td></tr>");
@@ -189,11 +190,11 @@ pw.print("<p class='subheading'>Hotels in "+destination+"</p>");
 }
 
 public void populateData(){
-	if(data != null)
+	if(data != null && data!="")
 	{
 		System.out.println("Coming from auto complete");
 		hotelList = MySQLUtilities.searchHotel(data);
-		hotelPriceMap = MySQLUtilities.getHotelRoomPriceAuto(destination, checkin, checkout, roomType);
+		//hotelPriceMap = MySQLUtilities.getHotelRoomPriceAuto(destination, checkin, checkout, roomType);
 	}
 	else
 	{	

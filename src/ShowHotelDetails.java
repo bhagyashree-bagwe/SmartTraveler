@@ -26,10 +26,14 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 	Hotel selectedHotel = MySQLUtilities.getSelectedHotel(selectedHotelId);
 	response.setContentType("text/html");
 	PrintWriter pw = response.getWriter();
+	Carousel carousel = new Carousel();
 	Utilities utility = new Utilities(request,pw);
 	utility.printHtml("Header.html");
 	pw.print("<table id='selectedhotel'>");
-	pw.print("<tr><td><img src='Images/"+selectedHotel.getHotelId()+"/default.jpg' alt='' height='300' width='450' /></td></tr>");
+	//pw.print("<tr><td><img src='Images/"+selectedHotel.getHotelId()+"/default.jpg' alt='' height='300' width='450' /></td></tr>");
+	pw.print("<tr><td>");
+	pw.print(carousel.carouselfeature(utility));
+	pw.print("</td></tr>");
 	pw.print("<tr><td>"+selectedHotel.getHotelName()+"</td></tr>");
 	pw.print("<tr><td>Location: "+selectedHotel.getStreet()+", "+selectedHotel.getCity()+", "+selectedHotel.getState()+", "+selectedHotel.getZipCode()+"</td></tr>");
 	pw.print("<tr><td>Contact Details: (Email) "+selectedHotel.getEmailId()+" (Phone) "+selectedHotel.getContactNo()+"</td></tr>");
