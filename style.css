@@ -85,7 +85,7 @@ body {
 .subheading {
     color: #9370DB;
     font-family: Cursive, serif;
-    font-size: 40px;
+    font-size: 35px;
     text-decoration: none;
 }
 
@@ -167,4 +167,15 @@ input[type=submit], input[type=button], .button{
     border-collapse: separate;
     border-spacing: 0 20px;
     text-align: center;
+}
+
+.confirmTable {
+    width:50%;
+    margin: auto;
+    border-collapse: separate;
+    text-align: center;
+    background-color: #D3D3D3;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 20px;
+    color: black;
 }

@@ -13,14 +13,19 @@ import javax.servlet.http.HttpSession;
 public class InitializeBooking extends HttpServlet {
 
 protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+	PrintWriter pw = response.getWriter();
+	Utilities utility = new Utilities(request,pw);
 	HttpSession session = request.getSession();
     	String selectedHotelId = request.getParameter("selectedHotelId");
 	String totalPrice = request.getParameter("totalPrice");
+	System.out.println("InitializeBooking.java selectedHotelId : "+selectedHotelId+" totalPrice : "+totalPrice);
 	Hotel selectedHotel = MySQLUtilities.getSelectedHotel(selectedHotelId);
 	response.setContentType("text/html");
-	PrintWriter pw = response.getWriter();
-	Utilities utility = new Utilities(request,pw);
+	if(!utility.isLoggedin()){			
+		session.setAttribute("login_msg", "Please Login to initialize booking");
+		response.sendRedirect("Login");
+		return;
+	}
 	utility.printHtml("Header.html");
 	pw.print("<script language='JavaScript'>");
 	pw.print("function validate(evt) {");

@@ -33,7 +33,7 @@ public Booking(){}
 		return bookingId;
 	}
 
-	public void setBookingId(String hotelName) {
+	public void setBookingId(String bookingId) {
 		this.bookingId = bookingId;
 	}
 

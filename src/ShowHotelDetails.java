@@ -20,7 +20,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	HttpSession session = request.getSession();
 	Booking booking = (Booking)session.getAttribute("bookingObj");
-	String selectedHotelId = request.getParameter("hotel");
+	String selectedHotelId = request.getParameter("selectedHotelId");
 	String totalPrice = request.getParameter("totalPrice");
 	System.out.println("totalPrice ##"+totalPrice+" selectedHotelId "+selectedHotelId);
 	Hotel selectedHotel = MySQLUtilities.getSelectedHotel(selectedHotelId);

@@ -151,7 +151,7 @@ System.out.println("reviewtext: "+reviewtext);
 System.out.println("zipcode: "+zipcode);
 System.out.println("price: "+price);
 System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-	String message=MongoDBDataStoreUtilities.insertReview(username(), hotelName,hotelId,city,state,reviewrating,reviewdate,reviewtext,zipcode,price);
+	      String message = MongoDBDataStoreUtilities.insertReview(username(),  hotelName, hotelId, city, state, reviewrating, reviewdate, reviewtext, zipcode, price);
 		if(!message.equals("Successfull"))
 		{ return "UnSuccessfull";
 		}
@@ -170,18 +170,15 @@ System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		{
 			reviews = new HashMap<String, ArrayList<Review>>();
 		}
-			// if there exist product review already add it into same list for hotelName or create a new record with product name
-
+		// if there exist product review already add it into same list for hotelName or create a new record with product name
 		if(!reviews.containsKey(hotelName)){
 			ArrayList<Review> arr = new ArrayList<Review>();
 			reviews.put(hotelName, arr);
 		}
 		ArrayList<Review> listReview = reviews.get(hotelName);
-		Review review = new Review(hotelName,username(),hotelId, city,state,reviewrating,reviewdate,reviewtext,zipcode,price);
+		Review review = new Review(hotelName,username(),hotelId, city, state, reviewrating, reviewdate, reviewtext, zipcode, price);
 		listReview.add(review);
-
-			// add Reviews into database
-
+		// add Reviews into database
 		return "Successfull";
 		}
 	}
@@ -196,16 +193,12 @@ System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 			return session.getAttribute("username").toString();
 		return null;
 	}
-
-
 	//  usertype Function returns the usertype from the session variable.
 	public String usertype(){
 		if (session.getAttribute("usertype")!=null)
 			return session.getAttribute("usertype").toString();
 		return null;
 	}
-
-
 	// getUser Function checks the user is a customer or agent or admin and returns the user class variable.
 	public User getUser(){
 		String usertype = usertype();
