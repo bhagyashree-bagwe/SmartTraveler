@@ -33,7 +33,7 @@ public class Trending extends HttpServlet {
 
 		Utilities utility = new Utilities(request, pw);
 		utility.printHtml("Header.html");
-		utility.printHtml("LeftNavigationBar.html");
+		//utility.printHtml("LeftNavigationBar.html");
 		pw.print("<div id='content'><div class='post'><h2 class='title meta'>");
 		pw.print("<a style='font-size: 24px;'>Best Products</a>");
 		pw.print("</h2><div class='entry'><table id='bestseller'>");

@@ -48,6 +48,9 @@ public class Utilities extends HttpServlet{
 							+ " <li><a><i>Hi,"+name+"</i></a></li>";
 				}
 				else if(usertype().equalsIgnoreCase("agent")){
+					result = result + "<li><a href='Logout'><span> Logout</span></a></li>"
+									+ " <li><a href='ManageCustomer'>Manage Customers</a></li>"
+									+ " <li><a><i>Hi,"+name+" (Agent)</i></a></li>";
 
 				}
 				else if(usertype().equalsIgnoreCase("admin")){
