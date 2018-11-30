@@ -15,3 +15,19 @@ function validateNumber(evt) {
       theEvent.preventDefault();
   }
 }
+
+function init() {
+var today = new Date();
+var todayPlus2 = new Date();
+todayPlus2.setDate(today.getDate()+2);
+
+document.getElementById('checkin').valueAsDate = today;
+document.getElementById('checkout').valueAsDate = todayPlus2;
+}
+
+function validateInput(){
+var checkIn = document.getElementById('checkin').value;
+var checkout = document.getElementById('checkout').value;
+if(checkIn>checkout){alert("Please select valid Check In and Check Out dates");}
+else{document.getElementById("homePageForm").submit();}
+}

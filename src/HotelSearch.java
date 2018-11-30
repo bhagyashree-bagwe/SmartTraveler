@@ -75,8 +75,9 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 
 	Utilities utility = new Utilities(request,pw);
 	utility.printHtml("Header.html");
-	pw.print("Hotels in "+destination);
+	pw.print("<p class='subheading'>Hotels in "+destination+"</p>");
 	pw.print("<form method='get' action='ShowHotelDetails'>");
+	pw.print("<div id='hoteldiv'>");
 	pw.print("<table id='hotellist'>");
 	for(Map.Entry<String, Hotel> entry : hotelList.entrySet())
 	{
@@ -97,6 +98,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 		pw.print("</tr>");
 	}
 	pw.print("</table>");
+	pw.print("</div>");
 	pw.print("</form>");
 	utility.printHtml("Footer.html");
 }
