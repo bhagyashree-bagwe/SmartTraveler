@@ -18,8 +18,34 @@ private Date checkOut;
 private int noOfPeople;
 private String roomType;
 private double totalPrice;
+private int noOfNights;
+private String hotelName;
 
-public Booking(){}
+	public Booking(){}
+
+	public Booking(String bookingId, String confirmationNo, String userId, int roomNumber, String paymentId,
+								Date checkIn, Date checkOut, int noOfPeople, int noOfNights, String hotelName){
+
+		this.bookingId = bookingId;
+		this.confirmationNo = confirmationNo;
+		this.userId = userId;
+		this.roomNumber = roomNumber;
+		this.paymentId = paymentId;
+		this.checkIn = checkIn;
+		this.checkOut = checkOut;
+		this.noOfPeople = noOfPeople;
+		this.noOfNights = noOfNights;
+		this.hotelName = hotelName;
+
+	}
+
+	public String getHotelName(){
+			return hotelName;
+	}
+
+	public int getNoOfNights(){
+			return noOfNights;
+	}
 
 	public double getTotalPrice() {
 		return totalPrice;

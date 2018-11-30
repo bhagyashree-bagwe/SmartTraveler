@@ -226,6 +226,76 @@ public static Booking getLatestBookingDetails(){
 	return booking;
 }
 
+public static HashMap<String, Booking> getBookingDetails(String emailId){
+
+
+	HashMap<String,Booking> bookingsPerCustomer = new HashMap<String,Booking>();
+	try
+	{
+		getConnection();
+		System.out.println("Getting booking details for : " + emailId);
+		String selectBookings="select A.bookingId, A.confirmationNo, A.userId, A.roomNumber, A.paymentId, A.checkIn,"
+		+" A.checkOut, A.noOfPeople, A.noOfNights, C.hotelName from bookings As A"
+  	+" Inner Join room As B on A.roomNumber=B.roomNumber"
+    +" Inner Join Hotel As C on B.hotelId = C.hotelId"
+		+" where A.userId=? ;";
+
+		PreparedStatement pst = conn.prepareStatement(selectBookings);
+		pst.setString(1,emailId);
+		ResultSet rs = pst.executeQuery();
+		System.out.println("new booking query:"+selectBookings);
+
+		while(rs.next())
+		{
+			System.out.println("booking id: "+rs.getString("bookingId"));
+				Booking booking = new Booking(rs.getString("bookingId"),rs.getString("confirmationNo"),rs.getString("userId"),
+																rs.getInt("roomNumber"),rs.getString("paymentId"),
+																rs.getDate("checkIn"),rs.getDate("checkOut"),
+																rs.getInt("noOfPeople"), rs.getInt("noOfNights"),rs.getString("hotelName"));
+
+				bookingsPerCustomer.put(rs.getString("bookingId"), booking);
+		}
+	}
+	catch(Exception e)
+	{
+		e.printStackTrace();
+	}
+ return bookingsPerCustomer;
+
+}
+
+public static String deleteBooking(String bookingId, String paymentId){
+
+	String msg = null;
+
+	try
+	{
+		getConnection();
+
+		String deleteBookingQuery ="Delete from bookings where bookingId=?";
+		PreparedStatement pst = conn.prepareStatement(deleteBookingQuery);
+		pst.setString(1,bookingId);
+		int affectedRows = pst.executeUpdate();
+
+		String deletePaymentQuery ="Delete from Payment where paymentId=?";
+		PreparedStatement pst1 = conn.prepareStatement(deletePaymentQuery);
+		pst1.setString(1,paymentId);
+		int affectedRows1 = pst1.executeUpdate();
+
+		if(affectedRows > 0 && affectedRows1 > 0){
+			 msg = "Successful";
+		}
+		else
+			 msg = "Unsuccessful";
+	}
+	catch(Exception e)
+	{
+			e.printStackTrace();
+	}
+	return msg;
+
+}
+
 public static Hotel getSelectedHotel(String hotelId)
 {
 	System.out.println("MySQLUtilities.java - getSelectedHotel");
