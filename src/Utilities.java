@@ -54,6 +54,7 @@ public class Utilities extends HttpServlet{
 					result = result + "<li><a href='Logout'><span> Logout</span></a></li>"
 							+ " <li><a href='Account'><span> Account</span></a></li>"
 							+ " <li><a href='ViewHotels'> View Hotels </a></li>"
+							+ "	<li><a href='DataAnalytics'><span>Data Analytics</span></a></li>"
 							+ " <li><a href='DataExploration'> Data Exploration </a></li>"
 							+ "<li><a href='Admin'><span> Modify Hotel Info</span></a></li>"
 							+ " <li><a><i>Hi,"+name+" (Admin)</i></a></li>";
