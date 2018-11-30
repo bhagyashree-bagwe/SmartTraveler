@@ -15,7 +15,7 @@ public class MySqlDataStoreUtilities
   	try
   	{
     	Class.forName("com.mysql.jdbc.Driver").newInstance();
-    	conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/SmartTraveler","root","root");
+    	conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/SmartTraveler","root","samruddhi");
       message="Successfull";
 	    return message;
   	}
@@ -254,6 +254,34 @@ public class MySqlDataStoreUtilities
     			msg = "Hotel info cannot be deleted";
     	}
     	return msg;
+    }
+
+
+    public static List<String> getAllHotelNames()
+    {
+      System.out.println("\n Getting all Hotel names from db");
+
+      List<String> hotelsNameList = new ArrayList<String>();
+
+    	try
+    	{
+
+    		getConnection();
+    		String selectQuery ="select hotelName from Hotel";
+    		PreparedStatement pst = conn.prepareStatement(selectQuery);
+    		ResultSet rs = pst.executeQuery();
+
+    		while(rs.next())
+    		{
+          String name = rs.getString("hotelName");
+          if(!hotelsNameList.contains(name))
+            hotelsNameList.add(name);
+    		}
+    	}
+    	catch(Exception e)
+    	{
+    	}
+  	 return hotelsNameList;
     }
 
 }

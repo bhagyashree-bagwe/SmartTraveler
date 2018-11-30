@@ -10,7 +10,7 @@ public static void getConnection()
 	try
 	{
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
-		conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/SmartTraveler?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","root");
+		conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/SmartTraveler?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","samruddhi");
 
 	}
 	catch(Exception e)
@@ -69,7 +69,7 @@ public static HashMap<String, String> getHotelRoomPrice(String location, String 
 		ResultSet rs = pst.executeQuery();
 
 		while(rs.next())
-		{	
+		{
 			hotelPriceMap.put(rs.getString("hotelId"), rs.getString("price"));
 		}
 	System.out.println("Size of hotelPriceMap : "+hotelPriceMap.size());
@@ -132,12 +132,12 @@ public static void storeBookingDetails(Payment payment, Booking booking, Room ro
 		java.sql.Date checkOutDate = new java.sql.Date(booking.getCheckOut().getTime());
 		int noOfNights = (int)((booking.getCheckOut().getTime() - booking.getCheckIn().getTime()) / (1000 * 60 * 60 * 24));
 		int paymentId=0;
-		String getPaymentIdQuery = "select max(paymentId) as 'id' from Payment"; 
+		String getPaymentIdQuery = "select max(paymentId) as 'id' from Payment";
 		PreparedStatement pst = conn.prepareStatement(getPaymentIdQuery);
 		ResultSet rs = pst.executeQuery();
 		while(rs.next())
 		{
-			paymentId = rs.getInt("id")	;	
+			paymentId = rs.getInt("id")	;
 		}
 		System.out.println("paymentId : "+paymentId);
 
@@ -204,7 +204,7 @@ public static ArrayList<DataExplorationPOJO> getHotelsPerState(){
 	{
 		System.out.println(e);
 	}
-	return list;	
+	return list;
 }
 //No of bookings per state
 public static ArrayList<DataExplorationPOJO> getBookingsPerState(){
@@ -228,7 +228,7 @@ public static ArrayList<DataExplorationPOJO> getBookingsPerState(){
 	{
 		System.out.println(e);
 	}
-	return list;	
+	return list;
 }
 
 }
