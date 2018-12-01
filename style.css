@@ -179,7 +179,18 @@ input[type=submit], input[type=button], .button{
     font-size: 20px;
     color: black;
 }
-
+.about-us-text{
+    margin-right: auto !important;
+    margin-left: auto !important;
+	text-align: center;
+}
+#about-us{
+	text-align:center; 
+	margin-right: 20% !important;
+	margin-left: 20% !important; 
+	height:75%;
+    /* background-image: url('../SmartTraveler/Images/about-us.jpg') !important; */
+}
 input[type=submit]:disabled{
   border: 1px solid #999999;
   background-color: #cccccc;
