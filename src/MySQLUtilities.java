@@ -114,8 +114,15 @@ public static String storeCardPaymentDetails(Payment payment, Room room){
 	try
 	{
 		System.out.println("storePaymentDetails");
+		System.out.println("~~~~~~~~~~~~~~~~~~");
+		System.out.println(payment.getRountingNumber());
+		System.out.println(payment.getAccountNumber());
+		System.out.println(payment.getBankName());
+		System.out.println(payment.getFirstName());
+		System.out.println(payment.getLastName());
+		System.out.println("~~~~~~~~~~~~~~~~~~");
 		getConnection();
-		String insertPaymentQuery ="INSERT INTO Payment(userId, paidAmount, creditCardNo, cvv, expMonth, expYear)VALUES('"+payment.getUserId()+"', '"+room.getPrice()+"', '"+payment.getCardNo()+"', '"+payment.getCvv()+"', '"+payment.getMM()+"', '"+payment.getYY()+"')";
+		String insertPaymentQuery ="INSERT INTO Payment(userId, paidAmount, creditCardNo, cvv, expMonth, expYear,routingNo,accountNo,bankName,firstName,lastName)VALUES('"+payment.getUserId()+"', '"+room.getPrice()+"', '"+payment.getCardNo()+"', '"+payment.getCvv()+"', '"+payment.getMM()+"', '"+payment.getYY()+"', '"+payment.getRountingNumber()+"', '"+payment.getAccountNumber()+"', '"+payment.getBankName()+"', '"+payment.getFirstName()+"', '"+payment.getLastName()+"')";
 		PreparedStatement pst = conn.prepareStatement(insertPaymentQuery);
 		pst.execute();
 		msg = "success";
