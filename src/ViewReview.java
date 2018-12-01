@@ -49,8 +49,7 @@ public class ViewReview extends HttpServlet {
 		String price = "";
 		String city ="";
 			
-                utility.printHtml("Header.html");
-		utility.printHtml("LeftNavigationBar.html");
+              utility.printHtml("Header.html");
 	
                 pw.print("<div id='content'><div class='post'><h2 class='title meta'>");
 		pw.print("<a style='font-size: 15px;'>Review</a>");
@@ -64,13 +63,13 @@ public class ViewReview extends HttpServlet {
 		else
 		{
                 if(!hm.containsKey(hotelName)){
-				pw.println("<h2>There are no reviews for this product.</h2>");
+				pw.println("<h2>There are no reviews for this hotel.</h2>");
 			}else{
 		for (Review r : hm.get(hotelName)) 
 				 {		
 		pw.print("<table class='gridtable'>");
 				pw.print("<tr>");
-				pw.print("<td> Product Name: </td>");
+				pw.print("<td> Hotel Name: </td>");
 				hotelName = r.getHotelName();
 				pw.print("<td>" +hotelName+ "</td>");
 				pw.print("</tr>");

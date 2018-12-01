@@ -139,7 +139,19 @@ public class Utilities extends HttpServlet{
 
 	// username Function returns the username from the session variable.
 public String storeReview(String hotelName,String hotelId, String city,String state, String reviewdate, String reviewrating,String  reviewtext,String zipcode,String price){
-	String message=MongoDBDataStoreUtilities.insertReview(hotelName,hotelId,username(),city,state,reviewrating,reviewdate,reviewtext,zipcode,price);
+System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+System.out.println("Username: "+username());
+System.out.println("hotelName: "+hotelName);
+System.out.println("hotelId: "+hotelId);
+System.out.println("city: "+city);
+System.out.println("state: "+state);
+System.out.println("reviewdate: "+reviewdate);
+System.out.println("reviewrating: "+reviewrating);
+System.out.println("reviewtext: "+reviewtext);
+System.out.println("zipcode: "+zipcode);
+System.out.println("price: "+price);
+System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+	      String message = MongoDBDataStoreUtilities.insertReview(username(),  hotelName, hotelId, city, state, reviewrating, reviewdate, reviewtext, zipcode, price);
 		if(!message.equals("Successfull"))
 		{ return "UnSuccessfull";
 		}
@@ -158,18 +170,15 @@ public String storeReview(String hotelName,String hotelId, String city,String st
 		{
 			reviews = new HashMap<String, ArrayList<Review>>();
 		}
-			// if there exist product review already add it into same list for hotelName or create a new record with product name
-
+		// if there exist product review already add it into same list for hotelName or create a new record with product name
 		if(!reviews.containsKey(hotelName)){
 			ArrayList<Review> arr = new ArrayList<Review>();
 			reviews.put(hotelName, arr);
 		}
 		ArrayList<Review> listReview = reviews.get(hotelName);
-		Review review = new Review(hotelName,username(),hotelId, city,state,reviewrating,reviewdate,reviewtext,zipcode,price);
+		Review review = new Review(hotelName,username(),hotelId, city, state, reviewrating, reviewdate, reviewtext, zipcode, price);
 		listReview.add(review);
-
-			// add Reviews into database
-
+		// add Reviews into database
 		return "Successfull";
 		}
 	}
@@ -184,16 +193,12 @@ public String storeReview(String hotelName,String hotelId, String city,String st
 			return session.getAttribute("username").toString();
 		return null;
 	}
-
-
 	//  usertype Function returns the usertype from the session variable.
 	public String usertype(){
 		if (session.getAttribute("usertype")!=null)
 			return session.getAttribute("usertype").toString();
 		return null;
 	}
-
-
 	// getUser Function checks the user is a customer or agent or admin and returns the user class variable.
 	public User getUser(){
 		String usertype = usertype();

@@ -10,7 +10,7 @@ public static void getConnection()
 	try
 	{
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
-		conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/SmartTraveler?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","samruddhi");
+		conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/SmartTraveler?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","root");
 
 	}
 	catch(Exception e)
@@ -81,8 +81,9 @@ public static HashMap<String, String> getHotelRoomPrice(String location, String 
 	return hotelPriceMap;
 }
 
+
 public static HashMap<Integer, Room> getAvailableRooms(String hotelId, String roomTypeId){
-System.out.println("getAvailableRooms "+hotelId+" ~~ "+roomTypeId);
+	System.out.println("getAvailableRooms "+hotelId+" ~~ "+roomTypeId);
 	HashMap<Integer, Room> availableRooms=new HashMap<Integer, Room>();
 	try
 	{
@@ -108,7 +109,8 @@ System.out.println("getAvailableRooms "+hotelId+" ~~ "+roomTypeId);
 	return availableRooms;
 }
 
-public static void storeCardPaymentDetails(Payment payment, Room room){
+public static String storeCardPaymentDetails(Payment payment, Room room){
+	String msg="";	
 	try
 	{
 		System.out.println("storePaymentDetails");
@@ -116,14 +118,18 @@ public static void storeCardPaymentDetails(Payment payment, Room room){
 		String insertPaymentQuery ="INSERT INTO Payment(userId, paidAmount, creditCardNo, cvv, expMonth, expYear)VALUES('"+payment.getUserId()+"', '"+room.getPrice()+"', '"+payment.getCardNo()+"', '"+payment.getCvv()+"', '"+payment.getMM()+"', '"+payment.getYY()+"')";
 		PreparedStatement pst = conn.prepareStatement(insertPaymentQuery);
 		pst.execute();
+		msg = "success";
 	}
 	catch(Exception e)
 	{
+		msg = "unsuccessful";
 		System.out.println(e);
 	}
+	return msg;
 }
 
-public static void storeBookingDetails(Payment payment, Booking booking, Room room){
+public static String storeBookingDetails(Payment payment, Booking booking, Room room){
+	String msg="";	
 	try
 	{
 		System.out.println("storeBookingDetails");
@@ -144,11 +150,124 @@ public static void storeBookingDetails(Payment payment, Booking booking, Room ro
   		String insertPaymentQuery ="INSERT INTO bookings(confirmationNo, userId, roomNumber, paymentId, checkIn, checkOut, noOfPeople, noOfNights) VALUES('111', '"+payment.getUserId()+"', '"+room.getRoomNumber()+"', '"+paymentId+"', '"+checkInDate+"', '"+checkOutDate+"', '"+booking.getNoOfPeople()+"', '"+noOfNights+"')";
 		PreparedStatement pst2 = conn.prepareStatement(insertPaymentQuery);
 		pst2.execute();
+		msg = "success";
+	}
+	catch(Exception e)
+	{
+		msg ="unsuccessful";
+		System.out.println(e);
+	}
+	return msg;
+}
+
+public static Booking getLatestBookingDetails(){
+	System.out.println("MySQLUtilities.java - getLatestBookingDetails");
+	int maxId=0;
+	Booking booking = new Booking();
+	try
+	{
+		getConnection();
+		String maxBookingIdQuery ="select MAX(bookingId) as maxId from bookings";
+		PreparedStatement pst = conn.prepareStatement(maxBookingIdQuery);
+		ResultSet rs = pst.executeQuery();
+		while(rs.next())
+		{
+			maxId = rs.getInt("maxId");
+		}
+		System.out.println("MaxId "+maxId);
+		String bookingDetailsQuery ="select * from bookings where bookingId='"+maxId+"'";
+		PreparedStatement pst2 = conn.prepareStatement(bookingDetailsQuery);
+		ResultSet rs2 = pst2.executeQuery();
+		while(rs2.next())
+		{
+			System.out.println("Found booking record "+Integer.toString(rs2.getInt("bookingId")));
+			booking.setBookingId(Integer.toString(rs2.getInt("bookingId"))); 
+			System.out.println("~~^^"+booking.getBookingId());
+			booking.setConfirmationNo(Integer.toString(rs2.getInt("confirmationNo")));
+			booking.setUserId(rs2.getString("userId"));
+			booking.setRoomNumber(rs2.getInt("roomNumber"));
+			booking.setPaymentId(Integer.toString(rs2.getInt("paymentId")));
+			booking.setCheckIn(rs2.getDate("checkIn"));
+			booking.setCheckOut(rs2.getDate("checkOut"));
+			booking.setNoOfPeople(rs2.getInt("noOfPeople"));
+		}
 	}
 	catch(Exception e)
 	{
 		System.out.println(e);
 	}
+	System.out.println("~~"+booking.getBookingId());
+	return booking;
+}
+
+public static HashMap<String, Booking> getBookingDetails(String emailId){
+
+
+	HashMap<String,Booking> bookingsPerCustomer = new HashMap<String,Booking>();
+	try
+	{
+		getConnection();
+		System.out.println("Getting booking details for : " + emailId);
+		String selectBookings="select A.bookingId, A.confirmationNo, A.userId, A.roomNumber, A.paymentId, A.checkIn,"
+		+" A.checkOut, A.noOfPeople, A.noOfNights, C.hotelName from bookings As A"
+  	+" Inner Join room As B on A.roomNumber=B.roomNumber"
+    +" Inner Join Hotel As C on B.hotelId = C.hotelId"
+		+" where A.userId=? ;";
+
+		PreparedStatement pst = conn.prepareStatement(selectBookings);
+		pst.setString(1,emailId);
+		ResultSet rs = pst.executeQuery();
+		System.out.println("new booking query:"+selectBookings);
+
+		while(rs.next())
+		{
+			System.out.println("booking id: "+rs.getString("bookingId"));
+				Booking booking = new Booking(rs.getString("bookingId"),rs.getString("confirmationNo"),rs.getString("userId"),
+																rs.getInt("roomNumber"),rs.getString("paymentId"),
+																rs.getDate("checkIn"),rs.getDate("checkOut"),
+																rs.getInt("noOfPeople"), rs.getInt("noOfNights"),rs.getString("hotelName"));
+
+				bookingsPerCustomer.put(rs.getString("bookingId"), booking);
+		}
+	}
+	catch(Exception e)
+	{
+		e.printStackTrace();
+	}
+ return bookingsPerCustomer;
+
+}
+
+public static String deleteBooking(String bookingId, String paymentId){
+
+	String msg = null;
+
+	try
+	{
+		getConnection();
+
+		String deleteBookingQuery ="Delete from bookings where bookingId=?";
+		PreparedStatement pst = conn.prepareStatement(deleteBookingQuery);
+		pst.setString(1,bookingId);
+		int affectedRows = pst.executeUpdate();
+
+		String deletePaymentQuery ="Delete from Payment where paymentId=?";
+		PreparedStatement pst1 = conn.prepareStatement(deletePaymentQuery);
+		pst1.setString(1,paymentId);
+		int affectedRows1 = pst1.executeUpdate();
+
+		if(affectedRows > 0 && affectedRows1 > 0){
+			 msg = "Successful";
+		}
+		else
+			 msg = "Unsuccessful";
+	}
+	catch(Exception e)
+	{
+			e.printStackTrace();
+	}
+	return msg;
+
 }
 
 public static Hotel getSelectedHotel(String hotelId)
@@ -179,6 +298,42 @@ public static Hotel getSelectedHotel(String hotelId)
 		System.out.println(e);
 	}
 	return hotel;
+}
+
+public static HashMap<String, Hotel> searchHotel(String data)
+{
+	System.out.println("MySQLUtilities.java - searchHotel");
+	System.out.println("Hotel : "+data);
+	HashMap<String, Hotel> availableHotels=new HashMap<String, Hotel>();
+
+	try
+	{
+		getConnection();
+		String selectOrderQuery ="select * from Hotel where hotelId='"+data+"'";
+		PreparedStatement pst = conn.prepareStatement(selectOrderQuery);
+		ResultSet rs = pst.executeQuery();
+
+		while(rs.next())
+		{
+			Hotel newHotel = new Hotel();
+			newHotel.setHotelId(rs.getString(1));
+			newHotel.setHotelName(rs.getString("hotelName"));
+			newHotel.setStreet(rs.getString("street"));
+			newHotel.setCity(rs.getString("city"));
+			newHotel.setState(rs.getString("state"));
+			newHotel.setZipCode(rs.getString("zipCode"));
+			newHotel.setContactNo(rs.getString("contactNo"));
+			newHotel.setEmailId(rs.getString("emailId"));
+			newHotel.setAmenities(rs.getString("amenities"));
+			availableHotels.put(rs.getString(1), newHotel);
+		}
+	System.out.println("No of available hotels : "+availableHotels.size());
+	}
+	catch(Exception e)
+	{
+		System.out.println(e);
+	}
+	return availableHotels;
 }
 
 //Data Exploration Queries

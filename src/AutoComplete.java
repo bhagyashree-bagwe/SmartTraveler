@@ -87,9 +87,13 @@ public class AutoComplete extends HttpServlet {
 				HashMap<String,Hotel> data = AjaxUtility.getData();
 				if ((searchId != null) && data.containsKey(searchId.trim()))
 				{
-					request.setAttribute("data",data.get(searchId.trim()));
-					RequestDispatcher rd=context.getRequestDispatcher("/ShowHotel");
+					System.out.println("Here 123 "+data.get(searchId.trim())+"  "+searchId.trim());
+					request.setAttribute("data",searchId.trim());
+System.out.println("Here 456");
+					RequestDispatcher rd=context.getRequestDispatcher("/HotelSearch");
+System.out.println("Here 789");
 					rd.forward(request,response);
+System.out.println("Here 000");
 				}
 			}
 		}
