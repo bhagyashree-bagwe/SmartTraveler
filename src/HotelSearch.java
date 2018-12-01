@@ -19,7 +19,7 @@ public class HotelSearch extends HttpServlet {
 	String checkout ="";
 	String roomTypeParam = "";
 	String roomType;
-	String data = ""; 
+	String data = "";
 	int noOfNights=0;
 	double pricePerNight=0.0;
 	double totalPrice=0.0;
@@ -30,9 +30,9 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 	System.out.println("HotelSearch doPost");
 	HttpSession session = request.getSession();
 	response.setContentType("text/html");
-	
+
 	PrintWriter pw = response.getWriter();
-	Utilities utility = new Utilities(request,pw);	
+	Utilities utility = new Utilities(request,pw);
 	destination = request.getParameter("destination");
 	checkin = request.getParameter("checkin");
 	checkout = request.getParameter("checkout");
@@ -78,10 +78,27 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 
 	populateData();
 
-	
+
 	utility.printHtml("Header.html");
-	
-pw.print("<p class='subheading'>Hotels in "+destination+"</p>");
+
+	pw.print("<div id='sidebar'><h2>Your search filter</h2>");
+	pw.print("<hr class='hr-decoration'>");
+	pw.print("<table><form method='post' action='HotelSearch'  id='homePageForm'>");
+	pw.print("<tr><td>Destination:</td><td><input class='min-width' type='text' name='destination' value='"+ destination +"'></td></tr>"
+	 +"<tr><td>Check In:</td><td><input class='min-width' type='date' name='checkin'  id='checkin' value='"+ checkin +"'></td></tr>"
+	 +"<tr><td>Check Out:</td><td><input class='min-width' type='date' name='checkout' id ='checkout' value='"+ checkout +"'></td></tr>"
+	 +"<tr><td>No of People:</td><td><select class='min-width' name='roomType' value='"+ roomTypeParam +"'>"
+	 +"<option value='OnePerson'>One-Person Room</option>"
+	 +"<option value='TwoPerson'>Two-Person Room</option>"
+	 +"<option value='Family'>Family Room</option>"
+	 +"<option value='Suite'>Suite</option>"
+ 	 +"</select></td></tr>");
+	 pw.print("<tr><td></td><td><input type='button' value='Search' style='width: 100px;' onClick='validateInput()'></td></tr>");
+
+	pw.print("</form></table>");
+	pw.print("</div>");
+
+	pw.print("<p class='subheading'>Hotels in "+destination+"</p>");
 	pw.print("<div id='hoteldiv'>");
 	pw.print("<table id='hotellist'>");
 	for(Map.Entry<String, Hotel> entry : hotelList.entrySet())
@@ -118,16 +135,16 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 	HttpSession session = request.getSession();
 	response.setContentType("text/html");
 	PrintWriter pw = response.getWriter();
-	Utilities utility = new Utilities(request,pw);	
+	Utilities utility = new Utilities(request,pw);
 try{
 
 	Booking newBooking = new Booking();
 	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 	Date checkInDate = new Date();
-               
-SimpleDateFormat formattedDate = new SimpleDateFormat("yyyy-MM-dd");            
-Calendar c = Calendar.getInstance();        
-c.add(Calendar.DATE, 2);  // number of days to add      
+
+SimpleDateFormat formattedDate = new SimpleDateFormat("yyyy-MM-dd");
+Calendar c = Calendar.getInstance();
+c.add(Calendar.DATE, 2);  // number of days to add
 String checkOut = (String)(formattedDate.format(c.getTime()));
 
 
@@ -142,20 +159,20 @@ String checkOut = (String)(formattedDate.format(c.getTime()));
 	roomType="single";
 session.setAttribute("bookingObj", newBooking);
 	}
-	
-	
+
+
 	catch(Exception e)
 	{
 		System.out.println(e);
-	}	
+	}
 	System.out.println("In doGet ......");
- 	
+
 	data = (String)request.getAttribute("data");
 	System.out.println("Data: "+data);
 	populateData();
 
 	utility.printHtml("Header.html");
-	
+
 pw.print("<p class='subheading'>Hotels in "+destination+"</p>");
 	pw.print("<div id='hoteldiv'>");
 	pw.print("<table id='hotellist'>");
@@ -168,7 +185,7 @@ pw.print("<p class='subheading'>Hotels in "+destination+"</p>");
 		pw.print("<tr>");
 		//td1- Image
 		pw.print("<td><a href='ShowHotelDetails?selectedHotelId="+hotel.getHotelId()+"&totalPrice="+totalPrice+"'><img src='Images/"+hotel.getHotelId()+"/default.jpg' alt='' height='300' width='450' /></a></td>");
-		
+
 		//td2- General Info
 		pw.print("<td><table>");
 		pw.print("<tr><td><a href='ShowHotelDetails?selectedHotelId="+hotel.getHotelId()+"&totalPrice="+totalPrice+"'>"+hotel.getHotelName()+"</a></td></tr>");
@@ -197,12 +214,12 @@ public void populateData(){
 		//hotelPriceMap = MySQLUtilities.getHotelRoomPriceAuto(destination, checkin, checkout, roomType);
 	}
 	else
-	{	
+	{
 		System.out.println("Coming via normal flow");
 		hotelList = MySQLUtilities.searchHotels(destination, checkin, checkout, roomType);
 		hotelPriceMap = MySQLUtilities.getHotelRoomPrice(destination, checkin, checkout, roomType);
 	}
-	
+
 }
 
 }

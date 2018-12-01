@@ -231,7 +231,7 @@ public class FindReviews extends HttpServlet {
 
 		utility.printHtml("Header.html");
 
-		pw.print("<div style='background-color: #ebebeb'><div class='center'>" +
+		pw.print("<div><div class='center'>" +
 						 "<h1>Data Analytics Result</h1><br><br>");
 		//pw.print("</h2><div class='entry'>");
 		if(groupBy == true){

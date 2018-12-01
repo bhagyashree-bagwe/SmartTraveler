@@ -10,7 +10,7 @@ public static void getConnection()
 	try
 	{
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
-		conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/SmartTraveler?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","root");
+		conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/SmartTraveler?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","samruddhi");
 
 	}
 	catch(Exception e)
@@ -110,7 +110,7 @@ public static HashMap<Integer, Room> getAvailableRooms(String hotelId, String ro
 }
 
 public static String storeCardPaymentDetails(Payment payment, Room room){
-	String msg="";	
+	String msg="";
 	try
 	{
 		System.out.println("storePaymentDetails");
@@ -129,7 +129,7 @@ public static String storeCardPaymentDetails(Payment payment, Room room){
 }
 
 public static String storeBookingDetails(Payment payment, Booking booking, Room room){
-	String msg="";	
+	String msg="";
 	try
 	{
 		System.out.println("storeBookingDetails");
@@ -181,7 +181,7 @@ public static Booking getLatestBookingDetails(){
 		while(rs2.next())
 		{
 			System.out.println("Found booking record "+Integer.toString(rs2.getInt("bookingId")));
-			booking.setBookingId(Integer.toString(rs2.getInt("bookingId"))); 
+			booking.setBookingId(Integer.toString(rs2.getInt("bookingId")));
 			System.out.println("~~^^"+booking.getBookingId());
 			booking.setConfirmationNo(Integer.toString(rs2.getInt("confirmationNo")));
 			booking.setUserId(rs2.getString("userId"));

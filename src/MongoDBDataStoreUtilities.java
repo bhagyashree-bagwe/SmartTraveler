@@ -67,7 +67,7 @@ public class MongoDBDataStoreUtilities
       				reviews.put(obj.getString("hotelName"), arr);
       			}
       			ArrayList<Review> listReview = reviews.get(obj.getString("hotelName"));
-      			Review review =new Review(obj.getString("hotelName"),obj.getString("userName"),obj.getString("hotelId"),obj.getString("city"),obj.getString("state"),
+      			Review review =new Review(obj.getString("hotelName"),obj.getString("username"),obj.getString("hotelId"),obj.getString("city"),obj.getString("state"),
       				obj.getString("reviewRating"),obj.getString("reviewDate"),obj.getString("reviewText"),obj.getString("zipcode"),obj.getString("price"));
       			//add to review hashmap
       			listReview.add(review);

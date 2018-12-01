@@ -87,7 +87,7 @@ public class Login extends HttpServlet{
     utility.printHtml("Header.html");
 
     //display content only,  no left navigation bar is needed
-    pw.print("<div class='center'><div class='large-width'><h1>Register</h1> <span>Create your free account</span><br><br>");
+    pw.print("<div class='center'><div class='large-width'><table><tr><td><img src='Images/login.png' class='header-icon-size'></td><td><h1>Log In</h1></td></tr></table><br><br>");
 
     //if (error) //if the user is already logged in
     //		pw.print("<h4 style='color:red'>"+error_msg+"</h4>");
@@ -107,7 +107,8 @@ public class Login extends HttpServlet{
                 "<br><input type='password' name='password' id='password' class='large-width' placeholder='Password' required>" +
                 "<br><input type='submit' class='keep-right' value='Log In'/>"
           + "</form>"
-        +"</div><div><a href='SignUp' class='keep-right' style='color:black;'>New User? Register here! </a></div>");
+        +"</div>");
+				//<div><a href='SignUp' class='keep-right' style='color:black;'>New User? Register here! </a></div>
 
     pw.print("</div></div>");
     //display footer
