@@ -18,6 +18,9 @@ private int YY;
 private String rountingNumber;
 private String accountNumber;
 private String bankName;
+private String firstName;
+private String lastName;
+private String billingAddress;
 
 public Payment(){}
 
@@ -27,6 +30,30 @@ public Payment(){}
 
 	public void setPaymentId(String paymentId) {
 		this.paymentId = paymentId;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getBillingAddress() {
+		return billingAddress;
+	}
+
+	public void setBillingAddress(String billingAddress) {
+		this.billingAddress = billingAddress;
 	}
 
 	public String getUserId() {

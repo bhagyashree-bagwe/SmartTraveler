@@ -112,7 +112,7 @@ public class Signup extends HttpServlet {
 		utility.printHtml("Header.html");
 
     pw.print("<div class='center'> <div class='large-width'>" +
-             "<h1>Register</h1> <span>Create your free account</span><br><br>");
+             "<table><tr><td><img src='Images/signup.png' class='header-icon-size'></td><td><h1>Register</h1><span>Create your free account</span></td></tr></table><br><br>");
 
       if(error_msg != null){
         pw.print("<div class='row'><span style='color: #B71C1C'>"+error_msg+"</span></div><br>");

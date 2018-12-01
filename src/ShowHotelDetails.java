@@ -29,12 +29,29 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 	Carousel carousel = new Carousel();
 	Utilities utility = new Utilities(request,pw);
 	utility.printHtml("Header.html");
-	pw.print("<table id='selectedhotel'>");
+
+	pw.print("<div id='sidebar'><h2>Your search filter</h2>");
+	pw.print("<hr class='hr-decoration'>");
+	pw.print("<table><form method='post' action='HotelSearch'  id='homePageForm'>");
+	pw.print("<tr><td>Destination:</td><td><input class='min-width' type='text' name='destination' value='Chicago'></td></tr>"
+	 +"<tr><td>Check In:</td><td><input class='min-width' type='date' name='checkin'  id='checkin' ></td></tr>"
+	 +"<tr><td>Check Out:</td><td><input class='min-width' type='date' name='checkout' id ='checkout' ></td></tr>"
+	 +"<tr><td>No of People:</td><td><select class='min-width' name='roomType'>"
+	 +"<option value='OnePerson'>One-Person Room</option>"
+	 +"<option value='TwoPerson'>Two-Person Room</option>"
+	 +"<option value='Family'>Family Room</option>"
+	 +"<option value='Suite'>Suite</option>"
+	 +"</select></td></tr>");
+	 pw.print("<tr><td></td><td><input type='button' value='Search' style='width: 100px;' onClick='validateInput()'></td></tr>");
+	pw.print("</form></table>");
+	pw.print("</div>");
+
+	pw.print("<table id='selectedhotel' class='table-rows-text bg-color'>");
 	//pw.print("<tr><td><img src='Images/"+selectedHotel.getHotelId()+"/default.jpg' alt='' height='300' width='450' /></td></tr>");
-	pw.print("<tr><td>");
-	pw.print(carousel.carouselfeature(utility));
-	pw.print("</td></tr>");
-	pw.print("<tr><td>"+selectedHotel.getHotelName()+"</td></tr>");
+	//pw.print("<tr><td>");
+	pw.print("<tr><td>"+carousel.carouselfeature(utility,selectedHotel.getHotelId())+"</tr></td>");
+	//pw.print("</td></tr>");
+	pw.print("<tr><td class='subheading'>"+selectedHotel.getHotelName()+"</td></tr>");
 	pw.print("<tr><td>Location: "+selectedHotel.getStreet()+", "+selectedHotel.getCity()+", "+selectedHotel.getState()+", "+selectedHotel.getZipCode()+"</td></tr>");
 	pw.print("<tr><td>Contact Details: (Email) "+selectedHotel.getEmailId()+" (Phone) "+selectedHotel.getContactNo()+"</td></tr>");
 	pw.print("<tr><td>Amenities provided: "+selectedHotel.getAmenities()+"</td></tr>");
@@ -42,7 +59,7 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 	pw.print("<tr><td>Check Out: "+booking.getCheckOut()+"</td></tr>");
 	pw.print("<tr><td>Room type: "+booking.getRoomType()+"</td></tr>");
 	pw.print("<tr><td>Total cost: "+totalPrice+"</td></tr>");
-	pw.print("<tr><td><form method='post' action='InitializeBooking'><input type='hidden' name='selectedHotelId' value='"+selectedHotelId+"'><input type='hidden' name='totalPrice' value='"+totalPrice+"'><input type='submit' class='btnbuy' value='Confirm Booking'></form</td></tr>");
+	pw.print("<tr class='content-carousel'><td><form method='post' action='InitializeBooking'><input type='hidden' name='selectedHotelId' value='"+selectedHotelId+"'><input type='hidden' name='totalPrice' value='"+totalPrice+"'><input type='submit' class='btnbuy' value='Confirm Booking'></form</td></tr>");
 	pw.print("</table>");
 	utility.printHtml("Footer.html");
 }

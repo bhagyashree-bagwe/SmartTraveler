@@ -110,12 +110,19 @@ public static HashMap<Integer, Room> getAvailableRooms(String hotelId, String ro
 }
 
 public static String storeCardPaymentDetails(Payment payment, Room room){
-	String msg="";	
+	String msg="";
 	try
 	{
 		System.out.println("storePaymentDetails");
+		System.out.println("~~~~~~~~~~~~~~~~~~");
+		System.out.println(payment.getRountingNumber());
+		System.out.println(payment.getAccountNumber());
+		System.out.println(payment.getBankName());
+		System.out.println(payment.getFirstName());
+		System.out.println(payment.getLastName());
+		System.out.println("~~~~~~~~~~~~~~~~~~");
 		getConnection();
-		String insertPaymentQuery ="INSERT INTO Payment(userId, paidAmount, creditCardNo, cvv, expMonth, expYear)VALUES('"+payment.getUserId()+"', '"+room.getPrice()+"', '"+payment.getCardNo()+"', '"+payment.getCvv()+"', '"+payment.getMM()+"', '"+payment.getYY()+"')";
+		String insertPaymentQuery ="INSERT INTO Payment(userId, paidAmount, creditCardNo, cvv, expMonth, expYear,routingNo,accountNo,bankName,firstName,lastName)VALUES('"+payment.getUserId()+"', '"+room.getPrice()+"', '"+payment.getCardNo()+"', '"+payment.getCvv()+"', '"+payment.getMM()+"', '"+payment.getYY()+"', '"+payment.getRountingNumber()+"', '"+payment.getAccountNumber()+"', '"+payment.getBankName()+"', '"+payment.getFirstName()+"', '"+payment.getLastName()+"')";
 		PreparedStatement pst = conn.prepareStatement(insertPaymentQuery);
 		pst.execute();
 		msg = "success";
@@ -129,7 +136,7 @@ public static String storeCardPaymentDetails(Payment payment, Room room){
 }
 
 public static String storeBookingDetails(Payment payment, Booking booking, Room room){
-	String msg="";	
+	String msg="";
 	try
 	{
 		System.out.println("storeBookingDetails");
@@ -181,7 +188,7 @@ public static Booking getLatestBookingDetails(){
 		while(rs2.next())
 		{
 			System.out.println("Found booking record "+Integer.toString(rs2.getInt("bookingId")));
-			booking.setBookingId(Integer.toString(rs2.getInt("bookingId"))); 
+			booking.setBookingId(Integer.toString(rs2.getInt("bookingId")));
 			System.out.println("~~^^"+booking.getBookingId());
 			booking.setConfirmationNo(Integer.toString(rs2.getInt("confirmationNo")));
 			booking.setUserId(rs2.getString("userId"));
@@ -413,6 +420,38 @@ public static ArrayList<DataExplorationPOJO> getBookingsPerState(){
 		System.out.println(e);
 	}
 	return list;
+}
+
+public static HashMap<String,Hotel> getAllHotels()
+{
+	System.out.println("MySQLUtilities.java - getAllHotels");
+	HashMap<String, Hotel> list = new HashMap<String, Hotel>();
+	try
+	{
+		getConnection();
+		String getAllHotelsQuery ="select * from Hotel";
+		PreparedStatement pst = conn.prepareStatement(getAllHotelsQuery);
+		ResultSet rs = pst.executeQuery();
+		while(rs.next())
+		{
+			Hotel hotel = new Hotel();
+			hotel.setHotelName(rs.getString("hotelName"));
+			hotel.setHotelId(rs.getString("hotelId"));
+			hotel.setStreet(rs.getString("street"));
+			hotel.setCity(rs.getString("city"));
+			hotel.setState(rs.getString("state"));
+			hotel.setZipCode(rs.getString("zipCode"));
+			hotel.setContactNo(rs.getString("contactNo"));
+			hotel.setEmailId(rs.getString("emailId"));
+			hotel.setAmenities(rs.getString("amenities"));
+			list.put(rs.getString("hotelId"), hotel);
+		}
+	}
+	catch(Exception e)
+	{
+		System.out.println(e);
+	}
+	return list;	
 }
 
 }

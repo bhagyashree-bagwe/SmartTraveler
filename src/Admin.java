@@ -76,11 +76,32 @@ public class Admin extends HttpServlet{
     		PrintWriter pw = response.getWriter();
         Utilities utility = new Utilities(request, pw);
 
+        String operationtype = request.getParameter("operationtype");
+        System.out.println("operationtype" + operationtype);
+        boolean showAddButton = false;
+        boolean showUpdateButton = false;
+        boolean showDeleteButton = false;
+        String title = "";
+
+        if(operationtype.contains("Add")){
+            showAddButton = true;
+            title = "Add hotel details to database";
+        }
+        if(operationtype.contains("Update")){
+            showUpdateButton = true;
+            title = "Update hotel details in database";
+        }
+        if(operationtype.contains("Delete")){
+            showDeleteButton = true;
+            title = "Delete hotel details from database";
+        }
+
+
         try{
           utility.printHtml("Header.html");
 
           pw.print("<div class='center'> <div class='large-width'>" +
-                   "<h1>Add, Update or Delete Hotel Information</h1><br><br>");
+                   "<h2>"+title+"</h2><br><br>");
 
             if(msg != null && !msg.equals("")){
               pw.print("<div class='row'><span style='color: #B71C1C'>"+msg+"</span></div><br>");
@@ -100,13 +121,17 @@ public class Admin extends HttpServlet{
                       "<br><input type='text' name='amenities' id='amenities' class='large-width' placeholder='Amenities (Note: put comma separated entries)'>" +
 
                       "<br>"+
-                      "<div class='form-inline'>"+
-                        "<input type='submit' class='keep-right' name='modifyhotel' value='Add Hotel' style='margin: 2px;width:120px;'></input>" +
-                        "<input type='submit' class='keep-right' name='modifyhotel' value='Delete Hotel' style='margin: 2px;width:120px;'></input>" +
-                        "<input type='submit' class='keep-right' name='modifyhotel' value='Update Hotel' style='margin: 2px;width:120px;'></input>"
-                      +"</div>"
+                      "<div class='form-inline'>");
 
-                + "</form></div>");
+                      if(showAddButton)
+                        pw.print("<input type='submit' class='keep-right' name='modifyhotel' value='Add Hotel' style='margin: 2px;width:140px;'></input>");
+                      if(showDeleteButton)
+                        pw.print("<input type='submit' class='keep-right' name='modifyhotel' value='Delete Hotel' style='margin: 2px;width:140px;'></input>");
+                      if(showUpdateButton)
+                        pw.print("<input type='submit' class='keep-right' name='modifyhotel' value='Update Hotel' style='margin: 2px;width:140px;'></input>");
+                      pw.print("</div>");
+
+                pw.print("</form></div>");
 
           pw.print("</div></div>");
           //display footer

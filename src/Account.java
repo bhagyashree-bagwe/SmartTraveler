@@ -68,9 +68,9 @@ public class Account extends HttpServlet {
       String fullName = user.getName();
       String userType = user.getUserType();
 
-      pw.print("<div class='center' style='background-color: #ebebeb;'>");
+      pw.print("<div class='center'>");
 
-      pw.print("<div class = 'row'><h4> <p>Name: "+ userName +"</p>");
+      pw.print("<div class = 'row'><h4> <p>Name: "+ fullName +"</p>");
 
       if(userType.equalsIgnoreCase("agent"))
         userType = "Agent";

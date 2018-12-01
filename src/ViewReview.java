@@ -21,40 +21,40 @@ import java.util.*;
 public class ViewReview extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+
 		response.setContentType("text/html");
 		PrintWriter pw = response.getWriter();
 	        Utilities utility= new Utilities(request, pw);
 		review(request, response);
 	}
-	
+
 	protected void review(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	        try
-                {           
+                {
                 response.setContentType("text/html");
 		PrintWriter pw = response.getWriter();
                 Utilities utility = new Utilities(request,pw);
 		if(!utility.isLoggedin()){
-			HttpSession session = request.getSession(true);				
+			HttpSession session = request.getSession(true);
 			session.setAttribute("login_msg", "Please Login to view Review");
 			response.sendRedirect("Login");
 			return;
 		}
-		 String hotelName=request.getParameter("hotelName");		 
+		 String hotelName=request.getParameter("hotelName");
 		HashMap<String, ArrayList<Review>> hm= MongoDBDataStoreUtilities.selectReview();
 		String userName = "";
 		String reviewRating = "";
 		String reviewDate;
-		String reviewText = "";	
+		String reviewText = "";
 		String price = "";
 		String city ="";
-			
+
               utility.printHtml("Header.html");
-	
+
                 pw.print("<div id='content'><div class='post'><h2 class='title meta'>");
 		pw.print("<a style='font-size: 15px;'>Review</a>");
 		pw.print("</h2><div class='entry'>");
-			
+
 			//if there are no reviews for product print no review else iterate over all the reviews using cursor and print the reviews in a table
 		if(hm==null)
 		{
@@ -65,8 +65,8 @@ public class ViewReview extends HttpServlet {
                 if(!hm.containsKey(hotelName)){
 				pw.println("<h2>There are no reviews for this hotel.</h2>");
 			}else{
-		for (Review r : hm.get(hotelName)) 
-				 {		
+		for (Review r : hm.get(hotelName))
+				 {
 		pw.print("<table class='gridtable'>");
 				pw.print("<tr>");
 				pw.print("<td> Hotel Name: </td>");
@@ -97,32 +97,32 @@ public class ViewReview extends HttpServlet {
 				pw.print("<td> Review Date: </td>");
 				reviewDate = r.getReviewDate().toString();
 				pw.print("<td>" +reviewDate+ "</td>");
-				pw.print("</tr>");			
+				pw.print("</tr>");
 				pw.print("<tr>");
 				pw.print("<td> Review Text: </td>");
 				reviewText = r.getReviewText();
 				pw.print("<td>" +reviewText+ "</td>");
 				pw.print("</tr>");
 				pw.println("</table>");
-				}					
-							
+				}
+
 		}
-		}	       
-                pw.print("</div></div></div>");		
+		}
+                pw.print("</div></div></div>");
 		utility.printHtml("Footer.html");
-	                     	
+
                     }
               	catch(Exception e)
 		{
                  System.out.println(e.getMessage());
-		}  			
-       
-	 	
+		}
+
+
 		}
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+
 		response.setContentType("text/html");
 		PrintWriter pw = response.getWriter();
-		
+
             }
 }

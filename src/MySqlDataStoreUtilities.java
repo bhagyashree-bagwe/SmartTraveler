@@ -16,6 +16,7 @@ public class MySqlDataStoreUtilities
   	{
     	Class.forName("com.mysql.jdbc.Driver").newInstance();
     	conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/SmartTraveler","root","root");
+		  conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/SmartTraveler?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","root");
       message="Successfull";
 	    return message;
   	}
@@ -130,7 +131,9 @@ public class MySqlDataStoreUtilities
     }
     catch(Exception e)
     {
+	System.out.println(e);
     }
+System.out.println("Size : "+hotelsFromDB.size());
    return hotelsFromDB;
   }
 

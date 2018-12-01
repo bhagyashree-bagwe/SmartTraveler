@@ -13,6 +13,17 @@ import java.util.Random;
 @WebServlet("/ConfirmBooking")
 public class ConfirmBooking extends HttpServlet {
 
+	String cardNo = "";
+	String cvv = "";
+	String mm = "";
+	String yy = "";
+	String accno = "";
+	String routno = "";
+	String billingFName = "";
+	String billingLName = "";
+	String billingAddress = "";
+	String bankName = "";
+
 protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	PrintWriter pw = response.getWriter();	
 	Utilities utility = new Utilities(request,pw);
@@ -23,16 +34,38 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 	System.out.println("ConfirmBooking.java selectedHotelId : "+selectedHotelId+" totalPrice : "+totalPrice);
 	Hotel selectedHotel = MySQLUtilities.getSelectedHotel(selectedHotelId);
 
-	String cardNo = request.getParameter("cardno");
-	String cvv = request.getParameter("cvv");
-	String mm = request.getParameter("mm");
-	String yy = request.getParameter("yy");
+	cardNo = request.getParameter("cardno");
+	cvv = request.getParameter("cvv");
+	mm = request.getParameter("mm");
+	yy = request.getParameter("yy");
+	accno = request.getParameter("accountno");
+	routno = request.getParameter("routingno");
+	billingFName = request.getParameter("billingFName");
+	billingLName = request.getParameter("billingLName");
+	billingAddress = request.getParameter("billingAddress");
+	bankName = request.getParameter("bankName");
+
+	System.out.println("##############");
+	System.out.println(accno);
+	System.out.println(routno);
+	System.out.println(billingFName);
+	System.out.println(billingLName);
+	System.out.println(bankName);
+	System.out.println("################");
 
 	Payment paymentObj = new Payment();
 	paymentObj.setCardNo(cardNo);
-	paymentObj.setCvv(Integer.parseInt(cvv));
-	paymentObj.setMM(Integer.parseInt(mm));
-	paymentObj.setYY(Integer.parseInt(yy));
+	if(cvv != null && !cvv.isEmpty()){
+	paymentObj.setCvv(Integer.parseInt(cvv));}
+	if(mm != null && !mm.isEmpty()){
+	paymentObj.setMM(Integer.parseInt(mm));}
+	if(yy != null && !yy.isEmpty()){
+	paymentObj.setYY(Integer.parseInt(yy));}
+	paymentObj.setRountingNumber(routno);
+	paymentObj.setAccountNumber(accno);
+	paymentObj.setBankName(bankName);
+	paymentObj.setFirstName(billingFName);
+	paymentObj.setLastName(billingLName);
 	paymentObj.setUserId(utility.username()); //TO-DO: retrieve username from session
 	session.setAttribute("paymentObj",paymentObj);
 

@@ -5,6 +5,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.RequestDispatcher;
 
 @WebServlet("/Home")
 public class Home extends HttpServlet {
@@ -15,6 +16,8 @@ public class Home extends HttpServlet {
 		Utilities utility = new Utilities(request,pw);
 		utility.printHtml("Header.html");
 		utility.printHtml("Content.html");
+		RequestDispatcher rd=request.getRequestDispatcher("DealMatches");
+		rd.include(request,response);
 		utility.printHtml("Footer.html");
 				
 	}
