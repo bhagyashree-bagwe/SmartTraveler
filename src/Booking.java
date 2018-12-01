@@ -20,11 +20,12 @@ private String roomType;
 private double totalPrice;
 private int noOfNights;
 private String hotelName;
+private String byWhom;
 
 	public Booking(){}
 
 	public Booking(String bookingId, String confirmationNo, String userId, int roomNumber, String paymentId,
-								Date checkIn, Date checkOut, int noOfPeople, int noOfNights, String hotelName){
+								Date checkIn, Date checkOut, int noOfPeople, int noOfNights, String byWhom, String hotelName){
 
 		this.bookingId = bookingId;
 		this.confirmationNo = confirmationNo;
@@ -36,7 +37,15 @@ private String hotelName;
 		this.noOfPeople = noOfPeople;
 		this.noOfNights = noOfNights;
 		this.hotelName = hotelName;
+		this.byWhom = byWhom;
+	}
 
+	public String getByWhom(){
+		return byWhom;
+	}
+
+	public void setByWhom(String byWhom){
+		this.byWhom = byWhom;
 	}
 
 	public String getHotelName(){

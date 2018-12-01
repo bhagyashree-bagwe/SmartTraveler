@@ -154,7 +154,7 @@ public static String storeBookingDetails(Payment payment, Booking booking, Room 
 		}
 		System.out.println("paymentId : "+paymentId);
 
-  		String insertPaymentQuery ="INSERT INTO bookings(confirmationNo, userId, roomNumber, paymentId, checkIn, checkOut, noOfPeople, noOfNights) VALUES('111', '"+payment.getUserId()+"', '"+room.getRoomNumber()+"', '"+paymentId+"', '"+checkInDate+"', '"+checkOutDate+"', '"+booking.getNoOfPeople()+"', '"+noOfNights+"')";
+  	String insertPaymentQuery ="INSERT INTO bookings(confirmationNo, userId, roomNumber, paymentId, checkIn, checkOut, noOfPeople, noOfNights, bywhom) VALUES('111', '"+payment.getUserId()+"', '"+room.getRoomNumber()+"', '"+paymentId+"', '"+checkInDate+"', '"+checkOutDate+"', '"+booking.getNoOfPeople()+"', '"+noOfNights+"','"+booking.getByWhom()+"')";
 		PreparedStatement pst2 = conn.prepareStatement(insertPaymentQuery);
 		pst2.execute();
 		msg = "success";
@@ -197,6 +197,7 @@ public static Booking getLatestBookingDetails(){
 			booking.setCheckIn(rs2.getDate("checkIn"));
 			booking.setCheckOut(rs2.getDate("checkOut"));
 			booking.setNoOfPeople(rs2.getInt("noOfPeople"));
+			booking.setByWhom(rs2.getString("bywhom"));
 		}
 	}
 	catch(Exception e)
@@ -216,7 +217,7 @@ public static HashMap<String, Booking> getBookingDetails(String emailId){
 		getConnection();
 		System.out.println("Getting booking details for : " + emailId);
 		String selectBookings="select A.bookingId, A.confirmationNo, A.userId, A.roomNumber, A.paymentId, A.checkIn,"
-		+" A.checkOut, A.noOfPeople, A.noOfNights, C.hotelName from bookings As A"
+		+" A.checkOut, A.noOfPeople, A.noOfNights, A.bywhom, C.hotelName from bookings As A"
   	+" Inner Join room As B on A.roomNumber=B.roomNumber"
     +" Inner Join Hotel As C on B.hotelId = C.hotelId"
 		+" where A.userId=? ;";
@@ -232,7 +233,7 @@ public static HashMap<String, Booking> getBookingDetails(String emailId){
 				Booking booking = new Booking(rs.getString("bookingId"),rs.getString("confirmationNo"),rs.getString("userId"),
 																rs.getInt("roomNumber"),rs.getString("paymentId"),
 																rs.getDate("checkIn"),rs.getDate("checkOut"),
-																rs.getInt("noOfPeople"), rs.getInt("noOfNights"),rs.getString("hotelName"));
+																rs.getInt("noOfPeople"), rs.getInt("noOfNights"),rs.getString("bywhom"),rs.getString("hotelName"));
 
 				bookingsPerCustomer.put(rs.getString("bookingId"), booking);
 		}

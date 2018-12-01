@@ -18,6 +18,14 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 }
 
 protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+	PrintWriter pw = response.getWriter();
+	Carousel carousel = new Carousel();
+	Utilities utility = new Utilities(request,pw);
+
+	String usertype = utility.usertype();
+	System.out.println("user type:" + usertype);
+
 	HttpSession session = request.getSession();
 	Booking booking = (Booking)session.getAttribute("bookingObj");
 	String selectedHotelId = request.getParameter("selectedHotelId");
@@ -25,9 +33,7 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 	System.out.println("totalPrice ##"+totalPrice+" selectedHotelId "+selectedHotelId);
 	Hotel selectedHotel = MySQLUtilities.getSelectedHotel(selectedHotelId);
 	response.setContentType("text/html");
-	PrintWriter pw = response.getWriter();
-	Carousel carousel = new Carousel();
-	Utilities utility = new Utilities(request,pw);
+
 	utility.printHtml("Header.html");
 
 	pw.print("<div id='sidebar'><h2>Your search filter</h2>");
@@ -59,7 +65,14 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 	pw.print("<tr><td>Check Out: "+booking.getCheckOut()+"</td></tr>");
 	pw.print("<tr><td>Room type: "+booking.getRoomType()+"</td></tr>");
 	pw.print("<tr><td>Total cost: "+totalPrice+"</td></tr>");
-	pw.print("<tr class='content-carousel'><td><form method='post' action='InitializeBooking'><input type='hidden' name='selectedHotelId' value='"+selectedHotelId+"'><input type='hidden' name='totalPrice' value='"+totalPrice+"'><input type='submit' class='btnbuy' value='Confirm Booking'></form</td></tr>");
+	pw.print("<tr class='content-carousel'><td><form method='post' action='InitializeBooking'><input type='hidden' name='selectedHotelId' value='"+selectedHotelId+"'>");
+	pw.print("<input type='hidden' name='totalPrice' value='"+totalPrice+"'>");
+	if(!usertype.equalsIgnoreCase("admin"))
+		pw.print("<input type='submit' id='confirmbooking' class='btnbuy' value='Confirm Booking'>");
+	else
+		pw.print("<input type='submit' id='confirmbooking' class='btnbuy' value='Confirm Booking' disabled>");
+
+	pw.print("</form</td></tr>")	;
 	pw.print("</table>");
 	utility.printHtml("Footer.html");
 }
