@@ -51,9 +51,9 @@ public class Utilities extends HttpServlet{
 				}
 				else if(usertype().equalsIgnoreCase("agent")){
 					result = result + "<li><a href='Logout'><span> Logout</span></a></li>"
-									+ " <li><a href='ManageCustomer'>Manage Customers</a></li>"
+									+ " <li><a href='AgentDashboard'>Agent Dashboard</a></li>"
 									+ " <li><a href='FlashDeals'> Flash Deals </a></li>"
-									+ " <li><a href='Trending'> Trending </a></li>"
+								//	+ " <li><a href='Trending'> Trending </a></li>"
 									+ " <li><a><i>Hi,"+name+" (Agent)</i></a></li>";
 
 				}

@@ -23,11 +23,12 @@ public class ConfirmBooking extends HttpServlet {
 	String billingLName = "";
 	String billingAddress = "";
 	String bankName = "";
-
+	String userId = "";
 protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	PrintWriter pw = response.getWriter();	
+	PrintWriter pw = response.getWriter();
 	Utilities utility = new Utilities(request,pw);
 	HttpSession session = request.getSession();
+
 	Booking bookingObj = (Booking) session.getAttribute("bookingObj");
 	String selectedHotelId = request.getParameter("selectedHotelId");
 	String totalPrice = request.getParameter("totalPrice");
@@ -45,12 +46,18 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 	billingAddress = request.getParameter("billingAddress");
 	bankName = request.getParameter("bankName");
 
+	String usertype = utility.usertype();
+	System.out.println("user type:" + usertype);
+	if(usertype.equals("agent"))
+		userId = request.getParameter("userId");
+
 	System.out.println("##############");
 	System.out.println(accno);
 	System.out.println(routno);
 	System.out.println(billingFName);
 	System.out.println(billingLName);
 	System.out.println(bankName);
+	System.out.println(userId);
 	System.out.println("################");
 
 	Payment paymentObj = new Payment();
@@ -66,7 +73,14 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 	paymentObj.setBankName(bankName);
 	paymentObj.setFirstName(billingFName);
 	paymentObj.setLastName(billingLName);
-	paymentObj.setUserId(utility.username()); //TO-DO: retrieve username from session
+
+	if(usertype.equals("agent"))
+			paymentObj.setUserId(userId);
+	else
+			paymentObj.setUserId(utility.username()); //TO-DO: retrieve username from session
+
+	bookingObj.setByWhom(usertype);
+
 	session.setAttribute("paymentObj",paymentObj);
 
 	//select one room for allocation from the available rooms
@@ -82,7 +96,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 	MySQLUtilities.storeCardPaymentDetails(paymentObj, selectedRoom);
 	//store booking details
 	String msg2 = MySQLUtilities.storeBookingDetails(paymentObj,bookingObj,selectedRoom);
-	
+
 	Booking bookingSuccess = MySQLUtilities.getLatestBookingDetails();
 
 	utility.printHtml("Header.html");
@@ -100,8 +114,8 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 	pw.print("<tr></td><td><td><input type='submit' name='continue' value='Explore More Hotels'></td></tr>");
 	pw.print("</form>");
 	}
-	response.setContentType("text/html");	
-	
+	response.setContentType("text/html");
+
 	utility.printHtml("Footer.html");
 }
 

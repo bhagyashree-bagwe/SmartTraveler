@@ -66,49 +66,63 @@ public class ManageCustomer extends HttpServlet {
       catch(Exception e){
 		  e.printStackTrace();
 	  }
- 
+
 
     }
-  
+
 	}
 	/*  displayRegistration function displays the Registration page of New User */
-	
-	protected void displayRegistration(HttpServletRequest request,
-			HttpServletResponse response, PrintWriter pw, boolean error)
+
+	protected void displayRegistration(HttpServletRequest request, HttpServletResponse response, PrintWriter pw, boolean error)
 			throws ServletException, IOException {
 		Utilities utility = new Utilities(request, pw);
+
+		String operationtype = request.getParameter("operationtype");
+		System.out.println("operationtype" + operationtype);
+		boolean showAddButton = false;
+		boolean showUpdateButton = false;
+		boolean showDeleteButton = false;
+		String title = "";
+
+		if(operationtype.contains("Add")){
+				showAddButton = true;
+				title = "Add User details";
+		}
+		if(operationtype.contains("Update")){
+				showUpdateButton = true;
+				title = "Update User details";
+		}
+		if(operationtype.contains("Delete")){
+				showDeleteButton = true;
+				title = "Delete a specific User";
+		}
+
+
 		utility.printHtml("Header.html");
-		pw.print("<div class='post' style='float: none; width: 100%'>");
-		pw.print("<h2 class='title meta'><a style='font-size: 24px;'>Agent</a></h2>"
-				+ "<div class='entry'>"
-				+ "<div style='width:600px; margin:25px; margin-left: auto;margin-right: auto;'>");
+		pw.print("<div class='center'> <div class='large-width'>");
+		pw.print("<h2>"+title+"</h2>");
 		if (msg != null && !msg.trim().equals(""))
 				pw.print("<h4 style='color:red'>"+msg+"</h4>");
 		pw.print("<form method='post' action='ManageCustomer'>"
-				+ "<table style='width:100%'><tr><td>"
-				+ "<h3>User Email Id</h3></td><td><input type='text' name='emailId' value='' class='input'></input>"
-				+ "</td></tr><tr><td>"
-				+ "<h3>User Name</h3></td><td><input type='text' name='name' value='' class='input'></input>"
-				+ "</td></tr><tr><td>"
-				+ "<h3>Password</h3></td><td><input type='password' name='password' value='' class='input'></input>"
-				+ "</td></tr><tr><td>"
-				+ "<h3>User Type</h3></td><td><select name='userType' class='input'><option value='Customer' selected>Customer</option><option value='Agent'>Agent</option><option value='Admin'>Admin</option>"
-				+ "</td></tr><tr><td>"
-				+ "<h3>Street Name</h3></td><td><input type='text' name='street' value='' class='input'></input>"
-				+ "</td></tr><tr><td>"
-				+ "<h3>City</h3	></td><td><input type='text' name='city' value='' class='input'></input>"
-				+ "</td></tr><tr><td>"
-				+ "<h3>State</h3></td><td><input type='text' name='state' value='' class='input'></input>"
-				+ "</td></tr><tr><td>"
-				+ "<h3>Zip Code</h3></td><td><input type='text' name='zipCode' value='' class='input'></input>"
-				+ "</td></tr><tr><td>"
-				+ "<h3>Contact Number</h3></td><td><input type='text' name='contactNo' value='' class='input'></input>"
-				+ "</td></tr></table>"
-				+"<div>"
-				+ "<input type='submit' class='btn-agent' name='mngctmr' value='Delete Customer'></input>"
-				+ "<input type='submit' class='btn-agent' name='mngctmr' value='Add Customer'></input>"
-				+ "<input type='submit' class='btn-agent' name='mngctmr' value='Update Customer'></input></div>"
-				+ "</form>" + "</div></div></div>");
+				+ "<input type='text' name='emailId' value='' class='large-width'  placeholder='Enter Customer's Email ID'></input>"
+				+ "<br><input type='text' name='name' value='' class='large-width'  placeholder='Enter Customer's Name'></input>"
+				+ "<br><input type='password' name='password' value='' class='large-width'  placeholder='Enter password for customer'></input>"
+				+ "<br><select name='userType'  class='large-width' ><option value='Customer' selected>Customer</option></select>"
+				+ "<br><input type='text' name='street' value='' class='large-width' placeholder='Enter Customer's Address'></input>"
+				+ "<br><input type='text' name='city' value='' class='large-width'  placeholder='Enter Customer's City'></input>"
+				+ "<br><input type='text' name='state' value='' class='large-width'  placeholder='Enter Customer's State'></input>"
+				+ "<br><input type='text' name='zipCode' value='' class='large-width' placeholder='Enter Customer's zip code'></input>"
+				+ "<br><input type='text' name='contactNo' value='' class='large-width' placeholder='Enter Customer's contact number'></input>"
+				+"");
+				if(showDeleteButton)
+					pw.print("<br><input type='submit' class='btn-agent' name='mngctmr' style='float:right;' value='Delete Customer'></input>");
+				if(showAddButton)
+					pw.print("<br><input type='submit' class='btn-agent' name='mngctmr' style='float:right;' value='Add Customer'></input>");
+				if(showUpdateButton)
+					pw.print("<br><input type='submit' class='btn-agent' name='mngctmr' style='float:right;' value='Update Customer'></input></div>");
+
+				pw.print("</form></div></div>");
+
 		utility.printHtml("Footer.html");
 	}
 	public static void getConnection()
@@ -117,7 +131,7 @@ public class ManageCustomer extends HttpServlet {
 		try
 		{
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/smarttraveler","root","root");							
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/smarttraveler","root","root");
 		}
 		catch(Exception e)
 		{
@@ -126,7 +140,7 @@ public class ManageCustomer extends HttpServlet {
 	}
 	protected void addCustomer(HttpServletRequest request, HttpServletResponse response, PrintWriter pw)
           throws ServletException, IOException
-  { 
+  {
     String emailId = request.getParameter("emailId");
 	String userType = request.getParameter("userType");
 	String password = request.getParameter("password");
@@ -136,15 +150,15 @@ public class ManageCustomer extends HttpServlet {
 	String street= request.getParameter("street");
 	String contactNo= request.getParameter("contactNo");
 	String name= request.getParameter("name");
-	
+
 	//System.out.println(productName+category+price+image+retailerName+retailerCity+retailerState+retailerZip+productonsale+manufacturer+manufacturerRebate+type);
 	try
 	{
-	
+
 		getConnection();
 		String insertIntoCustomerOrderQuery = "INSERT INTO user(emailId, password,name,userType, street, city, state, zipCode, contactNo)"
-		+ "VALUES (?,?,?,?,?,?,?,?,?);";	
-			
+		+ "VALUES (?,?,?,?,?,?,?,?,?);";
+
 		PreparedStatement pst = conn.prepareStatement(insertIntoCustomerOrderQuery);
 		//set the parameter for each column and execute the prepared statement
 		pst.setString(1,emailId);
@@ -164,9 +178,9 @@ public class ManageCustomer extends HttpServlet {
 	{
 		e.printStackTrace();
 	}
-    
+
   }
-  
+
 
   protected void deleteCustomer(HttpServletRequest request, HttpServletResponse response, PrintWriter pw)
           throws ServletException, IOException
@@ -189,7 +203,7 @@ public class ManageCustomer extends HttpServlet {
 
     response.sendRedirect("ManageCustomer");
   }
-	
+
   protected void updateCustomer(HttpServletRequest request, HttpServletResponse response, PrintWriter pw)
           throws ServletException, IOException
   {
@@ -204,9 +218,9 @@ public class ManageCustomer extends HttpServlet {
 	String contactNo= request.getParameter("contactNo");
 	String name= request.getParameter("name");
 	  try{
-		
+
 		getConnection();
-		String updateProductQurey = "UPDATE user SET emailId=?, password=?,name=?,userType=?, street=?, city=?, state=?, zipCode=?, contactNo=? where emailId=?;" ;		        			
+		String updateProductQurey = "UPDATE user SET emailId=?, password=?,name=?,userType=?, street=?, city=?, state=?, zipCode=?, contactNo=? where emailId=?;" ;
 		PreparedStatement pst = conn.prepareStatement(updateProductQurey);
 		pst.setString(1,emailId);
 		pst.setString(2,password);
@@ -221,14 +235,14 @@ public class ManageCustomer extends HttpServlet {
 		pst.executeUpdate();
 		System.out.println("The Customer:"+ name +" information has been updated.");
 		response.sendRedirect("ManageCustomer");
-		
+
 	}
 	catch(Exception e)
 	{
 		msg = "Product cannot be updated";
 		e.printStackTrace();
-		
+
 	}
-    
+
   }
 }
