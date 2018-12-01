@@ -260,3 +260,43 @@ input[type=submit]:disabled{
   padding: 0;
   margin: 0;
 }
+
+#imgCarousel li{
+  float: left;
+}
+
+.small-icon-size{
+  width:40px;
+  height: 40px;
+}
+
+
+.table-rows-text {
+    font-size: large;
+}
+
+.bg-color{
+  background-color: #aadddd73 !important;
+}
+
+.dashboard-item{
+   border-style: ridge;
+   margin: 5px;
+   padding: 5px;
+   text-align: center;
+   width: 300px;
+}
+
+.dashboard-item h3, a{
+  color: #880061;
+}
+
+.dashboard-item img{
+    width: 200px;
+    height: 200px;
+}
+
+.dashboard-item p a:hover, a:focus{
+  text-decoration: none;
+  background-color: none;
+}

@@ -16,7 +16,7 @@ import java.util.*;
 
 public class Carousel{
 
-	public String  carouselfeature(Utilities utility){
+	public String  carouselfeature(Utilities utility, String hotelId){
 		double totalCost;
 		StringBuilder sb = new StringBuilder();
 
@@ -41,7 +41,7 @@ public class Carousel{
 
 							sb.append("<div id='shop_item'>");
 			        sb.append("<ul style='list-style:none;'>");
-			        sb.append("<li id='item'><img src='Images/hiltonchicago/"+i+".jpg' style=' width:400px; height: 350px; margin:3px'/></li>");
+			        sb.append("<li id='item'><img src='Images/"+hotelId+"/"+i+".jpg' style=' width:400px; height: 350px; margin:3px'/></li>");
 							sb.append("</ul></div>");
 							sb.append("</div>");
 
@@ -61,7 +61,7 @@ public class Carousel{
 								"<span class='glyphicon glyphicon-chevron-right' style = 'color :black'></span>"+
 									"<span class='sr-only'>Next</span>"+
 									"</a>");
-				sb.append("</div></div>");
+		sb.append("</div></div>");
 				//sb.append("</div>");
 		return sb.toString();
 		}

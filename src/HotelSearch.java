@@ -94,7 +94,6 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 	 +"<option value='Suite'>Suite</option>"
  	 +"</select></td></tr>");
 	 pw.print("<tr><td></td><td><input type='button' value='Search' style='width: 100px;' onClick='validateInput()'></td></tr>");
-
 	pw.print("</form></table>");
 	pw.print("</div>");
 
@@ -106,6 +105,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 		Hotel hotel = entry.getValue();
 		pricePerNight = Double.parseDouble(hotelPriceMap.get(hotel.getHotelId()));
 		totalPrice = pricePerNight * noOfNights;
+		
 		pw.print("<form method='get' action='ShowHotelDetails'>");
 		pw.print("<tr>");
 		//td1- Image
@@ -120,7 +120,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 		pw.print("</tr>");
 		pw.print("</form>");
 		pw.print("<tr>");
-		pw.print("<td>Share your thoughts with other customers about this hotel</td>");
+		pw.print("<td><h3>Share your thoughts with other customers about this hotel</h3></td>");
 		pw.print("<td><form method='post' action='WriteReview'><input type='hidden' name='hotelId' value='"+hotel.getHotelId()+"'><input type='hidden' name='hotelName' value='"+hotel.getHotelName()+"'><input type='hidden' name='city' value='"+hotel.getCity()+"'><input type='hidden' name='state' value='"+hotel.getState()+"'><input type='hidden' name='zipcode' value='"+hotel.getZipCode()+"'><input type='submit' class='btnbuy' value='Write Review'></form></td>");
 		pw.print("<td><form method='post' action='ViewReview'><input type='hidden' name='hotelName' value='"+hotel.getHotelName()+"'><input type='submit' class='btnbuy' value='View Reviews'></form></td>");
 		pw.print("</tr>");

@@ -21,8 +21,8 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 	System.out.println("InitializeBooking.java selectedHotelId : "+selectedHotelId+" totalPrice : "+totalPrice);
 	Hotel selectedHotel = MySQLUtilities.getSelectedHotel(selectedHotelId);
 	response.setContentType("text/html");
-	if(!utility.isLoggedin()){			
-		session.setAttribute("login_msg", "Please Login to initialize booking");
+	if(!utility.isLoggedin()){
+		session.setAttribute("init_booking_err", "Please Login to initialize booking");
 		response.sendRedirect("Login");
 		return;
 	}
@@ -37,7 +37,7 @@ pw.print("<tr><td>First Name:<input type='text' name='billingFName' id='billingF
 	pw.print("<tr><td>Last Name:<input type='text' name='billingLName' id='billingLName' value=''></td></tr>");
 	pw.print("<tr><td><div id='cardpayment'>");
 	pw.print("<table>");
-	
+
 	pw.print("<tr><td>Billing Address:</td><td><input type='text' name='billingAddress' id='billingAddress' value=''></td></tr>");
 	pw.print("<tr><td>Card Number:</td><td><input type='text' name='cardno' id='cardno' maxlength='16' onkeypress='validateNumber(event)' ></td></tr>");
 	pw.print("<tr><td>CVV:</td><td><input type='text' name='cvv' id='cvv' maxlength='3' onkeypress='validateNumber(event)' ></td></tr>");
@@ -47,7 +47,7 @@ pw.print("<tr><td>First Name:<input type='text' name='billingFName' id='billingF
 	pw.print("</div>");
 	pw.print("<div id='directpayment' style='display: none;'>");
 	pw.print("<table>");
-	
+
 	pw.print("<tr><td>Billing Address:</td><td><input type='text' name='billingAddress' id='billingAddress' value=''></td></tr>");
 	pw.print("<tr><td>Account Number:</td><td><input type='text' name='accountno' id='accountno' maxlength='16' onkeypress='validateNumber(event)' ></td></tr>");
 	pw.print("<tr><td>Routing Number:</td><td><input type='text' name='routingno' id='routingno' maxlength='10' onkeypress='validateNumber(event)' ></td></tr>");
