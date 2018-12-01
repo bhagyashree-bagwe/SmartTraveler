@@ -16,7 +16,7 @@ public class FlashDeals extends HttpServlet {
 
 protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 }
-
+/*
 protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	HttpSession session = request.getSession();
 	Booking booking = (Booking)session.getAttribute("bookingObj");
@@ -43,4 +43,5 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 	pw.print("</table>");
 	utility.printHtml("Footer.html");
 }
+*/
 }

@@ -131,7 +131,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 input[type=submit], input[type=button], .button{
     width: 150px;
-    height: 40px;
+    height: 50px;
     background-color: #795548;/*#9370DB;*/
     color: white;
     padding: 14px 20px;
@@ -141,7 +141,7 @@ input[type=submit], input[type=button], .button{
     cursor: pointer;
 }
 
-.footer {
+#footer {
     background-color: #fa8100;
     font-family: "Times New Roman", Times, serif;
     font-size: 15px;
@@ -159,22 +159,25 @@ input[type=submit], input[type=button], .button{
 }
 
 #hotellist {
+    width:100%;
     background-color: #ffffff;
-    width:70%;
-    margin: auto;
-    border-collapse: separate;
-    border-spacing: 0 20px;
     text-align: left;
 }
 
 #hoteldiv {
     height: 100%;
+    width: 75%;
     position: absolute;
-    right: 0;
-    overflow-y: scroll;
-    overflow-x: hidden;
+    top: 110px;
+    left: 320px;
+    /*overflow-y: scroll;
+    overflow-x: hidden;*/
 }
 
+th, td {
+    padding: 5px;
+    text-align: left;
+}
 
 #selectedhotel {
     background-color: #ffffff;

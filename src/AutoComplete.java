@@ -45,7 +45,6 @@ public class AutoComplete extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
 	  {
-	System.out.println("AutoComplete.java !!!!!!");
 		try
 		{
 			String action = request.getParameter("action");
@@ -68,18 +67,15 @@ public class AutoComplete extends HttpServlet {
 					sb=a.readdata(searchId);
 					if(sb!=null || !sb.equals(""))
 					{
-						System.out.println("Names added");
 						namesAdded=true;
 					}
 					if (namesAdded)
 					{	
-						System.out.println("Names added 333 "+sb.toString());
 						response.setContentType("text/xml");
 						response.getWriter().write("<hotels>" + sb.toString() + "</hotels>");
 					}
 					else
 					{
-						System.out.println("nothing to show");
 						//nothing to show
 						response.setStatus(HttpServletResponse.SC_NO_CONTENT);
 					}
@@ -87,7 +83,6 @@ public class AutoComplete extends HttpServlet {
 			}
 			if (action.equals("lookup"))
 			{
-
 				HashMap<String,Hotel> data = AjaxUtility.getData();
 				if ((searchId != null) && data.containsKey(searchId.trim()))
 				{
