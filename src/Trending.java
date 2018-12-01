@@ -22,24 +22,26 @@ public class Trending extends HttpServlet {
 		response.setContentType("text/html");
 		PrintWriter pw = response.getWriter();
 		mostsold = MongoDBDataStoreUtilities.mostsoldHotels();
-	
 		mostsoldzip = MongoDBDataStoreUtilities.mostsoldZip();
-		bestrated      = MongoDBDataStoreUtilities.topHotels();
-
-		
-
+		bestrated = MongoDBDataStoreUtilities.topHotels();
 		String name = "Trending";
-		
-
 		Utilities utility = new Utilities(request, pw);
 		utility.printHtml("Header.html");
 		//utility.printHtml("LeftNavigationBar.html");
-		pw.print("<div id='content'><div class='post'><h2 class='title meta'>");
-		pw.print("<a style='font-size: 24px;'>Best Products</a>");
-		pw.print("</h2><div class='entry'><table id='bestseller'>");
+		pw.print("<div id='content'><div class='post'>");
+		pw.print("<p class='subheading'>Best Hotels</p>");
+		pw.print("<div class='entry'><table class='table' style='margin-top:20px'>");
 		Iterator itr2 = bestrated.iterator();
-        while(itr2.hasNext()) {
-         Bestrating best = (Bestrating)itr2.next();
+		pw.print("<tr>");
+		pw.print("<th>");
+		pw.print("Hotel Name");
+		pw.print("</th>");
+		pw.print("<th>");
+		pw.print("Average Rating");
+		pw.print("</th>");
+		pw.print("</tr>");
+        	while(itr2.hasNext()) {
+              Bestrating best = (Bestrating)itr2.next();
  		pw.print("<tr>");
 		pw.print("<td>");
 		pw.print(best.getHotelName());
@@ -48,34 +50,50 @@ public class Trending extends HttpServlet {
 		pw.print(best.getRating());
 		pw.print("</td>");
 		pw.print("</tr>");
-        }
-		pw.print("</table></div></div></div>");	
-		
-		pw.print("<div id='content'><div class='post'><h2 class='title meta'>");
-		pw.print("<a style='font-size: 24px;'>Most Sold Products by Zipcode</a>");
-		pw.print("</h2><div class='entry'><table id='bestseller'>");
+              }
+		pw.print("</table></div></div></div>");
+		if(mostsoldzip.size()>0)	{
+		pw.print("<div id='content'><div class='post'>");
+		pw.print("<p class='subheading'>Most bookings done by Zipcode</p>");
+		pw.print("<div class='entry'><table class='table' style='margin-top:20px'>");
 		Iterator itr1 = mostsoldzip.iterator();
-         while(itr1.hasNext()) {
-         Mostsoldzip mostzip = (Mostsoldzip)itr1.next();
+		pw.print("<tr>");
+		pw.print("<th>");
+		pw.print("Zipcode");
+		pw.print("</th>");
+		pw.print("<th>");
+		pw.print("Count");
+		pw.print("</th>");
+		pw.print("</tr>");
+         	while(itr1.hasNext()) {
+        	Mostsoldzip mostzip = (Mostsoldzip)itr1.next();
  		pw.print("<tr>");
 		pw.println("<td border: 1px >");
-		
 		pw.println(mostzip.getZipcode());
 		pw.println("</td>");
 		pw.println("<td border: 1px >");
 		pw.println(mostzip.getCount());
 		pw.println("</td>");
 		pw.println("</tr>");
-        }
-		pw.print("</table></div></div></div>");	
-		
-		pw.print("<div id='content'><div class='post'><h2 class='title meta'>");
-		pw.print("<a style='font-size: 24px;'>Most Sold Products</a>");
-		pw.print("</h2><div class='entry'><table id='bestseller'>");
-		
-         Iterator itr = mostsold.iterator();
-        while(itr.hasNext()) {
-         MostsoldHotel most = (MostsoldHotel)itr.next();
+        	}
+		pw.print("</table></div></div></div>");
+		}	
+
+		if(mostsold.size()>0){
+		pw.print("<div id='content'><div class='post'>");
+		pw.print("<p class='subheading'>Most booked Hotels</p>");
+		pw.print("<div class='entry'><table class='table' style='margin-top:20px'>");
+	       Iterator itr = mostsold.iterator();
+		pw.print("<tr>");
+		pw.print("<th>");
+		pw.print("Hotel Name");
+		pw.print("</th>");
+		pw.print("<th>");
+		pw.print("Count");
+		pw.print("</th>");
+		pw.print("</tr>");
+              while(itr.hasNext()) {
+              MostsoldHotel most = (MostsoldHotel)itr.next();
  		pw.println("<tr>");
 		pw.println("<td border: 1px >");
 		pw.println(most.getHotelName());
@@ -84,20 +102,12 @@ public class Trending extends HttpServlet {
 		pw.println(most.getCount());
 		pw.println("</td>");
 		pw.println("</tr>");
-        }
+        	}
 		pw.print("</table></div></div></div>");
-		
-	//	pw.print("</table></div></div></div>");	
-		
-		
-		
-		
+		}
 		utility.printHtml("Footer.html");
 	}
-
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-
 	}
-
 }

@@ -131,8 +131,8 @@ input[type=number]::-webkit-outer-spin-button {
 
 input[type=submit], input[type=button], .button{
     width: 150px;
-    height: 50px;
-    background-color: #795548;/*#9370DB;*/
+    height: 60px;
+    backgroundcolor: #795548;/*#9370DB;*/
     color: white;
     padding: 14px 20px;
     margin: 8px 0;
