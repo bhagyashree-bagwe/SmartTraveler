@@ -306,6 +306,35 @@ public static Hotel getSelectedHotel(String hotelId)
 	}
 	return hotel;
 }
+public static Hotel getFlashDealHotels()
+{
+	System.out.println("MySQLUtilities.java - getFlashDealsHotels");
+	Hotel hotel = new Hotel();
+	try
+	{
+		getConnection();
+		String selectOrderQuery ="select * from Hotel where discount>0";
+		PreparedStatement pst = conn.prepareStatement(selectOrderQuery);
+		ResultSet rs = pst.executeQuery();
+		while(rs.next())
+		{
+			hotel.setHotelId(rs.getString(1));
+			hotel.setHotelName(rs.getString("hotelName"));
+			hotel.setStreet(rs.getString("street"));
+			hotel.setCity(rs.getString("city"));
+			hotel.setState(rs.getString("state"));
+			hotel.setZipCode(rs.getString("zipCode"));
+			hotel.setContactNo(rs.getString("contactNo"));
+			hotel.setEmailId(rs.getString("emailId"));
+			hotel.setAmenities(rs.getString("amenities"));
+		}
+	}
+	catch(Exception e)
+	{
+		System.out.println(e);
+	}
+	return hotel;
+}
 
 public static HashMap<String, Hotel> searchHotel(String data)
 {
