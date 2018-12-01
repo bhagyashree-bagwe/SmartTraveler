@@ -29,7 +29,7 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 	pw.print("<table id='selectedhotel'>");
 	//pw.print("<tr><td><img src='Images/"+selectedHotel.getHotelId()+"/default.jpg' alt='' height='300' width='450' /></td></tr>");
 	pw.print("<tr><td>");
-	pw.print(carousel.carouselfeature(utility));
+	pw.print(carousel.carouselfeature(utility, selectedHotel.getHotelId()));
 	pw.print("</td></tr>");
 	pw.print("<tr><td>"+selectedHotel.getHotelName()+"</td></tr>");
 	pw.print("<tr><td>Location: "+selectedHotel.getStreet()+", "+selectedHotel.getCity()+", "+selectedHotel.getState()+", "+selectedHotel.getZipCode()+"</td></tr>");

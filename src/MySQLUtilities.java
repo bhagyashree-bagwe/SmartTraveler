@@ -452,7 +452,7 @@ public static HashMap<String,Hotel> getAllHotels()
 	{
 		System.out.println(e);
 	}
-	return list;	
+	return list;
 }
 
 }
