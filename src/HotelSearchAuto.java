@@ -26,7 +26,8 @@ public class HotelSearchAuto extends HttpServlet {
 	String checkout ="";
 	String roomTypeParam = "";
 	String roomType="";
-	String data="";
+	String data=null;
+	String param=null;
 	int noOfNights=0;
 	double pricePerNight=0.0;
 	double totalPrice=0.0;
@@ -39,9 +40,17 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	System.out.println("HotelSearchAuto servlet doGet method");	
 	//retrieve hotel Id entered by customer	
+	Hotel hotelObj=null;
 	data = (String)request.getAttribute("data");
+	if(data == null){
+		param = (String)request.getParameter("hotelid");
+		hotelList = MySQLUtilities.searchHotel(param);
+		hotelObj = hotelList.get(param);
+	}else{
 	hotelList = MySQLUtilities.searchHotel(data);
-	Hotel hotelObj = hotelList.get(data);
+	hotelObj = hotelList.get(data);
+	}
+	
 	destination = hotelObj.getCity();
 	roomType = "single";
 	checkin = "";

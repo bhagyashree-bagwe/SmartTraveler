@@ -11,20 +11,15 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/DealMatches")
 
 public class DealMacthes extends HttpServlet {
-
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		double totalCost;
 		response.setContentType("text/html");
 		PrintWriter pw = response.getWriter();
 		HashMap<String,Hotel> selectedHotels=new HashMap<String,Hotel>();
 		try
-		{				
-		pw.print("<div id='content'>");
-		pw.print("<div class='post'>");
-		pw.print("<div class='entry'>");
-		pw.print("<br> <br>");
-		pw.print("<h2>Todays' hot deals!</h2>");
-		pw.print("<br> <br>");
+		{	
+		pw.print("<br><br><br><br><br><br>");			
+		pw.print("<p class='subheading'>Compare deals with other websites</p>");
 		String line=null;
 		String TOMCAT_HOME = System.getProperty("catalina.home");
 		HashMap<String,Hotel> hotelmap=MySQLUtilities.getAllHotels();		
@@ -33,7 +28,7 @@ public class DealMacthes extends HttpServlet {
 			if(selectedHotels.size()<2 && !selectedHotels.containsKey(entry.getKey()))
 			{				
 			BufferedReader reader = new BufferedReader(new FileReader (new File(TOMCAT_HOME+"//webapps//SmartTraveller//DealMatches")));
-			line=reader.readLine().toLowerCase();
+			line=reader.readLine();
 			if(line==null)
 			{
 				pw.print("<h2 align='center'>No Offers Found</h2>");
@@ -44,7 +39,7 @@ public class DealMacthes extends HttpServlet {
 			do {	
 				  if(line.contains(entry.getKey()))
 				  {
-					pw.print("<h2>"+line+"</h2>");
+					pw.print(line);
 					pw.print("<br>");
 					selectedHotels.put(entry.getKey(),entry.getValue());
 					break;
@@ -58,36 +53,23 @@ public class DealMacthes extends HttpServlet {
 			{
 			pw.print("<h2 align='center'>No Offers Found</h2>");
 			}
-		pw.print("</div>");
-		pw.print("</div>");
-		pw.print("<div class='post'>");
-		pw.print("<h2 class='title meta'>");
-		pw.print("<a style='font-size: 24px;'>Deal Matches</a>");
-		pw.print("</h2>");
-		pw.print("<div class='entry'>");
 		if(selectedHotels.size()==0)
 		{
-		pw.print("<h2 align='center'>No Deals Found</h2>");	
+		pw.print("<h2 align='center'>No Deals Found at ths time</h2>");	
 		}
 		else
 		{
-		pw.print("<table id='bestseller'>");
-		pw.print("<tr>");
+		pw.print("<p class='subheading'>Our Deal:</p>");
+		pw.print("<table id='hotellist'>");
 		for(Map.Entry<String, Hotel> entry : selectedHotels.entrySet()){
-		pw.print("<td><div id='shop_item'><h3>Hotel Name"+entry.getValue().getHotelName()+"</h3>");
-		pw.print("<ul>");
-		pw.print("<li>");
-		pw.print("<form action='Cart' method='post'><input type='submit' class='btnbuy' value='Buy Now'>");
-		pw.print("</form></li><li>");
-		pw.print("<form action='WriteReview' method='post'><input type='submit' class='btnreview' value='WriteReview'>");
-		pw.print("</form></li>");
-		pw.print("<li>");
-		pw.print("<form action='ViewReview' method='post'><input type='submit' class='btnreview' value='ViewReview'>");
-		pw.print("</form></li></ul></div></td>");
+			Hotel hotel = entry.getValue();
+			pw.print("<tr>");
+			pw.print("<td><a href='HotelSearchAuto?hotelid="+hotel.getHotelId()+"'><img src='Images/"+hotel.getHotelId()+"/default.jpg' alt='' height='250' width='400' /></a></td>");
+			pw.print("<td align='left'><a class='subheading' href='HotelSearchAuto?hotelid="+hotel.getHotelId()+"'>"+hotel.getHotelName()+"</a></td>");
+			pw.print("</tr>");
 		}
-		pw.print("</tr></table>");
+		pw.print("</table>");
 		}
-		pw.print("</div></div></div>");
 		
 	}
 }
