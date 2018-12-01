@@ -12,76 +12,67 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.*;
 
-
 /**
-* The HotelSearch servlet retrieves list of available hotels
-* for the destination, date  and roomType provided by customer.
+* The HotelSearchAuto servlet retrieves detailed data of hotel
+* selected by customer from the search box.
 *
 * @version 1.0
 * @since   2018-11-30 
 */
-@WebServlet("/HotelSearch")
-public class HotelSearch extends HttpServlet {
+@WebServlet("/HotelSearchAuto")
+public class HotelSearchAuto extends HttpServlet {
 	String destination="";
 	String checkin="";
 	String checkout ="";
 	String roomTypeParam = "";
-	String roomType;
+	String roomType="";
+	String data="";
 	int noOfNights=0;
 	double pricePerNight=0.0;
 	double totalPrice=0.0;
 	HashMap<String, Hotel> hotelList = new HashMap<String, Hotel>();
 	HashMap<String, String> hotelPriceMap=new HashMap<String, String>();
 
-protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	System.out.println("Inside HotelSearch servlet doPost method");
+protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {}
+
+
+protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	System.out.println("HotelSearchAuto servlet doGet method");	
+	//retrieve hotel Id entered by customer	
+	data = (String)request.getAttribute("data");
+	hotelList = MySQLUtilities.searchHotel(data);
+	Hotel hotelObj = hotelList.get(data);
+	destination = hotelObj.getCity();
+	roomType = "single";
+	checkin = "";
 	HttpSession session = request.getSession();
 	response.setContentType("text/html");
 	PrintWriter pw = response.getWriter();
 	Utilities utility = new Utilities(request,pw);
-	//retrieve user filters for searching available hotels
-	destination = request.getParameter("destination");
-	checkin = request.getParameter("checkin");
-	checkout = request.getParameter("checkout");
-	roomTypeParam = request.getParameter("roomType");
-	//Populate booking object and store it in a session
 	try
 	{
 		Booking newBooking = new Booking();
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		Date checkInDate = formatter.parse(checkin);
-		Date checkOutDate = formatter.parse(checkout);
-		noOfNights = (int)( (checkOutDate.getTime() - checkInDate.getTime()) / (1000 * 60 * 60 * 24));
+		Date checkInDate = new Date();
+		SimpleDateFormat formattedDate = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar c = Calendar.getInstance();
+		checkin = (String)(formattedDate.format(c.getTime()));	
+		c.add(Calendar.DATE, 2);  
+		String checkOut = (String)(formattedDate.format(c.getTime()));	
+		Date checkOutDate = formatter.parse(checkOut);
+		noOfNights = 2;
 		newBooking.setCheckIn(checkInDate);
 		newBooking.setCheckOut(checkOutDate);
 		newBooking.setUserId(utility.username());
-		if(roomTypeParam.equals("OnePerson")){
 		newBooking.setNoOfPeople(1);
 		newBooking.setRoomType("single");
-		roomType="single";
-		}
-		else if(roomTypeParam.equals("TwoPerson")){
-		newBooking.setNoOfPeople(2);
-		newBooking.setRoomType("double");
-		roomType="double";
-		}
-		else if(roomTypeParam.equals("Family")){
-		newBooking.setNoOfPeople(4);
-		newBooking.setRoomType("family");
-		roomType="family";
-		}
-		else if(roomTypeParam.equals("Suite")){
-		newBooking.setNoOfPeople(6);
-		newBooking.setRoomType("Suite");
-		roomType="suite";
-		}
 		session.setAttribute("bookingObj", newBooking);
 	}
 	catch(Exception e)
 	{
 		System.out.println(e);
 	}
-	populateData();
+	hotelPriceMap = MySQLUtilities.getHotelRoomPrice(destination, checkin, checkout, roomType);
 	utility.printHtml("Header.html");
 	pw.print("<div id='sidebar'><h2>Your search filter</h2>");
 	pw.print("<hr class='hr-decoration'>");
@@ -98,7 +89,6 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 	 pw.print("<tr><td></td><td><input type='button' value='Search' style='width: 100px;' onClick='validateInput()'></td></tr>");
 	pw.print("</form></table>");
 	pw.print("</div>");
-	pw.print("<p class='subheading'>Hotels in "+destination+"</p>");
 	pw.print("<div id='hoteldiv'>");
 	pw.print("<table id='hotellist'>");
 	for(Map.Entry<String, Hotel> entry : hotelList.entrySet())
@@ -125,10 +115,5 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 	pw.print("</table>");
 	pw.print("</div>");
 	utility.printHtml("Footer.html");
-}
-
-public void populateData(){
-	hotelList = MySQLUtilities.searchHotels(destination, checkin, checkout, roomType);
-	hotelPriceMap = MySQLUtilities.getHotelRoomPrice(destination, checkin, checkout, roomType);
 }
 }

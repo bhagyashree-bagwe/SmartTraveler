@@ -10,7 +10,7 @@ public static void getConnection()
 	try
 	{
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
-		conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/SmartTraveler?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","samruddhi");
+		conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/SmartTraveler?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","root");
 
 	}
 	catch(Exception e)
@@ -391,6 +391,38 @@ public static ArrayList<DataExplorationPOJO> getBookingsPerState(){
 		System.out.println(e);
 	}
 	return list;
+}
+
+public static HashMap<String,Hotel> getAllHotels()
+{
+	System.out.println("MySQLUtilities.java - getAllHotels");
+	HashMap<String, Hotel> list = new HashMap<String, Hotel>();
+	try
+	{
+		getConnection();
+		String getAllHotelsQuery ="select * from Hotel";
+		PreparedStatement pst = conn.prepareStatement(getAllHotelsQuery);
+		ResultSet rs = pst.executeQuery();
+		while(rs.next())
+		{
+			Hotel hotel = new Hotel();
+			hotel.setHotelName(rs.getString("hotelName"));
+			hotel.setHotelId(rs.getString("hotelId"));
+			hotel.setStreet(rs.getString("street"));
+			hotel.setCity(rs.getString("city"));
+			hotel.setState(rs.getString("state"));
+			hotel.setZipCode(rs.getString("zipCode"));
+			hotel.setContactNo(rs.getString("contactNo"));
+			hotel.setEmailId(rs.getString("emailId"));
+			hotel.setAmenities(rs.getString("amenities"));
+			list.put(rs.getString("hotelId"), hotel);
+		}
+	}
+	catch(Exception e)
+	{
+		System.out.println(e);
+	}
+	return list;	
 }
 
 }
