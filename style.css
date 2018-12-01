@@ -130,7 +130,8 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 input[type=submit], input[type=button], .button{
-    width: 200px;
+    width: 150px;
+    height: 40px;
     background-color: #795548;/*#9370DB;*/
     color: white;
     padding: 14px 20px;
@@ -141,13 +142,15 @@ input[type=submit], input[type=button], .button{
 }
 
 .footer {
-    background-color: #333;
+    background-color: #fa8100;
     font-family: "Times New Roman", Times, serif;
     font-size: 15px;
-    color: white;
+    color: black;
     text-align: center;
     position: fixed;
+    left: 0;
     bottom: 0;
+    width: 100%;
 }
 
 .popupCell a {
@@ -165,7 +168,9 @@ input[type=submit], input[type=button], .button{
 }
 
 #hoteldiv {
-    height: 400px;
+    height: 100%;
+    position: absolute;
+    right: 0;
     overflow-y: scroll;
     overflow-x: hidden;
 }
@@ -190,7 +195,18 @@ input[type=submit], input[type=button], .button{
     font-size: 20px;
     color: black;
 }
-
+.about-us-text{
+    margin-right: auto !important;
+    margin-left: auto !important;
+	text-align: center;
+}
+#about-us{
+	text-align:center; 
+	margin-right: 20% !important;
+	margin-left: 20% !important; 
+	height:75%;
+    /* background-image: url('../SmartTraveler/Images/about-us.jpg') !important; */
+}
 input[type=submit]:disabled{
   border: 1px solid #999999;
   background-color: #cccccc;

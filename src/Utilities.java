@@ -45,12 +45,14 @@ public class Utilities extends HttpServlet{
 					result = result + "<li><a href='Logout'><span> Logout</span></a></li>"
 							+ " <li><a href='Account'><span> Account</span></a></li>"
 							+ " <li><a href='ViewHotels'> View Hotels </a></li>"
+							+ " <li><a href='FlashDeals'> Flash Deals </a></li>"
 							+ " <li><a href='Trending'> Trending </a></li>"
 							+ " <li><a><i>Hi,"+name+"</i></a></li>";
 				}
 				else if(usertype().equalsIgnoreCase("agent")){
 					result = result + "<li><a href='Logout'><span> Logout</span></a></li>"
 									+ " <li><a href='ManageCustomer'>Manage Customers</a></li>"
+									+ " <li><a href='FlashDeals'> Flash Deals </a></li>"
 									+ " <li><a href='Trending'> Trending </a></li>"
 									+ " <li><a><i>Hi,"+name+" (Agent)</i></a></li>";
 

@@ -10,7 +10,7 @@ public static void getConnection()
 	try
 	{
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
-		conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/SmartTraveler?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","samruddhi");
+		conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/SmartTraveler?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","root");
 
 	}
 	catch(Exception e)
@@ -307,6 +307,35 @@ public static Hotel getSelectedHotel(String hotelId)
 	}
 	return hotel;
 }
+public static Hotel getFlashDealHotels()
+{
+	System.out.println("MySQLUtilities.java - getFlashDealsHotels");
+	Hotel hotel = new Hotel();
+	try
+	{
+		getConnection();
+		String selectOrderQuery ="select * from Hotel where discount>0";
+		PreparedStatement pst = conn.prepareStatement(selectOrderQuery);
+		ResultSet rs = pst.executeQuery();
+		while(rs.next())
+		{
+			hotel.setHotelId(rs.getString(1));
+			hotel.setHotelName(rs.getString("hotelName"));
+			hotel.setStreet(rs.getString("street"));
+			hotel.setCity(rs.getString("city"));
+			hotel.setState(rs.getString("state"));
+			hotel.setZipCode(rs.getString("zipCode"));
+			hotel.setContactNo(rs.getString("contactNo"));
+			hotel.setEmailId(rs.getString("emailId"));
+			hotel.setAmenities(rs.getString("amenities"));
+		}
+	}
+	catch(Exception e)
+	{
+		System.out.println(e);
+	}
+	return hotel;
+}
 
 public static HashMap<String, Hotel> searchHotel(String data)
 {
@@ -392,6 +421,38 @@ public static ArrayList<DataExplorationPOJO> getBookingsPerState(){
 		System.out.println(e);
 	}
 	return list;
+}
+
+public static HashMap<String,Hotel> getAllHotels()
+{
+	System.out.println("MySQLUtilities.java - getAllHotels");
+	HashMap<String, Hotel> list = new HashMap<String, Hotel>();
+	try
+	{
+		getConnection();
+		String getAllHotelsQuery ="select * from Hotel";
+		PreparedStatement pst = conn.prepareStatement(getAllHotelsQuery);
+		ResultSet rs = pst.executeQuery();
+		while(rs.next())
+		{
+			Hotel hotel = new Hotel();
+			hotel.setHotelName(rs.getString("hotelName"));
+			hotel.setHotelId(rs.getString("hotelId"));
+			hotel.setStreet(rs.getString("street"));
+			hotel.setCity(rs.getString("city"));
+			hotel.setState(rs.getString("state"));
+			hotel.setZipCode(rs.getString("zipCode"));
+			hotel.setContactNo(rs.getString("contactNo"));
+			hotel.setEmailId(rs.getString("emailId"));
+			hotel.setAmenities(rs.getString("amenities"));
+			list.put(rs.getString("hotelId"), hotel);
+		}
+	}
+	catch(Exception e)
+	{
+		System.out.println(e);
+	}
+	return list;	
 }
 
 }
