@@ -55,7 +55,7 @@ public class Login extends HttpServlet{
 						}
 						//for Agent
 						else if(user.getUserType().equals("agent")){
-									response.sendRedirect("Agent");
+									response.sendRedirect("ManageCustomer");
 						}
 						//for Admin
 						else if(user.getUserType().equals("admin")){
