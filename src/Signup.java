@@ -71,7 +71,7 @@ public class Signup extends HttpServlet {
 
       			HttpSession session = request.getSession(true);
             if(userType.equals("agent"))
-              session.setAttribute("login_msg", "Your salesman account has been created. Please login.");
+              session.setAttribute("login_msg", "Your agent account has been created. Please login.");
             else
       			   session.setAttribute("login_msg", "Your "+userType+" account has been created. Please login.");
 

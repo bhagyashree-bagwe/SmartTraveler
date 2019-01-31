@@ -51,12 +51,8 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 	 pw.print("<tr><td></td><td><input type='button' value='Search' style='width: 100px;' onClick='validateInput()'></td></tr>");
 	pw.print("</form></table>");
 	pw.print("</div>");
-
 	pw.print("<table id='selectedhotel' class='table-rows-text bg-color'>");
-	//pw.print("<tr><td><img src='Images/"+selectedHotel.getHotelId()+"/default.jpg' alt='' height='300' width='450' /></td></tr>");
-	//pw.print("<tr><td>");
 	pw.print("<tr><td>"+carousel.carouselfeature(utility,selectedHotel.getHotelId())+"</tr></td>");
-	//pw.print("</td></tr>");
 	pw.print("<tr><td class='subheading'>"+selectedHotel.getHotelName()+"</td></tr>");
 	pw.print("<tr><td>Location: "+selectedHotel.getStreet()+", "+selectedHotel.getCity()+", "+selectedHotel.getState()+", "+selectedHotel.getZipCode()+"</td></tr>");
 	pw.print("<tr><td>Contact Details: (Email) "+selectedHotel.getEmailId()+" (Phone) "+selectedHotel.getContactNo()+"</td></tr>");
@@ -67,10 +63,14 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 	pw.print("<tr><td>Total cost: "+totalPrice+"</td></tr>");
 	pw.print("<tr class='content-carousel'><td><form method='post' action='InitializeBooking'><input type='hidden' name='selectedHotelId' value='"+selectedHotelId+"'>");
 	pw.print("<input type='hidden' name='totalPrice' value='"+totalPrice+"'>");
-	if(!usertype.equalsIgnoreCase("admin"))
-		pw.print("<input type='submit' id='confirmbooking' class='btnbuy' value='Confirm Booking'>");
-	else
+	if(usertype != null ){
+		if(usertype.equalsIgnoreCase("admin") )
 		pw.print("<input type='submit' id='confirmbooking' class='btnbuy' value='Confirm Booking' disabled>");
+		else
+		pw.print("<input type='submit' id='confirmbooking' class='btnbuy' value='Confirm Booking' >");
+	}
+	else{
+		pw.print("<input type='submit' id='confirmbooking' class='btnbuy' value='Confirm Booking' >");}
 
 	pw.print("</form</td></tr>")	;
 	pw.print("</table>");

@@ -113,14 +113,7 @@ public static String storeCardPaymentDetails(Payment payment, Room room){
 	String msg="";
 	try
 	{
-		System.out.println("storePaymentDetails");
-		System.out.println("~~~~~~~~~~~~~~~~~~");
-		System.out.println(payment.getRountingNumber());
-		System.out.println(payment.getAccountNumber());
-		System.out.println(payment.getBankName());
-		System.out.println(payment.getFirstName());
-		System.out.println(payment.getLastName());
-		System.out.println("~~~~~~~~~~~~~~~~~~");
+		
 		getConnection();
 		String insertPaymentQuery ="INSERT INTO Payment(userId, paidAmount, creditCardNo, cvv, expMonth, expYear,routingNo,accountNo,bankName,firstName,lastName)VALUES('"+payment.getUserId()+"', '"+room.getPrice()+"', '"+payment.getCardNo()+"', '"+payment.getCvv()+"', '"+payment.getMM()+"', '"+payment.getYY()+"', '"+payment.getRountingNumber()+"', '"+payment.getAccountNumber()+"', '"+payment.getBankName()+"', '"+payment.getFirstName()+"', '"+payment.getLastName()+"')";
 		PreparedStatement pst = conn.prepareStatement(insertPaymentQuery);
@@ -187,9 +180,7 @@ public static Booking getLatestBookingDetails(){
 		ResultSet rs2 = pst2.executeQuery();
 		while(rs2.next())
 		{
-			System.out.println("Found booking record "+Integer.toString(rs2.getInt("bookingId")));
 			booking.setBookingId(Integer.toString(rs2.getInt("bookingId")));
-			System.out.println("~~^^"+booking.getBookingId());
 			booking.setConfirmationNo(Integer.toString(rs2.getInt("confirmationNo")));
 			booking.setUserId(rs2.getString("userId"));
 			booking.setRoomNumber(rs2.getInt("roomNumber"));
@@ -204,7 +195,6 @@ public static Booking getLatestBookingDetails(){
 	{
 		System.out.println(e);
 	}
-	System.out.println("~~"+booking.getBookingId());
 	return booking;
 }
 

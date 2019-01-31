@@ -51,15 +51,6 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 	if(usertype.equals("agent"))
 		userId = request.getParameter("userId");
 
-	System.out.println("##############");
-	System.out.println(accno);
-	System.out.println(routno);
-	System.out.println(billingFName);
-	System.out.println(billingLName);
-	System.out.println(bankName);
-	System.out.println(userId);
-	System.out.println("################");
-
 	Payment paymentObj = new Payment();
 	paymentObj.setCardNo(cardNo);
 	if(cvv != null && !cvv.isEmpty()){
@@ -77,16 +68,16 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 	if(usertype.equals("agent"))
 			paymentObj.setUserId(userId);
 	else
-			paymentObj.setUserId(utility.username()); //TO-DO: retrieve username from session
+			paymentObj.setUserId(utility.username()); 
 
 	bookingObj.setByWhom(usertype);
-
 	session.setAttribute("paymentObj",paymentObj);
-
 	//select one room for allocation from the available rooms
 	HashMap<Integer, Room> availableRoomMap = MySQLUtilities.getAvailableRooms(selectedHotel.getHotelId(), bookingObj.getRoomType());
 	Random generator = new Random();
 	Integer[] keys = (Integer[]) availableRoomMap.keySet().toArray(new Integer[0]);
+	System.out.println("keys "+keys);
+	System.out.println("keys.length "+keys.length);
 	int randomValue = keys[generator.nextInt(keys.length)];
 	Room selectedRoom = availableRoomMap.get(randomValue);
 	session.setAttribute("selectedRoom", selectedRoom);
@@ -105,7 +96,6 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 	pw.print("<table class='confirmTable'>");
 	pw.print("<form action='Home'>");
 	pw.print("<tr><td>Booking Id : </td><td><input type='text' name='bookingId' value='"+bookingSuccess.getBookingId()+"' disabled></td></tr>");
-	pw.print("<tr><td>Confirmation No: </td><td><input type='text' name='confirmationNo' value='"+bookingSuccess.getConfirmationNo()+"' disabled></td></tr>");
 	pw.print("<tr><td>Payment Id:  </td><td><input type='text' name='paymentId' value='"+bookingSuccess.getPaymentId()+"' disabled></td></tr>");
 	pw.print("<tr><td>Room Number:  </td><td><input type='text' name='roomNumber' value='"+bookingSuccess.getRoomNumber()+"' disabled></td></tr>");
 	pw.print("<tr><td>Check In : </td><td><input type='text' name='checkIn' value='"+bookingSuccess.getCheckIn()+"' disabled> </td></tr>");

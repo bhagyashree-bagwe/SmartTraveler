@@ -48,7 +48,7 @@ public class AdminDashboard extends HttpServlet{
         try{
           utility.printHtml("Header.html");
           int size = dashboardList.length;
-          pw.print("<div style='margin-left: 300px;'><table id='adminDashboard'>");
+          pw.print("<div style='margin-left: 190px;;'><table id='adminDashboard'>");
           for(int i=1; i<=dashboardList.length; i++)
       		{
 

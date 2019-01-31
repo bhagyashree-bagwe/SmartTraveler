@@ -45,10 +45,7 @@ public class Carousel{
 							sb.append("</ul></div>");
 							sb.append("</div>");
 
-				/*sb.append("<div id='shop_item'>");
-				sb.append("<ul style='list-style: none;'><li id='item'><img src='Images/hiltonchicago/"+i+".jpg' alt=''  style=' width:350px; height: 400px; margin:3px' /></li>");
-				sb.append("</ul></div>");
-				sb.append("</div>");*/
+				
 
 
 		}

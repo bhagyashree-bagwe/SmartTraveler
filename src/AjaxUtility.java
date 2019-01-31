@@ -101,36 +101,4 @@ public class AjaxUtility {
   }
 
 
-/*
-	public static void storeData(HashMap<String,Hotel> productdata)
-	{
-		try
-		{
-
-			getConnection();
-
-			String insertIntoProductQuery = "INSERT INTO product(productId,productName,image,retailer,productCondition,productPrice,productType,discount) "
-			+ "VALUES (?,?,?,?,?,?,?,?);";
-			for(Map.Entry<String, Hotel> entry : productdata.entrySet())
-			{
-
-				PreparedStatement pst = conn.prepareStatement(insertIntoProductQuery);
-				//set the parameter for each column and execute the prepared statement
-				pst.setString(1,entry.getValue().getId());
-				pst.setString(2,entry.getValue().getName());
-				pst.setString(3,entry.getValue().getImage());
-				pst.setString(4,entry.getValue().getManufacturer());
-				pst.setString(5,entry.getValue().getCondition());
-				pst.setDouble(6,entry.getValue().getPrice());
-				pst.setString(7,entry.getValue().getType());
-				pst.setDouble(8,entry.getValue().getDiscount());
-				pst.execute();
-			}
-		}
-		catch(Exception e)
-		{
-
-		}
-	}
-*/
 }

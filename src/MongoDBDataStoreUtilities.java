@@ -21,68 +21,61 @@ public class MongoDBDataStoreUtilities
   }
 
 
-  public static String insertReview(String username, String hotelName,String hotelId, String city,String state,String reviewrating,String reviewdate,String reviewtext,String zipcode,String price)
-  {
-  	try
-  		{
-  			getConnection();
-  			BasicDBObject doc = new BasicDBObject("title", "myReviews").
-  				append("userName", username).
-  				append("hotelName", hotelName).
-  				append("hotelId", hotelId).
-  				append("city", city).
-  				append("state", state).
-  				append("reviewRating",Integer.parseInt(reviewrating)).
-  				append("reviewDate", reviewdate).
-  				append("reviewText", reviewtext).
-  				append("zipcode", zipcode).
-  				append("price",(int) Double.parseDouble(price));
-  			myReviews.insert(doc);
-  			return "Successfull";
-  		}
-  		catch(Exception e)
-  		{
-		  System.out.print(e);
-  		  return "UnSuccessfull";
-  		}
+public static String insertReview(String username, String hotelName,String hotelId, String city,String state,String reviewrating,String reviewdate,String reviewtext,String zipcode,String price)
+{
+	try
+ 	{
+  		getConnection();
+  		BasicDBObject doc = new BasicDBObject("title", "myReviews").
+  		append("userName", username).
+  		append("hotelName", hotelName).
+  		append("hotelId", hotelId).
+  		append("city", city).
+  		append("state", state).
+  		append("reviewRating",Integer.parseInt(reviewrating)).
+  		append("reviewDate", reviewdate).
+  		append("reviewText", reviewtext).
+  		append("zipcode", zipcode).
+  		append("price",(int) Double.parseDouble(price));
+  		myReviews.insert(doc);
+  		return "Successfull";
+  	}
+  	catch(Exception e)
+  	{
+	System.out.print(e);
+  	return "UnSuccessfull";
+  	}
+ }
 
-  }
-
-  public static HashMap<String, ArrayList<Review>> selectReview()
-  {
+public static HashMap<String, ArrayList<Review>> selectReview()
+{
   	HashMap<String, ArrayList<Review>> reviews=null;
-
   	try
-  		{
+ 	{
       	getConnection();
       	DBCursor cursor = myReviews.find();
       	reviews=new HashMap<String, ArrayList<Review>>();
       	while (cursor.hasNext())
       	{
-      			BasicDBObject obj = (BasicDBObject) cursor.next();
-
-      		   if(!reviews.containsKey(obj.getString("hotelName")))
-      			{
-      				ArrayList<Review> arr = new ArrayList<Review>();
-      				reviews.put(obj.getString("hotelName"), arr);
-      			}
-      			ArrayList<Review> listReview = reviews.get(obj.getString("hotelName"));
-      			Review review =new Review(obj.getString("hotelName"),obj.getString("username"),obj.getString("hotelId"),obj.getString("city"),obj.getString("state"),
-      				obj.getString("reviewRating"),obj.getString("reviewDate"),obj.getString("reviewText"),obj.getString("zipcode"),obj.getString("price"));
+      	BasicDBObject obj = (BasicDBObject) cursor.next();
+      	if(!reviews.containsKey(obj.getString("hotelName")))
+      	{
+      		ArrayList<Review> arr = new ArrayList<Review>();
+      		reviews.put(obj.getString("hotelName"), arr);
+      	}
+      	ArrayList<Review> listReview = reviews.get(obj.getString("hotelName"));
+      	Review review =new Review(obj.getString("hotelName"), obj.getString("userName"), obj.getString("hotelId"),obj.getString("city"),obj.getString("state"), obj.getString("reviewRating"), obj.getString("reviewDate"),obj.getString("reviewText"),obj.getString("zipcode"),obj.getString("price"));
       			//add to review hashmap
-      			listReview.add(review);
-    			}
-     		return reviews;
-  		}
-  		catch(Exception e)
-  		{
-  		  reviews=null;
-  		  return reviews;
-  		}
-
-
+      	listReview.add(review);
+    	}
+     	return reviews;
   	}
-
+  	catch(Exception e)
+  	{
+  	reviews=null;
+  	return reviews;
+  	}
+  	}
 
   public static  ArrayList <Bestrating> topHotels(){
 	  ArrayList <Bestrating> Bestrate = new ArrayList <Bestrating> ();
@@ -162,66 +155,7 @@ public class MongoDBDataStoreUtilities
 
 	  }
 
-
-
 	}catch (Exception e){ System.out.println(e.getMessage());}
       return mostsold;
   }
-
-  // Get all the reviews grouped by product and zip code;
-// public static ArrayList<Review> selectReviewForChart() {
-
-
-        // ArrayList<Review> reviewList = new ArrayList<Review>();
-        // try {
-
-            // getConnection();
-            // Map<String, Object> dbObjIdMap = new HashMap<String, Object>();
-            // dbObjIdMap.put("retailerpin", "$retailerpin");
-            // dbObjIdMap.put("productName", "$productName");
-            // DBObject groupFields = new BasicDBObject("_id", new BasicDBObject(dbObjIdMap));
-            // groupFields.put("count", new BasicDBObject("$sum", 1));
-            // DBObject group = new BasicDBObject("$group", groupFields);
-
-            // DBObject projectFields = new BasicDBObject("_id", 0);
-            // projectFields.put("retailerpin", "$_id");
-            // projectFields.put("productName", "$productName");
-            // projectFields.put("reviewCount", "$count");
-            // DBObject project = new BasicDBObject("$project", projectFields);
-
-            // DBObject sort = new BasicDBObject();
-            // sort.put("reviewCount", -1);
-
-            // DBObject orderby = new BasicDBObject();
-            // orderby = new BasicDBObject("$sort",sort);
-
-
-            // AggregationOutput aggregate = myReviews.aggregate(group, project, orderby);
-
-            // for (DBObject result : aggregate.results()) {
-
-                // BasicDBObject obj = (BasicDBObject) result;
-                // Object o = com.mongodb.util.JSON.parse(obj.getString("retailerpin"));
-                // BasicDBObject dbObj = (BasicDBObject) o;
-                // Review review = new Review(dbObj.getString("productName"), dbObj.getString("retailerpin"),
-                        // obj.getString("reviewCount"), null);
-                // reviewList.add(review);
-
-            // }
-            // return reviewList;
-
-        // }
-
-        // catch (
-
-        // Exception e) {
-            // reviewList = null;
-
-            // return reviewList;
-        // }
-
-    // }
-
-
-
 }

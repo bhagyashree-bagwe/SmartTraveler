@@ -52,7 +52,7 @@ public class ViewReview extends HttpServlet {
               utility.printHtml("Header.html");
 
                 pw.print("<div id='content'><div class='post'><h2 class='title meta'>");
-		pw.print("<a style='font-size: 15px;'>Review</a>");
+		pw.print("<span class='subheading'>Review</span>");
 		pw.print("</h2><div class='entry'>");
 
 			//if there are no reviews for product print no review else iterate over all the reviews using cursor and print the reviews in a table
@@ -67,7 +67,7 @@ public class ViewReview extends HttpServlet {
 			}else{
 		for (Review r : hm.get(hotelName))
 				 {
-		pw.print("<table class='gridtable'>");
+		pw.print("<table class='center'>");
 				pw.print("<tr>");
 				pw.print("<td> Hotel Name: </td>");
 				hotelName = r.getHotelName();

@@ -103,16 +103,17 @@ public class ManageCustomer extends HttpServlet {
 		pw.print("<h2>"+title+"</h2>");
 		if (msg != null && !msg.trim().equals(""))
 				pw.print("<h4 style='color:red'>"+msg+"</h4>");
+
 		pw.print("<form method='post' action='ManageCustomer'>"
-				+ "<input type='text' name='emailId' value='' class='large-width'  placeholder='Enter Customer's Email ID'></input>"
-				+ "<br><input type='text' name='name' value='' class='large-width'  placeholder='Enter Customer's Name'></input>"
+				+ "<input type='text' name='emailId' value='' class='large-width'  placeholder='Enter Customer Email ID'></input>"
+				+ "<br><input type='text' name='name' value='' class='large-width'  placeholder='Enter Customer Name'></input>"
 				+ "<br><input type='password' name='password' value='' class='large-width'  placeholder='Enter password for customer'></input>"
 				+ "<br><select name='userType'  class='large-width' ><option value='Customer' selected>Customer</option></select>"
-				+ "<br><input type='text' name='street' value='' class='large-width' placeholder='Enter Customer's Address'></input>"
-				+ "<br><input type='text' name='city' value='' class='large-width'  placeholder='Enter Customer's City'></input>"
-				+ "<br><input type='text' name='state' value='' class='large-width'  placeholder='Enter Customer's State'></input>"
-				+ "<br><input type='text' name='zipCode' value='' class='large-width' placeholder='Enter Customer's zip code'></input>"
-				+ "<br><input type='text' name='contactNo' value='' class='large-width' placeholder='Enter Customer's contact number'></input>"
+				+ "<br><input type='text' name='street' value='' class='large-width' placeholder='Enter Customer Address'></input>"
+				+ "<br><input type='text' name='city' value='' class='large-width'  placeholder='Enter Customer City'></input>"
+				+ "<br><input type='text' name='state' value='' class='large-width'  placeholder='Enter Customer State'></input>"
+				+ "<br><input type='text' name='zipCode' value='' class='large-width' placeholder='Enter Customer zip code'></input>"
+				+ "<br><input type='text' name='contactNo' value='' class='large-width' placeholder='Enter Customer contact number'></input>"
 				+"");
 				if(showDeleteButton)
 					pw.print("<br><input type='submit' class='btn-agent' name='mngctmr' style='float:right;' value='Delete Customer'></input>");
@@ -124,6 +125,7 @@ public class ManageCustomer extends HttpServlet {
 				pw.print("</form></div></div>");
 
 		utility.printHtml("Footer.html");
+msg=null;
 	}
 	public static void getConnection()
 	{
@@ -131,7 +133,8 @@ public class ManageCustomer extends HttpServlet {
 		try
 		{
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/smarttraveler","root","root");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/SmartTraveler?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","root");
+
 		}
 		catch(Exception e)
 		{
@@ -151,12 +154,11 @@ public class ManageCustomer extends HttpServlet {
 	String contactNo= request.getParameter("contactNo");
 	String name= request.getParameter("name");
 
-	//System.out.println(productName+category+price+image+retailerName+retailerCity+retailerState+retailerZip+productonsale+manufacturer+manufacturerRebate+type);
 	try
 	{
 
 		getConnection();
-		String insertIntoCustomerOrderQuery = "INSERT INTO user(emailId, password,name,userType, street, city, state, zipCode, contactNo)"
+		String insertIntoCustomerOrderQuery = "INSERT INTO User(emailId, password,name,userType, street, city, state, zipCode, contactNo)"
 		+ "VALUES (?,?,?,?,?,?,?,?,?);";
 
 		PreparedStatement pst = conn.prepareStatement(insertIntoCustomerOrderQuery);
@@ -172,13 +174,14 @@ public class ManageCustomer extends HttpServlet {
 		pst.setString(9,contactNo);
 		pst.executeUpdate();
 		System.out.println("New Customer:"+ name +" has been added.");
-		response.sendRedirect("ManageCustomer");
+		//response.sendRedirect("ManageCustomer");
 	}
 	catch(Exception e)
 	{
 		e.printStackTrace();
 	}
-
+	
+	response.sendRedirect("ManageCustomer?operationtype=Add");
   }
 
 
@@ -190,7 +193,7 @@ public class ManageCustomer extends HttpServlet {
     try
 	{
 		getConnection();
-		String deleteOrderQuery ="Delete from user where emailId=?";
+		String deleteOrderQuery ="Delete from User where emailId=?";
 		PreparedStatement pst = conn.prepareStatement(deleteOrderQuery);
 		pst.setString(1,emailId);
 		pst.executeUpdate();
@@ -200,8 +203,8 @@ public class ManageCustomer extends HttpServlet {
 	{
 			e.printStackTrace();
 	}
-
-    response.sendRedirect("ManageCustomer");
+	
+    response.sendRedirect("ManageCustomer?operationtype=Delete");
   }
 
   protected void updateCustomer(HttpServletRequest request, HttpServletResponse response, PrintWriter pw)
@@ -220,7 +223,7 @@ public class ManageCustomer extends HttpServlet {
 	  try{
 
 		getConnection();
-		String updateProductQurey = "UPDATE user SET emailId=?, password=?,name=?,userType=?, street=?, city=?, state=?, zipCode=?, contactNo=? where emailId=?;" ;
+		String updateProductQurey = "UPDATE User SET emailId=?, password=?,name=?,userType=?, street=?, city=?, state=?, zipCode=?, contactNo=? where emailId=?;" ;
 		PreparedStatement pst = conn.prepareStatement(updateProductQurey);
 		pst.setString(1,emailId);
 		pst.setString(2,password);
@@ -234,12 +237,13 @@ public class ManageCustomer extends HttpServlet {
 		pst.setString(10,emailId);
 		pst.executeUpdate();
 		System.out.println("The Customer:"+ name +" information has been updated.");
-		response.sendRedirect("ManageCustomer");
+		
+		response.sendRedirect("ManageCustomer?operationtype=Update");
 
 	}
 	catch(Exception e)
 	{
-		msg = "Product cannot be updated";
+		msg = "User cannot be updated";
 		e.printStackTrace();
 
 	}

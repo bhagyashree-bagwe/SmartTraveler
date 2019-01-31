@@ -15,26 +15,22 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 @WebServlet("/Account")
-
 public class Account extends HttpServlet {
+private String error_msg = null;
+private String success_msg = null;
 
-  private String error_msg = null;
-  private String success_msg = null;
-
-  protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    String bookingId = request.getParameter("bookingId");
-    String paymentId = request.getParameter("paymentId");
-
-    String msg = MySQLUtilities.deleteBooking(bookingId, paymentId);
-    if(msg.equalsIgnoreCase("Successful")){
-      success_msg = "Your Booking with <b>Booking Id "+ bookingId + "</b> is cancelled successfully.";
-    }
-    else{
-      error_msg = "Error in cancelling your booking. Please contact Smart Traveler office.";
-    }
-    displayAccount(request, response);
-
+protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	String bookingId = request.getParameter("bookingId");
+	String paymentId = request.getParameter("paymentId");
+	String msg = MySQLUtilities.deleteBooking(bookingId, paymentId);
+	if(msg.equalsIgnoreCase("Successful")){
+		success_msg = "Your Booking with <b>Booking Id "+ bookingId + "</b> is cancelled successfully.";
+	}
+	else
+	{
+		error_msg = "Error in cancelling your booking. Please contact Smart Traveler office.";
+	}
+       displayAccount(request, response);
 	}
 
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -105,12 +101,7 @@ public class Account extends HttpServlet {
             String key = entry.getKey();
 						Booking oi = entry.getValue();
             boolean disableDeleteBtn = false;
-
-          //  SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-          //  Date checkInDate = formatter.parse(oi.getCheckIn());
-          //  Date checkOutDate = formatter.parse(oi.getCheckOut());
-
-  					Calendar c = Calendar.getInstance();
+  	     Calendar c = Calendar.getInstance();
             c.setTime(oi.getCheckIn());
             c.add(Calendar.DATE, -7); // before 5 days
             Date dateBefore7Days = c.getTime();
@@ -121,13 +112,6 @@ public class Account extends HttpServlet {
               disableDeleteBtn = true;
 	            System.out.print("disable!!!!!!!");
     				}
-
-              /*//calculate no of nights
-              SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-              Date checkInDate = formatter.parse(oi.getCheckIn());
-              Date checkOutDate = formatter.parse(oi.getCheckOut());
-              noOfNights = (int)( (checkOutDate.getTime() - checkInDate.getTime()) / (1000 * 60 * 60 * 24));
-              System.out.println("No of days: "+noOfNights);*/
 
   							pw.print("<table><form method='post' action='Account'>");
   							pw.print("<tr><td>Booking Id:</td><td>"+oi.getBookingId()+"</td></tr>");
@@ -162,6 +146,9 @@ public class Account extends HttpServlet {
       }
 
       utility.printHtml("Footer.html");
+	error_msg=null;
+success_msg=null;
+
     }
     catch(Exception e){
 

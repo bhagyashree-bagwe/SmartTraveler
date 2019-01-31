@@ -44,27 +44,19 @@ public class Utilities extends HttpServlet{
 				if(usertype().equals("customer")){
 					result = result + "<li><a href='Logout'><span> Logout</span></a></li>"
 							+ " <li><a href='Account'><span> Account</span></a></li>"
-						//	+ " <li><a href='ViewHotels'> View Hotels </a></li>"
-							+ " <li><a href='FlashDeals'> Flash Deals </a></li>"
 							+ " <li><a href='Trending'> Trending </a></li>"
 							+ " <li><a><i>Hi,"+name+"</i></a></li>";
 				}
 				else if(usertype().equalsIgnoreCase("agent")){
 					result = result + "<li><a href='Logout'><span> Logout</span></a></li>"
 									+ " <li><a href='AgentDashboard'>Agent Dashboard</a></li>"
-									+ " <li><a href='FlashDeals'> Flash Deals </a></li>"
-								//	+ " <li><a href='Trending'> Trending </a></li>"
 									+ " <li><a><i>Hi,"+name+" (Agent)</i></a></li>";
 
 				}
 				else if(usertype().equalsIgnoreCase("admin")){
 					result = result + "<li><a href='Logout'><span> Logout</span></a></li>"
 							+ " <li><a href='Account'><span> Account</span></a></li>"
-						//	+ " <li><a href='ViewHotels'> View Hotels </a></li>"
-						//	+ "	<li><a href='DataAnalytics'><span>Data Analytics</span></a></li>"
-						//	+ " <li><a href='DataExploration'> Data Exploration </a></li>"
 							+ "<li><a href='AdminDashboard'><span> Dashboard</span></a></li>"
-						//	+ " <li><a href='Trending'> Trending </a></li>"
 							+ " <li><a><i>Hi,"+name+" (Admin)</i></a></li>";
 				}
 			}
@@ -141,18 +133,7 @@ public class Utilities extends HttpServlet{
 
 	// username Function returns the username from the session variable.
 public String storeReview(String hotelName,String hotelId, String city,String state, String reviewdate, String reviewrating,String  reviewtext,String zipcode,String price){
-System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-System.out.println("Username: "+username());
-System.out.println("hotelName: "+hotelName);
-System.out.println("hotelId: "+hotelId);
-System.out.println("city: "+city);
-System.out.println("state: "+state);
-System.out.println("reviewdate: "+reviewdate);
-System.out.println("reviewrating: "+reviewrating);
-System.out.println("reviewtext: "+reviewtext);
-System.out.println("zipcode: "+zipcode);
-System.out.println("price: "+price);
-System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+
 	      String message = MongoDBDataStoreUtilities.insertReview(username(),  hotelName, hotelId, city, state, reviewrating, reviewdate, reviewtext, zipcode, price);
 		if(!message.equals("Successfull"))
 		{ return "UnSuccessfull";

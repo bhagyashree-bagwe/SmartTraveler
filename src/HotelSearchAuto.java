@@ -12,13 +12,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.*;
 
-/**
-* The HotelSearchAuto servlet retrieves detailed data of hotel
-* selected by customer from the search box.
-*
-* @version 1.0
-* @since   2018-11-30 
-*/
 @WebServlet("/HotelSearchAuto")
 public class HotelSearchAuto extends HttpServlet {
 	String destination="";

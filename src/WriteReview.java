@@ -43,9 +43,9 @@ public class WriteReview extends HttpServlet {
 		String zipcode=request.getParameter("zipcode");
 	       // on filling the form and clicking submit button user will be directed to submit review page
 		utility.printHtml("Header.html");
-		pw.print("<form name ='WriteReview' action='SubmitReview' method='post'>");
+		pw.print("<form name ='WriteReview' action='SubmitReview' method='post' class='center'>");
               pw.print("<div id='content'><div class='post'><h2 class='title meta'>");
-		pw.print("<a style='font-size: 15px;'>Review</a>");
+		pw.print("<span class='subheading'>Review</span>");
 		pw.print("</h2><div class='entry'>");
               pw.print("<table class='gridtable'>");
 		pw.print("<tr><td> Hotel Name: </td><td>");
@@ -88,7 +88,7 @@ public class WriteReview extends HttpServlet {
 		pw.print("<tr>");
 		pw.print("<td> Review Text: </td>");
 		pw.print("<td><textarea name='reviewtext' rows='4' cols='50'> </textarea></td></tr>");
-		pw.print("<tr><td colspan='2'><input type='submit' class='btnbuy' name='SubmitReview' value='SubmitReview'></td></tr></table>");
+		pw.print("<tr><td colspan='2'><input type='submit' class='btnbuy' name='Submit Review' value='SubmitReview'></td></tr></table>");
 		pw.print("</h2></div></div></div>");		
 		utility.printHtml("Footer.html");	                     	
 	}

@@ -25,8 +25,6 @@ import javax.servlet.http.HttpServletResponse;
 public class Admin extends HttpServlet{
 
   String msg = "";
-  //public static HashMap<String, WearableTechnology> hm = new HashMap<String, WearableTechnology>();
-  //WearableTechnology product = new WearableTechnology();
   Hotel hotel = new Hotel();
 
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
@@ -155,7 +153,8 @@ public class Admin extends HttpServlet{
     else{
       msg = MySqlDataStoreUtilities.addHotel(hotel);
     }
-    response.sendRedirect("Admin");
+ pw.print("<input type='hidden' name='operationtype' value='Add'>");
+    response.sendRedirect("Admin?operationtype=Add");
   }
 
   protected void deleteHotel(HttpServletRequest request, HttpServletResponse response, PrintWriter pw) throws ServletException, IOException
@@ -167,7 +166,8 @@ public class Admin extends HttpServlet{
     else{
       msg = MySqlDataStoreUtilities.deleteHotel(hotel.getHotelId());
     }
-    response.sendRedirect("Admin");
+	 
+    response.sendRedirect("Admin?operationtype=Delete");
   }
 
   protected void updateHotel(HttpServletRequest request, HttpServletResponse response, PrintWriter pw) throws ServletException, IOException
@@ -182,7 +182,8 @@ public class Admin extends HttpServlet{
       //update to datastore
       msg = MySqlDataStoreUtilities.updateHotel(hotel);
     }
-    response.sendRedirect("Admin");
+	 
+    response.sendRedirect("Admin?operationtype=Update");
 
   }
 

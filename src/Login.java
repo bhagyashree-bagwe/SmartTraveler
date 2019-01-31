@@ -9,8 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @WebServlet("/Login")
-
-
 public class Login extends HttpServlet{
 
 	String error_msg = null;
@@ -89,8 +87,6 @@ public class Login extends HttpServlet{
     //display content only,  no left navigation bar is needed
     pw.print("<div class='center'><div class='large-width'><table><tr><td><img src='Images/login.png' class='header-icon-size'></td><td><h1>Log In</h1></td></tr></table><br><br>");
 
-    //if (error) //if the user is already logged in
-    //		pw.print("<h4 style='color:red'>"+error_msg+"</h4>");
     HttpSession session = request.getSession(true);
 		if(error_msg != null){
 			pw.print("<div class='row'><span style='color: #B71C1C'>"+error_msg+"</span></div><br>");
@@ -113,7 +109,7 @@ public class Login extends HttpServlet{
                 "<br><input type='submit' class='keep-right' value='Log In'/>"
           + "</form>"
         +"</div>");
-				//<div><a href='SignUp' class='keep-right' style='color:black;'>New User? Register here! </a></div>
+				
 
     pw.print("</div></div>");
     //display footer
